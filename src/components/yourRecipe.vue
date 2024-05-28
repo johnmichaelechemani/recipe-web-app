@@ -6,12 +6,13 @@
         <div
           v-for="item in recipe"
           :key="item.id"
+          @click="showRecipeModal(item)"
           class="card sm:w-52 w-26 bg-base-100 shadow-xl relative rounded-md"
         >
           <div
             class="dropdown absolute top-0 right-0 px-1 pt-1 bg-primary text-gray-800 shadow"
           >
-            <button class="" @click="editRecipe(item.id)">
+            <button class="" @click.stop="editRecipe(item.id)">
               <div tabindex="0" role="button" class="">
                 <Icon icon="material-symbols-light:settings-outline" />
               </div>
@@ -22,7 +23,7 @@
             >
               <div
                 class="btn flex justify-start text-red-500"
-                @click="deleteRecipe(id)"
+                @click.stop="deleteRecipe(id)"
               >
                 <Icon icon="ant-design:delete-twotone" />
                 <p class="text-xs">Delete</p>
@@ -47,6 +48,36 @@
           <Loading />
         </div>
       </div>
+
+      <dialog id="my_modal_2" class="modal" ref="recipeModal">
+        <div class="modal-box">
+          <form method="dialog" class="absolute top-0 right-0 p-2 z-10">
+            <button>
+              <Icon icon="iconamoon:close-duotone" class="text-2xl" />
+            </button>
+          </form>
+          <h3 class="font-bold text-lg">{{ selectedRecipe.title }}</h3>
+          <p class="py-4">{{ selectedRecipe.descriptions }}</p>
+          <p class="py-2"><strong>Ingredients:</strong></p>
+          <ul>
+            <li
+              v-for="ingredient in selectedRecipe.allIngredients"
+              :key="ingredient"
+            >
+              {{ ingredient }}
+            </li>
+          </ul>
+          <p class="py-2"><strong>Instructions:</strong></p>
+          <ol>
+            <li
+              v-for="instruction in selectedRecipe.allInstructions"
+              :key="instruction"
+            >
+              {{ instruction }}
+            </li>
+          </ol>
+        </div>
+      </dialog>
     </div>
   </div>
 </template>
@@ -76,6 +107,7 @@ export default {
     const firestore = getFirestore();
 
     const recipe = ref([]);
+    const selectedRecipe = ref({});
 
     const recipeCollection = collection(firestore, "recipe");
     const recipeQuery = query(recipeCollection, orderBy("createdAt", "asc"));
@@ -107,6 +139,11 @@ export default {
     };
 
     let editId = ref("");
+    const showRecipeModal = (item) => {
+      selectedRecipe.value = item;
+      const modal = document.getElementById("my_modal_2");
+      modal.showModal();
+    };
 
     const editRecipe = (id) => {
       editId.value = id;
@@ -127,6 +164,8 @@ export default {
       formatHour,
       editRecipe,
       deleteRecipe,
+      showRecipeModal,
+      selectedRecipe,
     };
   },
 };
