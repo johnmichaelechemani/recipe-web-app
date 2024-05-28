@@ -36,7 +36,7 @@
                 v-model="descriptions"
                 required
                 type="text"
-                class="grow placeholder:text-xs"
+                class="w-full placeholder:text-xs"
                 placeholder="A classic..."
               />
             </label>
@@ -45,7 +45,7 @@
               <input
                 v-model="ingredients"
                 type="text"
-                class="sm:grow w-44 placeholder:text-xs"
+                class="w-full placeholder:text-xs"
                 placeholder="Eggs"
               />
               <button
@@ -79,7 +79,7 @@
               <input
                 type="text"
                 v-model="instructions"
-                class="sm:grow w-44 placeholder:text-xs"
+                class="w-full placeholder:text-xs"
                 placeholder="Cook spaghetti until..."
               />
               <button
@@ -116,8 +116,18 @@
                 class="file-input file-input-bordered w-full"
               />
             </div>
-            <button class="btn mt-5 w-full btn-primary" type="submit">
+            <button
+              :class="[
+                'btn mt-5 w-full',
+                loading ? 'btn-disabled' : 'btn-primary ',
+              ]"
+              type="submit"
+            >
               Post Recipe
+              <span
+                v-if="loading"
+                class="loading loading-dots loading-xs"
+              ></span>
             </button>
           </div>
         </form>
@@ -129,6 +139,8 @@
 import { ref, watch } from "vue";
 import { Icon } from "@iconify/vue";
 import { getAuth } from "firebase/auth";
+import { collection, getFirestore, addDoc } from "firebase/firestore";
+
 export default {
   components: {
     Icon,
@@ -142,11 +154,13 @@ export default {
     const instructions = ref("");
     const allInstructions = ref([]);
     const canAddIntructions = ref(false);
+    const loading = ref(false);
 
     const auth = getAuth();
     const user = ref(auth.currentUser);
+    const firestore = getFirestore();
 
-    console.log(user.uid);
+    const recipeCollection = collection(firestore, "recipe");
 
     watch(ingredients, (newVal) => {
       canAddIngredient.value = newVal.trim() !== "";
@@ -173,16 +187,36 @@ export default {
     const removeIngredients = (item) => {
       allIngredients.value.pop(item);
     };
-    const post = () => {
-      console.log(title.value);
-      console.log(allIngredients.value);
-      console.log(allInstructions.value);
-      console.log(descriptions.value);
-      title.value = "";
-      descriptions.value = "";
-      allIngredients.value = "";
-      allInstructions.value = "";
+
+    const post = async () => {
+      const { uid, displayName, photoURL } = user.value;
+      const createdAt = new Date();
+      const recipeData = {
+        userId: uid,
+        userName: displayName,
+        userPhotoURL: photoURL,
+        title: title.value,
+        descriptions: descriptions.value,
+        allIngredients: allIngredients.value,
+        allInstructions: allInstructions.value,
+        createdAt: createdAt,
+      };
+
+      try {
+        loading.value = true;
+        await addDoc(recipeCollection, recipeData);
+        title.value = "";
+        descriptions.value = "";
+        allIngredients.value = "";
+        allInstructions.value = "";
+        console.log("success!");
+      } catch (error) {
+        console.error("Error sending post recipe:", error);
+      } finally {
+        loading.value = false;
+      }
     };
+
     return {
       title,
       descriptions,
@@ -197,8 +231,8 @@ export default {
       removeIngredients,
       removeIstructions,
       canAddIngredient,
+      loading,
     };
   },
 };
 </script>
-<style scoped></style>

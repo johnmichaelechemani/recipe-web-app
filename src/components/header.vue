@@ -8,7 +8,7 @@
         alt="profile"
       />
 
-      <h1 class="font-normal text-sm capitalize">
+      <h1 class="font-medium text-xs sm:text-sm capitalize">
         {{ user.displayName }}
       </h1>
 
@@ -29,7 +29,7 @@
     </div>
 
     <div>
-      <label class="flex w-32 cursor-pointer gap-2">
+      <label class="flex cursor-pointer gap-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"
