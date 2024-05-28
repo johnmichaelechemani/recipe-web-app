@@ -9,8 +9,8 @@ export default {
     themes: [
       {
         light: {
-          primary: "#374151",
-          secondary: "#9333ea",
+          primary: "#f59e0b",
+          secondary: "#2563eb",
           accent: "#facc15",
           neutral: "#374151",
           "base-100": "#e5e7eb",

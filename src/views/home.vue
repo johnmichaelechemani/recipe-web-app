@@ -37,8 +37,8 @@
         </div>
       </div>
     </div>
-    <div class="py-2">
-      <h1 class="font-semibold py-2">All Recipes</h1>
+    <div class="pt-2 pb-7 px-3 my-2 border rounded-md border-gray-400/50">
+      <h1 class="font-semibold py-2 text-blue-500">All Recipes</h1>
       <div class="flex justify-center sm:justify-start items-center">
         <div
           class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2"
