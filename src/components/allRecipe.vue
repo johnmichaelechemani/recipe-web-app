@@ -15,11 +15,7 @@
           </div>
 
           <figure>
-            <img
-              src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
-              alt="profile"
-              class="rounded-md"
-            />
+            <img :src="item.imageURL" alt="recipe" class="rounded-md" />
           </figure>
           <div class="px-1 py-2">
             <h2 class="card-title">{{ item.title }}</h2>

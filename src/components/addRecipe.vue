@@ -112,6 +112,7 @@
               <p class="text-sm font-semibold">Add Image:</p>
               <input
                 type="file"
+                @change="handleImageUpload"
                 accept="image/*"
                 class="file-input file-input-bordered w-full"
               />
@@ -140,6 +141,12 @@ import { ref, watch } from "vue";
 import { Icon } from "@iconify/vue";
 import { getAuth } from "firebase/auth";
 import { collection, getFirestore, addDoc } from "firebase/firestore";
+import {
+  getStorage,
+  ref as storageRef,
+  uploadBytes,
+  getDownloadURL,
+} from "firebase/storage";
 
 export default {
   components: {
@@ -155,10 +162,12 @@ export default {
     const allInstructions = ref([]);
     const canAddIntructions = ref(false);
     const loading = ref(false);
+    const imageFile = ref(null);
 
     const auth = getAuth();
     const user = ref(auth.currentUser);
     const firestore = getFirestore();
+    const storage = getStorage();
 
     const recipeCollection = collection(firestore, "recipe");
 
@@ -188,9 +197,20 @@ export default {
       allIngredients.value.pop(item);
     };
 
+    const handleImageUpload = (event) => {
+      imageFile.value = event.target.files[0];
+    };
+
     const post = async () => {
       const { uid, displayName, photoURL } = user.value;
+      let imageURL = "";
       const createdAt = new Date();
+
+      if (imageFile.value) {
+        const imageRef = storageRef(storage, `images/${imageFile.value.name}`);
+        const snapshot = await uploadBytes(imageRef, imageFile.value);
+        imageURL = await getDownloadURL(snapshot.ref);
+      }
       const recipeData = {
         userId: uid,
         userName: displayName,
@@ -200,6 +220,7 @@ export default {
         allIngredients: allIngredients.value,
         allInstructions: allInstructions.value,
         createdAt: createdAt,
+        imageURL: imageURL,
       };
 
       try {
@@ -211,6 +232,7 @@ export default {
         allInstructions.value = "";
         instructions.value = "";
         ingredients.value = "";
+        imageFile.value = null;
         console.log("success!");
       } catch (error) {
         console.error("Error sending post recipe:", error);
@@ -234,6 +256,7 @@ export default {
       removeIstructions,
       canAddIngredient,
       loading,
+      handleImageUpload,
     };
   },
 };

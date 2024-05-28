@@ -6,13 +6,32 @@
         <div
           v-for="item in recipe"
           :key="item.id"
-          class="card sm:w-52 w-26 bg-base-100 shadow-xl rounded-md"
+          class="card sm:w-52 w-26 bg-base-100 shadow-xl relative rounded-md"
         >
+          <div
+            class="dropdown absolute top-0 right-0 px-1 pt-1 bg-primary text-gray-800 shadow"
+          >
+            <button class="" @click="editRecipe(item.id)">
+              <div tabindex="0" role="button" class="">
+                <Icon icon="material-symbols-light:settings-outline" />
+              </div>
+            </button>
+            <ul
+              tabindex="0"
+              class="dropdown-content z-[20] menu border border-gray-400/10 p-2 shadow bg-base-100 rounded-md w-32"
+            >
+              <div
+                class="btn flex justify-start text-red-500"
+                @click="deleteRecipe(id)"
+              >
+                <Icon icon="ant-design:delete-twotone" />
+                <p class="text-xs">Delete</p>
+              </div>
+            </ul>
+          </div>
+
           <figure>
-            <img
-              src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
-              alt="Shoes"
-            />
+            <img :src="item.imageURL" alt="recipe" class="rounded-md" />
           </figure>
           <div class="card-body p-3">
             <h2 class="card-title">{{ item.title }}</h2>
@@ -35,6 +54,7 @@
 import Loading from "../components/loading.vue";
 import { ref, watch, onUnmounted } from "vue";
 import { getAuth } from "firebase/auth";
+import { Icon } from "@iconify/vue";
 import {
   query,
   collection,
@@ -46,6 +66,7 @@ import {
 export default {
   components: {
     Loading,
+    Icon,
   },
   setup() {
     const loading = ref(true);
@@ -85,15 +106,27 @@ export default {
       return `${day} ${month} ${year} (${hours}:${minutes} ${period})`;
     };
 
+    let editId = ref("");
+
+    const editRecipe = (id) => {
+      editId.value = id;
+      console.log(editId.value);
+    };
+    const deleteRecipe = () => {
+      console.log("id to delete", editId.value);
+    };
+
     onUnmounted(() => {
       unsubscribe();
     });
 
-    console.log(recipe);
+    // console.log(recipe);
     return {
       loading,
       recipe,
       formatHour,
+      editRecipe,
+      deleteRecipe,
     };
   },
 };
