@@ -209,6 +209,8 @@ export default {
         descriptions.value = "";
         allIngredients.value = "";
         allInstructions.value = "";
+        instructions.value = "";
+        ingredients.value = "";
         console.log("success!");
       } catch (error) {
         console.error("Error sending post recipe:", error);
