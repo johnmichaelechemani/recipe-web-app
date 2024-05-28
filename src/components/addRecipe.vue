@@ -6,7 +6,7 @@
     <Icon icon="ci:add-plus" class="text-2xl" />Add Recipes
   </button>
 
-  <div class="grid place-items-center">
+  <div class="">
     <dialog id="my_modal_3" class="modal">
       <div class="modal-box">
         <form method="dialog">
@@ -201,3 +201,4 @@ export default {
   },
 };
 </script>
+<style scoped></style>

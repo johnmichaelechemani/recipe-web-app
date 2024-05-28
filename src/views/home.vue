@@ -1,5 +1,5 @@
 <template>
-  <div class="p-2">
+  <div class="m-1">
     <Header />
     <AddRecipe />
     <YourRecipe />
