@@ -56,26 +56,40 @@
               <Icon icon="iconamoon:close-duotone" class="text-2xl" />
             </button>
           </form>
-          <h3 class="font-bold text-lg">{{ selectedRecipe.title }}</h3>
-          <p class="py-4">{{ selectedRecipe.descriptions }}</p>
-          <p class="py-2"><strong>Ingredients:</strong></p>
-          <ul>
-            <li
-              v-for="ingredient in selectedRecipe.allIngredients"
-              :key="ingredient"
-            >
-              {{ ingredient }}
-            </li>
-          </ul>
-          <p class="py-2"><strong>Instructions:</strong></p>
-          <ol>
-            <li
-              v-for="instruction in selectedRecipe.allInstructions"
-              :key="instruction"
-            >
-              {{ instruction }}
-            </li>
-          </ol>
+          <h3 class="font-bold text-4xl capitalize">
+            {{ selectedRecipe.title }}
+          </h3>
+          <div class="py-4">
+            <p class="text-xs text-primary">Discriptions:</p>
+            <p class="capitalize">
+              {{ selectedRecipe.descriptions }}
+            </p>
+          </div>
+
+          <div class="py-4">
+            <p class="text-xs text-primary">Ingredients:</p>
+            <ul>
+              <li
+                v-for="(ingredient, index) in selectedRecipe.allIngredients"
+                :key="ingredient.id"
+                class="capitalize"
+              >
+                {{ index + 1 }}. {{ ingredient }}
+              </li>
+            </ul>
+          </div>
+
+          <div class="py-4">
+            <p class="text-xs text-primary">Instructions:</p>
+            <ol>
+              <li
+                v-for="(instruction, index) in selectedRecipe.allInstructions"
+                :key="instruction.id"
+              >
+                {{ index + 1 }}. {{ instruction }}
+              </li>
+            </ol>
+          </div>
         </div>
       </dialog>
     </div>

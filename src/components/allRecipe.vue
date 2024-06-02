@@ -2,10 +2,11 @@
   <div class="border rounded-md border-gray-400/50 p-2 my-3">
     <h1 class="font-semibold py-2 text-blue-500">All Recipes</h1>
     <div class="flex justify-center sm:justify-start items-center">
-      <div class="grid grid-cols-3 lg:grid-cols-5 gap-1 sm:gap-3">
+      <div class="grid grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3">
         <div
           v-for="item in recipe"
           :key="item.id"
+          @click="showRecipeAllModal(item)"
           class="card sm:w-52 w-26 bg-base-100 shadow-xl relative rounded-md"
         >
           <div
@@ -48,6 +49,60 @@
           <Loading />
         </div>
       </div>
+
+      <!-- modal -->
+      <dialog id="my_modal_4" class="modal" ref="recipeModal">
+        <div class="modal-box">
+          <form method="dialog" class="absolute top-0 right-0 p-2 z-10">
+            <button>
+              <Icon icon="iconamoon:close-duotone" class="text-2xl" />
+            </button>
+          </form>
+          <h3 class="font-bold text-4xl capitalize">
+            {{ selectedAllRecipe.title }} <span class="text-xs">ni</span>
+          </h3>
+          <div>
+            <span
+              class="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary"
+            >
+              {{ selectedAllRecipe.userName }}</span
+            >
+          </div>
+          <div class="py-4">
+            <p class="text-xs text-primary">Discriptions:</p>
+            <p class="capitalize">
+              {{ selectedAllRecipe.descriptions }}
+            </p>
+          </div>
+
+          <div class="py-4">
+            <p class="text-xs text-primary">Ingredients:</p>
+            <ul>
+              <li
+                v-for="(ingredient, index) in selectedAllRecipe.allIngredients"
+                :key="ingredient.id"
+                class="capitalize"
+              >
+                {{ index + 1 }}. {{ ingredient }}
+              </li>
+            </ul>
+          </div>
+
+          <div class="py-4">
+            <p class="text-xs text-primary">Instructions:</p>
+            <ol>
+              <li
+                v-for="(
+                  instruction, index
+                ) in selectedAllRecipe.allInstructions"
+                :key="instruction.id"
+              >
+                {{ index + 1 }}. {{ instruction }}
+              </li>
+            </ol>
+          </div>
+        </div>
+      </dialog>
     </div>
   </div>
 </template>
@@ -78,6 +133,7 @@ export default {
     const isLoading = true;
 
     const recipe = ref([]);
+    const selectedAllRecipe = ref({});
 
     const recipeCollection = collection(firestore, "recipe");
     const recipeQuery = query(recipeCollection, orderBy("createdAt", "asc"));
@@ -108,6 +164,13 @@ export default {
       return `${day} ${month} ${year} (${hours}:${minutes} ${period})`;
     };
 
+    const showRecipeAllModal = (item) => {
+      selectedAllRecipe.value = item;
+      const modal = document.getElementById("my_modal_4");
+      modal.showModal();
+      console.log(selectedAllRecipe.value);
+    };
+
     onUnmounted(() => {
       unsubscribe();
     });
@@ -118,6 +181,8 @@ export default {
       recipe,
       formatHour,
       isLoading,
+      showRecipeAllModal,
+      selectedAllRecipe,
     };
   },
 };
