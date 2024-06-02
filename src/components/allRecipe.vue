@@ -101,6 +101,14 @@
               </li>
             </ol>
           </div>
+          <div
+            class="flex justify-center items-center gap-2 border py-2 px-4 rounded-full border-yellow-500/20"
+          >
+            <Icon icon="ic:outline-star" class="text-xl text-yellow-500" /><span
+              class="text-sm"
+              >Rate this recipe</span
+            >
+          </div>
         </div>
       </dialog>
     </div>
