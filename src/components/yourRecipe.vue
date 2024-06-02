@@ -12,7 +12,7 @@
           <div class="dropdown absolute -top-1 -right-1 text-gray-800 shadow">
             <button
               class="flex justify-center items-center"
-              @click.stop="editShowRecipe(item.id)"
+              @click.stop="editShowRecipe(item.id, item)"
             >
               <div
                 tabindex="0"
@@ -67,7 +67,62 @@
       <!-- modal for edit -->
       <dialog id="my_modal_edit" class="modal">
         <div class="modal-box">
-          <h3 class="font-bold text-lg">Hello!</h3>
+          <h3 class="font-bold text-4xl">Edit Recipe</h3>
+          <div class="py-2">
+            <label class="block text-sm font-medium text-primary">Title</label>
+            <input
+              type="text"
+              v-model="selectedRecipe.title"
+              class="input input-bordered w-full max-w-xs"
+            />
+          </div>
+          <div class="py-2">
+            <label class="block text-sm font-medium text-primary"
+              >Description</label
+            >
+            <textarea
+              class="textarea textarea-bordered w-full"
+              v-model="selectedRecipe.descriptions"
+            ></textarea>
+          </div>
+          <div class="py-2">
+            <label class="block text-sm font-medium text-primary"
+              >Ingredients</label
+            >
+            <div class="border border-gray-400/50 p-2 rounded-md">
+              <div
+                v-for="(ingredient, index) in selectedRecipe.allIngredients"
+                :key="index"
+                class="flex items-center space-x-2"
+              >
+                <span>{{ index + 1 }}.</span>
+                <input
+                  type="text"
+                  v-model="selectedRecipe.allIngredients[index]"
+                  class="input my-1 input-bordered w-full capitalize"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="py-2">
+            <label class="block text-sm font-medium text-primary"
+              >Instructions</label
+            >
+            <div class="border border-gray-400/50 p-2 rounded-md">
+              <div
+                v-for="(instruction, index) in selectedRecipe.allInstructions"
+                :key="index"
+                class="flex items-center space-x-2"
+              >
+                <span>{{ index + 1 }}.</span>
+                <input
+                  type="text"
+                  v-model="selectedRecipe.allInstructions[index]"
+                  class="input my-1 input-bordered w-full capitalize"
+                />
+              </div>
+            </div>
+          </div>
           <div class="modal-action">
             <button
               @click.stop="saveEditRecipe"
@@ -76,7 +131,6 @@
               Update
             </button>
             <form method="dialog">
-              <!-- if there is a button in form, it will close the modal -->
               <button class="btn">Close</button>
             </form>
           </div>
@@ -210,9 +264,9 @@ export default {
       modal.showModal();
     };
 
-    const editShowRecipe = (id) => {
+    const editShowRecipe = (id, item) => {
+      selectedRecipe.value = item;
       editId.value = id;
-      console.log(editId.value);
     };
     const deleteShowRecipe = () => {
       const modal = document.getElementById("my_modal_delete");
