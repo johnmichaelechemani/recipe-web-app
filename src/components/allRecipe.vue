@@ -9,9 +9,24 @@
           class="card sm:w-52 w-26 bg-base-100 shadow-xl relative rounded-md"
         >
           <div
-            class="w-8 rounded-full absolute -top-1 -left-1 shadow-xl border-2 border-primary"
+            class="rounded-full absolute -top-1 -left-1 shadow-xl border border-secondary"
           >
-            <img :src="item.userPhotoURL" alt="profile" class="rounded-full" />
+            <div class="flex justify-center items-center">
+              <img
+                class="h-8 w-8 rounded-full"
+                v-if="item.userPhotoUrl && !isLoading"
+                :src="item.userPhotoUrl"
+                alt="profile"
+                @load="isLoading = false"
+                @error="isLoading = false"
+              />
+              <div
+                v-else
+                class="bg-primary text-neutral shadow rounded-full p-1"
+              >
+                <Icon icon="mdi:user" class="text-xl" />
+              </div>
+            </div>
           </div>
 
           <figure>
@@ -38,6 +53,7 @@
 </template>
 <script>
 import Loading from "../components/loading.vue";
+import { Icon } from "@iconify/vue";
 import { ref, watch, onUnmounted } from "vue";
 import { getAuth } from "firebase/auth";
 import {
@@ -51,6 +67,7 @@ import {
 export default {
   components: {
     Loading,
+    Icon,
   },
   setup() {
     const loading = ref(true);
@@ -58,6 +75,7 @@ export default {
     const auth = getAuth();
     const user = ref(auth.currentUser);
     const firestore = getFirestore();
+    const isLoading = true;
 
     const recipe = ref([]);
 
@@ -99,6 +117,7 @@ export default {
       loading,
       recipe,
       formatHour,
+      isLoading,
     };
   },
 };

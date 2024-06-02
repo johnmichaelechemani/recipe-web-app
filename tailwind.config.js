@@ -21,8 +21,9 @@ export default {
         },
         // You can add more themes here
       },
+
       "light",
-      "dark",
+      "sunset",
     ],
   },
 };
