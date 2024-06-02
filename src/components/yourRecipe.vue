@@ -9,12 +9,20 @@
           @click="showRecipeModal(item)"
           class="card sm:w-52 w-26 bg-base-100 shadow-xl relative rounded-md"
         >
-          <div
-            class="dropdown absolute top-0 right-0 px-1 pt-1 bg-primary text-gray-800 shadow"
-          >
-            <button class="" @click.stop="editShowRecipe(item.id)">
-              <div tabindex="0" role="button" class="">
-                <Icon icon="material-symbols-light:settings-outline" />
+          <div class="dropdown absolute -top-1 -right-1 text-gray-800 shadow">
+            <button
+              class="flex justify-center items-center"
+              @click.stop="editShowRecipe(item.id)"
+            >
+              <div
+                tabindex="0"
+                role="button"
+                class="btn btn-primary rounded-md btn-xs"
+              >
+                <Icon
+                  icon="material-symbols-light:settings-outline"
+                  class="text-xl"
+                />
               </div>
             </button>
 
@@ -31,7 +39,7 @@
               </div>
               <div
                 class="btn flex justify-start text-red-500"
-                @click.stop="deleteRecipe(id)"
+                @click.stop="deleteShowRecipe(id)"
               >
                 <Icon icon="ant-design:delete-twotone" />
                 <p class="text-xs">Delete</p>
@@ -56,7 +64,42 @@
           <Loading />
         </div>
       </div>
+      <!-- modal for edit -->
+      <dialog id="my_modal_edit" class="modal">
+        <div class="modal-box">
+          <h3 class="font-bold text-lg">Hello!</h3>
+          <div class="modal-action">
+            <button
+              @click.stop="saveEditRecipe"
+              class="btn text-green-500 w-32"
+            >
+              Update
+            </button>
+            <form method="dialog">
+              <!-- if there is a button in form, it will close the modal -->
+              <button class="btn">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
+      <!-- modal for delete confirmation -->
+      <dialog id="my_modal_delete" class="modal">
+        <div class="modal-box">
+          <h3 class="font-bold text-lg">
+            Are you sure you want to delete this recipe?
+          </h3>
+          <div class="modal-action">
+            <button @click.stop="deleteRecipe" class="btn text-red-500 w-32">
+              Delete
+            </button>
+            <form method="dialog">
+              <button class="btn">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
 
+      <!-- show modal -->
       <dialog id="my_modal_2" class="modal" ref="recipeModal">
         <div class="modal-box">
           <form method="dialog" class="absolute top-0 right-0 p-2 z-10">
@@ -171,11 +214,20 @@ export default {
       editId.value = id;
       console.log(editId.value);
     };
-    const deleteRecipe = () => {
-      console.log("id to delete", editId.value);
+    const deleteShowRecipe = () => {
+      const modal = document.getElementById("my_modal_delete");
+      modal.showModal();
     };
     const editRecipe = () => {
       console.log("edit recipe", editId.value);
+      const modal = document.getElementById("my_modal_edit");
+      modal.showModal();
+    };
+    const deleteRecipe = () => {
+      console.log("delete recipe", editId.value);
+    };
+    const saveEditRecipe = () => {
+      console.log("save edit recipe", editId.value);
     };
 
     onUnmounted(() => {
@@ -188,10 +240,12 @@ export default {
       recipe,
       formatHour,
       editShowRecipe,
-      deleteRecipe,
+      deleteShowRecipe,
       showRecipeModal,
       selectedRecipe,
       editRecipe,
+      deleteRecipe,
+      saveEditRecipe,
     };
   },
 };
