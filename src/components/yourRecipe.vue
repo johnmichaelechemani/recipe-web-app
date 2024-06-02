@@ -12,15 +12,23 @@
           <div
             class="dropdown absolute top-0 right-0 px-1 pt-1 bg-primary text-gray-800 shadow"
           >
-            <button class="" @click.stop="editRecipe(item.id)">
+            <button class="" @click.stop="editShowRecipe(item.id)">
               <div tabindex="0" role="button" class="">
                 <Icon icon="material-symbols-light:settings-outline" />
               </div>
             </button>
+
             <ul
               tabindex="0"
               class="dropdown-content z-[20] menu border border-gray-400/10 p-2 shadow bg-base-100 rounded-md w-32"
             >
+              <div
+                class="btn flex justify-start text-green-500 mb-1"
+                @click.stop="editRecipe(id)"
+              >
+                <Icon icon="material-symbols:edit" />
+                <p class="text-xs">Edit</p>
+              </div>
               <div
                 class="btn flex justify-start text-red-500"
                 @click.stop="deleteRecipe(id)"
@@ -159,12 +167,15 @@ export default {
       modal.showModal();
     };
 
-    const editRecipe = (id) => {
+    const editShowRecipe = (id) => {
       editId.value = id;
       console.log(editId.value);
     };
     const deleteRecipe = () => {
       console.log("id to delete", editId.value);
+    };
+    const editRecipe = () => {
+      console.log("edit recipe", editId.value);
     };
 
     onUnmounted(() => {
@@ -176,10 +187,11 @@ export default {
       loading,
       recipe,
       formatHour,
-      editRecipe,
+      editShowRecipe,
       deleteRecipe,
       showRecipeModal,
       selectedRecipe,
+      editRecipe,
     };
   },
 };
