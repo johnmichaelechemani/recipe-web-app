@@ -129,6 +129,10 @@
               class="btn text-green-500 w-32"
             >
               Update
+              <span
+                v-if="isSaveloading"
+                class="loading loading-dots loading-xs"
+              ></span>
             </button>
             <form method="dialog">
               <button class="btn">Close</button>
@@ -145,6 +149,10 @@
           <div class="modal-action">
             <button @click.stop="deleteRecipe" class="btn text-red-500 w-32">
               Delete
+              <span
+                v-if="isSaveloading"
+                class="loading loading-dots loading-xs"
+              ></span>
             </button>
             <form method="dialog">
               <button class="btn">Close</button>
@@ -211,8 +219,12 @@ import {
   orderBy,
   onSnapshot,
   getFirestore,
+  doc,
+  updateDoc,
+  deleteDoc,
+  getDoc,
 } from "firebase/firestore";
-
+import { getStorage, ref as storageRef, deleteObject } from "firebase/storage";
 export default {
   components: {
     Loading,
@@ -220,6 +232,7 @@ export default {
   },
   setup() {
     const loading = ref(true);
+    const isSaveloading = ref(false);
 
     const auth = getAuth();
     const user = ref(auth.currentUser);
@@ -277,11 +290,71 @@ export default {
       const modal = document.getElementById("my_modal_edit");
       modal.showModal();
     };
-    const deleteRecipe = () => {
-      console.log("delete recipe", editId.value);
+    const deleteRecipe = async () => {
+      try {
+        isSaveloading.value = true;
+        // Ensure the recipe ID is available
+        if (!editId.value) {
+          console.error("No recipe selected for deletion.");
+          return;
+        }
+
+        // Get the reference to the specific recipe document
+        const recipeRef = doc(firestore, "recipe", editId.value);
+        const recipeDoc = await getDoc(recipeRef);
+        const recipeData = recipeDoc.data();
+
+        // Delete the document from Firestore
+        await deleteDoc(recipeRef);
+
+        // If the recipe has an associated image, delete it from Firebase Storage
+        if (recipeData && recipeData.imageURL) {
+          const storage = getStorage();
+          const imageRef = storageRef(storage, recipeData.imageURL);
+          await deleteObject(imageRef);
+        }
+
+        // Close the modal after deleting
+        const modal = document.getElementById("my_modal_delete");
+        modal.close();
+
+        console.log(
+          "Recipe and associated image deleted successfully:",
+          editId.value
+        );
+      } catch (error) {
+        console.error("Error deleting recipe and associated image:", error);
+        const modal = document.getElementById("my_modal_delete");
+        modal.close();
+        isSaveloading.value = false;
+      } finally {
+        isSaveloading.value = false;
+      }
     };
-    const saveEditRecipe = () => {
-      console.log("save edit recipe", editId.value);
+
+    const saveEditRecipe = async () => {
+      try {
+        isSaveloading.value = true;
+        // Get the reference to the specific recipe document
+        const recipeRef = doc(firestore, "recipe", editId.value);
+
+        // Update the document with new data
+        await updateDoc(recipeRef, {
+          ...selectedRecipe.value,
+        });
+
+        // Close the modal after saving
+        const modal = document.getElementById("my_modal_edit");
+        modal.close();
+
+        console.log("Recipe updated successfully:", editId.value);
+      } catch (error) {
+        console.error("Error updating recipe:", error);
+        const modal = document.getElementById("my_modal_edit");
+        modal.close();
+      } finally {
+        isSaveloading.value = false;
+      }
     };
 
     onUnmounted(() => {
@@ -291,6 +364,7 @@ export default {
     // console.log(recipe);
     return {
       loading,
+      isSaveloading,
       recipe,
       formatHour,
       editShowRecipe,
