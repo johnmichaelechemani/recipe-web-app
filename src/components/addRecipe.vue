@@ -62,11 +62,13 @@
 
             <div v-if="allIngredients.length !== 0">
               <div class="grid grid-cols-1 gap-1">
-                <div v-for="item in allIngredients" :key="item.id">
+                <div v-for="(item, index) in allIngredients" :key="item.id">
                   <div
                     class="flex justify-between items-center px-2 py-1 bg-blue-400/10 border shadow border-gray-500/10 rounded-md"
                   >
-                    <span class="text-sm font-medium">{{ item }}</span>
+                    <span class="text-sm font-medium"
+                      >{{ index + 1 }}. {{ item }}</span
+                    >
                     <button class="" @click.prevent="removeIngredients(item)">
                       <Icon icon="carbon:close" />
                     </button>
@@ -96,11 +98,13 @@
 
             <div v-if="allInstructions.length !== 0">
               <div class="grid grid-cols-1 gap-1">
-                <div v-for="item in allInstructions" :key="item.id">
+                <div v-for="(item, index) in allInstructions" :key="item.id">
                   <div
                     class="flex justify-between items-center px-2 py-1 bg-blue-400/10 border shadow border-gray-500/10 rounded-md"
                   >
-                    <span class="text-sm font-medium">{{ item }}</span>
+                    <span class="text-sm font-medium">
+                      {{ index + 1 }}. {{ item }}</span
+                    >
                     <button class="" @click.prevent="removeIstructions(item)">
                       <Icon icon="carbon:close" />
                     </button>
@@ -108,6 +112,7 @@
                 </div>
               </div>
             </div>
+
             <div>
               <p class="text-sm font-semibold">Add Image:</p>
               <input
