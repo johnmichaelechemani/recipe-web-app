@@ -1,12 +1,19 @@
 <template>
   <div class="flex justify-between items-center">
     <div class="flex justify-start items-center gap-2 p-2">
-      <img
-        class="h-8 w-8 rounded-full"
-        v-if="user.photoURL"
-        :src="user.photoURL"
-        alt="profile"
-      />
+      <div>
+        <img
+          class="h-8 w-8 rounded-full"
+          v-if="user.photoURL && !isLoading"
+          :src="user.photoURL"
+          alt="profile"
+          @load="isLoading = false"
+          @error="isLoading = false"
+        />
+        <div v-else class="bg-primary text-secondary shadow rounded-full p-1">
+          <Icon icon="mdi:user" class="text-2xl" />
+        </div>
+      </div>
 
       <h1 class="font-medium text-xs sm:text-sm capitalize">
         {{ user.displayName }}
@@ -78,6 +85,7 @@ export default {
 
     const user = ref(auth.currentUser);
     const router = useRouter();
+    const isLoading = true;
 
     const logout = () => {
       const user = auth.currentUser;
@@ -94,7 +102,7 @@ export default {
       }
     };
 
-    return { user, logout };
+    return { user, logout, isLoading };
   },
 };
 </script>
