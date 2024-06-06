@@ -2,12 +2,14 @@
   <div class="border rounded-md border-gray-400/50 p-2 my-3">
     <h1 class="font-semibold py-2 text-blue-500">All Recipes</h1>
     <div class="flex justify-center sm:justify-start items-center">
-      <div class="grid grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3">
+      <div
+        class="grid grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3 overflow-hidden py-5 px-2 sm:p-2"
+      >
         <div
           v-for="item in recipe"
           :key="item.id"
           @click="showRecipeAllModal(item)"
-          class="card sm:w-52 w-26 bg-base-100 shadow-xl relative rounded-md"
+          class="card sm:w-52 w-26 bg-base-100 shadow border border-gray-200/10 relative rounded-md"
         >
           <div
             class="rounded-full absolute -top-1 -left-1 shadow-xl border border-secondary"

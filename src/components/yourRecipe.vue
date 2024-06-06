@@ -2,14 +2,16 @@
   <div class="py-2">
     <h1 class="font-semibold py-2">Your Recipes</h1>
     <div class="flex justify-center sm:justify-start items-center">
-      <div class="grid grid-cols-3 lg:grid-cols-5 gap-1 sm:gap-3">
+      <div
+        class="grid grid-cols-3 lg:grid-cols-5 gap-1 sm:gap-3 overflow-hidden py-5 sm:p-2"
+      >
         <div
           v-for="item in recipe"
           :key="item.id"
           @click="showRecipeModal(item)"
-          class="card sm:w-52 w-26 bg-base-100 shadow-xl relative rounded-md"
+          class="card sm:w-52 w-26 bg-base-100 shadow border border-gray-200/10 relative rounded-md"
         >
-          <div class="dropdown absolute -top-1 -right-1 text-gray-800 shadow">
+          <div class="dropdown absolute top-0 right-0 text-gray-800 shadow">
             <button
               class="flex justify-center items-center"
               @click.stop="editShowRecipe(item.id, item)"
@@ -17,7 +19,7 @@
               <div
                 tabindex="0"
                 role="button"
-                class="btn btn-primary rounded-md btn-xs"
+                class="btn btn-primary rounded-none btn-xs"
               >
                 <Icon
                   icon="material-symbols-light:settings-outline"
@@ -48,7 +50,7 @@
           </div>
 
           <figure>
-            <img :src="item.imageURL" alt="recipe" class="rounded-md" />
+            <img :src="item.imageURL" alt="recipe" class="" />
           </figure>
           <div class="card-body p-3">
             <h2 class="card-title">{{ item.title }}</h2>
