@@ -2,15 +2,17 @@
   <div class="flex items-center justify-center my-2">
     <div>
       <div class="px-5 py-2 rounded-full border border-gray-300/10 shadow">
-        <h1 class="text-base font-semibold text-center">Recipe App</h1>
+        <h1 class="text-base text-neutral font-semibold text-center">
+          Recipe App
+        </h1>
       </div>
       <span class="text-xs flex justify-center py-2 text-blue-500 italic"
         >John Michael D. Echemani</span
       >
     </div>
   </div>
-  <div class="flex items-center h-screen justify-center">
-    <div class="px-5 py-3 border border-gray-300/10 rounded-md shadow">
+  <div class="flex items-center h-screen justify-center text-neutral">
+    <div class="px-5 py-3 border border-gray-500/10 rounded-md shadow">
       <h1 class="text-2xl font-semibold py-2">Log in</h1>
       <button
         @click="signInWithGoogle()"
