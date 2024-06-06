@@ -50,7 +50,15 @@
           </div>
 
           <figure>
-            <img :src="item.imageURL" alt="recipe" class="" />
+            <img
+              :src="item.imageURL"
+              v-if="item.imageURL"
+              alt="recipe"
+              class=""
+            />
+            <div v-else class="pt-2">
+              <Icon icon="emojione-v1:pot-of-food" class="text-4xl" />
+            </div>
           </figure>
           <div class="card-body p-3">
             <h2 class="card-title">{{ item.title }}</h2>

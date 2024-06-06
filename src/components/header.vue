@@ -4,11 +4,9 @@
       <div>
         <img
           class="h-8 w-8 rounded-full"
-          v-if="user.photoURL && !isLoading"
+          v-if="user.photoURL"
           :src="user.photoURL"
           alt="profile"
-          @load="isLoading = false"
-          @error="isLoading = false"
         />
         <div v-else class="bg-primary text-neutral shadow rounded-full p-1">
           <Icon icon="mdi:user" class="text-2xl" />

@@ -33,7 +33,15 @@
           </div>
 
           <figure>
-            <img :src="item.imageURL" alt="recipe" class="rounded-md" />
+            <img
+              v-if="item.imageURL"
+              :src="item.imageURL"
+              alt="recipe"
+              class="rounded-md"
+            />
+            <div v-else class="pt-2">
+              <Icon icon="emojione-v1:pot-of-food" class="text-4xl" />
+            </div>
           </figure>
           <div class="px-1 py-2">
             <h2 class="card-title">{{ item.title }}</h2>
