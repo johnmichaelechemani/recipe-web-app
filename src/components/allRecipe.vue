@@ -78,6 +78,26 @@
               {{ selectedAllRecipe.userName }}</span
             >
           </div>
+
+          <div class="py-2 flex justify-start items-center">
+            <div
+              v-if="selectedAllRecipe.totalRatings > 0"
+              v-for="s in selectedAllRecipe.totalRatings"
+              :key="s.id"
+            >
+              <Icon icon="ic:round-star" class="text-xl text-yellow-500" />
+            </div>
+            <div v-else class="py-2 flex justify-start items-center">
+              <div v-for="noStars in 5" :key="noStars.id">
+                <Icon icon="ic:outline-star-border" class="text-xl" />
+              </div>
+            </div>
+            <span class="px-2 text-sm">{{
+              selectedAllRecipe.totalRatings
+            }}</span>
+          </div>
+
+          <hr class="border border-gray-500/10" />
           <div class="py-4">
             <p class="text-xs text-primary">Discriptions:</p>
             <p class="capitalize">
@@ -113,6 +133,12 @@
             </ol>
           </div>
           <hr class="border border-gray-500/10 my-2" />
+          <div v-if="ratingsInText">
+            <span
+              class="text-sm tracking-wide bg-blue-500/10 shadow text-blue-500 px-2 py-1 rounded-full"
+              >{{ ratingsInText }}</span
+            >
+          </div>
           <div class="flex justify-start items-center gap-2">
             <div class="flex gap-1">
               <span class="text-sm font-semibold">RATE:</span>
@@ -135,9 +161,11 @@
                 </button>
               </div>
             </div>
-            <div>
-              <span class="text-sm tracking-wide">{{ ratingsInText }}</span>
-            </div>
+
+            <button class="btn shadow rounded-full" @click="sendRatings">
+              Send
+              <Icon icon="iconamoon:send-fill" class="text-primary text-xl" />
+            </button>
           </div>
         </div>
       </dialog>
@@ -169,6 +197,8 @@ export default {
     const user = ref(auth.currentUser);
     const firestore = getFirestore();
     const isLoading = true;
+    const { uid } = user.value;
+    const userId = uid;
 
     const recipe = ref([]);
     const selectedAllRecipe = ref({});
@@ -231,6 +261,11 @@ export default {
       ratings.value = star;
     };
 
+    const sendRatings = () => {
+      console.log(ratingsInText.value);
+      console.log(userId);
+    };
+
     onUnmounted(() => {
       unsubscribe();
     });
@@ -247,6 +282,7 @@ export default {
       setRating,
       closeModal,
       ratingsInText,
+      sendRatings,
     };
   },
 };
