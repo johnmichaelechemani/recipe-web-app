@@ -54,7 +54,7 @@
       <dialog id="my_modal_4" class="modal" ref="recipeModal">
         <div class="modal-box">
           <form method="dialog" class="absolute top-0 right-0 p-2 z-10">
-            <button>
+            <button @click="closeModal">
               <Icon icon="iconamoon:close-duotone" class="text-2xl" />
             </button>
           </form>
@@ -74,6 +74,7 @@
               {{ selectedAllRecipe.descriptions }}
             </p>
           </div>
+          <hr class="border border-gray-500/10" />
 
           <div class="py-4">
             <p class="text-xs text-primary">Ingredients:</p>
@@ -87,7 +88,7 @@
               </li>
             </ul>
           </div>
-
+          <hr class="border border-gray-500/10" />
           <div class="py-4">
             <p class="text-xs text-primary">Instructions:</p>
             <ol>
@@ -101,15 +102,32 @@
               </li>
             </ol>
           </div>
-          <div class="flex justify-center items-center gap-2">
-            <button
-              class="btn border px-4 rounded-full border-yellow-500/50 shadow"
+          <hr class="border border-gray-500/10 my-2" />
+          <div class="flex justify-start items-center gap-2">
+            <div class="flex gap-1">
+              <span class="text-sm font-semibold">RATE:</span>
+            </div>
+            <div
+              class="text-yellow-500 text-xl px-1 border border-yellow-500/50 py-1 rounded-full flex gap-1"
             >
-              <Icon
-                icon="ic:outline-star"
-                class="text-xl text-yellow-500"
-              /><span class="text-sm">Rate this recipe</span>
-            </button>
+              <div v-for="star in 5" :key="star">
+                <button
+                  @click="setRating(star, selectedAllRecipe.id)"
+                  class="flex justify-center items-center"
+                >
+                  <Icon
+                    :icon="
+                      ratings >= star
+                        ? 'ic:outline-star'
+                        : 'ic:outline-star-border'
+                    "
+                  />
+                </button>
+              </div>
+            </div>
+            <div>
+              <span class="text-sm tracking-wide">{{ ratingsInText }}</span>
+            </div>
           </div>
         </div>
       </dialog>
@@ -119,7 +137,7 @@
 <script>
 import Loading from "../components/loading.vue";
 import { Icon } from "@iconify/vue";
-import { ref, watch, onUnmounted } from "vue";
+import { ref, watch, onUnmounted, computed } from "vue";
 import { getAuth } from "firebase/auth";
 import {
   query,
@@ -144,6 +162,16 @@ export default {
 
     const recipe = ref([]);
     const selectedAllRecipe = ref({});
+    let ratings = ref(0);
+    const ratingTexts = {
+      1: "Poor",
+      2: "Fair",
+      3: "Good",
+      4: "Very Good",
+      5: "Excellent",
+    };
+
+    const ratingsInText = computed(() => ratingTexts[ratings.value] || "");
 
     const recipeCollection = collection(firestore, "recipe");
     const recipeQuery = query(recipeCollection, orderBy("createdAt", "asc"));
@@ -176,9 +204,21 @@ export default {
 
     const showRecipeAllModal = (item) => {
       selectedAllRecipe.value = item;
+      console.log(selectedAllRecipe.value);
       const modal = document.getElementById("my_modal_4");
       modal.showModal();
       console.log(selectedAllRecipe.value);
+    };
+
+    const closeModal = () => {
+      ratings.value = 0;
+      const modal = document.getElementById("my_modal_4");
+      modal.close();
+    };
+    const setRating = (star, id) => {
+      console.log(star);
+      console.log(id);
+      ratings.value = star;
     };
 
     onUnmounted(() => {
@@ -193,6 +233,10 @@ export default {
       isLoading,
       showRecipeAllModal,
       selectedAllRecipe,
+      ratings,
+      setRating,
+      closeModal,
+      ratingsInText,
     };
   },
 };

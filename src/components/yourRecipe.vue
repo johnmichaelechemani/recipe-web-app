@@ -178,7 +178,7 @@
               {{ selectedRecipe.descriptions }}
             </p>
           </div>
-
+          <hr class="border border-gray-500/10" />
           <div class="py-4">
             <p class="text-xs text-primary">Ingredients:</p>
             <ul>
@@ -191,6 +191,7 @@
               </li>
             </ul>
           </div>
+          <hr class="border border-gray-500/10" />
 
           <div class="py-4">
             <p class="text-xs text-primary">Instructions:</p>
