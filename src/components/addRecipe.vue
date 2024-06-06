@@ -217,6 +217,7 @@ export default {
         const snapshot = await uploadBytes(imageRef, imageFile.value);
         imageURL = await getDownloadURL(snapshot.ref);
       }
+      const totalRatings = 0;
       const recipeData = {
         userId: uid,
         userName: displayName,
@@ -227,6 +228,7 @@ export default {
         allInstructions: allInstructions.value,
         createdAt: createdAt,
         imageURL: imageURL,
+        totalRatings: totalRatings,
       };
 
       try {
