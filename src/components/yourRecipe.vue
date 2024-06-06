@@ -6,6 +6,7 @@
         class="grid grid-cols-3 lg:grid-cols-5 gap-1 sm:gap-3 overflow-hidden py-5 sm:p-2"
       >
         <div
+          v-if="recipe"
           v-for="item in recipe"
           :key="item.id"
           @click="showRecipeModal(item)"
@@ -69,6 +70,12 @@
               {{ formatHour(item.createdAt) }}
             </p>
           </div>
+        </div>
+        <div v-if="recipe.length === 0">
+          <span
+            class="font-semibold text-sm px-4 py-2 bg-blue-300/10 rounded-full shadow"
+            >You don't have recipe yet.</span
+          >
         </div>
         <div v-if="loading">
           <Loading />
@@ -234,6 +241,7 @@ import {
   updateDoc,
   deleteDoc,
   getDoc,
+  where,
 } from "firebase/firestore";
 import { getStorage, ref as storageRef, deleteObject } from "firebase/storage";
 export default {
@@ -248,12 +256,18 @@ export default {
     const auth = getAuth();
     const user = ref(auth.currentUser);
     const firestore = getFirestore();
+    const { uid } = user.value;
+    const userId = uid;
 
     const recipe = ref([]);
     const selectedRecipe = ref({});
 
     const recipeCollection = collection(firestore, "recipe");
-    const recipeQuery = query(recipeCollection, orderBy("createdAt", "asc"));
+    const recipeQuery = query(
+      recipeCollection,
+      orderBy("createdAt", "asc"),
+      where("userId", "==", userId)
+    );
     const unsubscribe = onSnapshot(recipeQuery, (snapshot) => {
       recipe.value = snapshot.docs
         .map((doc) => ({
