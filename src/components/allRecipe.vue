@@ -1,8 +1,16 @@
 <template>
   <div class="border rounded-md border-gray-400/50 p-2 my-3">
     <h1 class="font-semibold py-2 text-blue-500">All Recipes</h1>
+    <div v-if="filteredRecipes.length === 0 && !loading" class="w-full">
+      <span
+        class="text-sm px-4 py-1 w-full rounded-full bg-error/10 font-semibold text-error"
+        >No Recipe found</span
+      >
+    </div>
+
     <div class="flex justify-center sm:justify-start items-center">
       <div
+        v-if="filteredRecipes"
         class="grid grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3 overflow-hidden py-5 px-2 sm:p-2"
       >
         <div
@@ -59,127 +67,123 @@
           <Loading />
         </div>
       </div>
-
-      <!-- modal -->
-      <dialog id="my_modal_4" class="modal" ref="recipeModal">
-        <div class="modal-box">
-          <form method="dialog" class="absolute top-0 right-0 p-2 z-10">
-            <button @click="closeModal">
-              <Icon icon="iconamoon:close-duotone" class="text-2xl" />
-            </button>
-          </form>
-          <h3 class="font-bold text-4xl capitalize">
-            {{ selectedAllRecipe.title }} <span class="text-xs">ni</span>
-          </h3>
-          <div>
-            <span
-              class="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary"
-            >
-              {{ selectedAllRecipe.userName }}</span
-            >
-          </div>
-
-          <div class="py-2 flex justify-start items-center">
-            <div
-              v-if="selectedAllRecipe.totalRatings > 0"
-              v-for="(star, index) in starArray"
-              :key="index"
-            >
-              <Icon
-                :icon="
-                  star === 'full'
-                    ? 'ic:round-star'
-                    : star === 'half'
-                    ? 'ic:round-star-half'
-                    : 'ic:outline-star-border'
-                "
-                class="text-xl text-yellow-500"
-              />
-            </div>
-
-            <div v-else class="py-2 flex justify-start items-center">
-              <div v-for="noStars in 5" :key="noStars.id">
-                <Icon icon="ic:outline-star-border" class="text-xl" />
-              </div>
-            </div>
-            <span class="px-2 text-sm">{{
-              selectedAllRecipe.ratingCount
-            }}</span>
-          </div>
-
-          <hr class="border border-gray-500/10" />
-          <div class="py-4">
-            <p class="text-xs text-primary">Discriptions:</p>
-            <p class="capitalize">
-              {{ selectedAllRecipe.descriptions }}
-            </p>
-          </div>
-          <hr class="border border-gray-500/10" />
-
-          <div class="py-4">
-            <p class="text-xs text-primary">Ingredients:</p>
-            <ul>
-              <li
-                v-for="(ingredient, index) in selectedAllRecipe.allIngredients"
-                :key="ingredient.id"
-                class="capitalize"
-              >
-                {{ index + 1 }}. {{ ingredient }}
-              </li>
-            </ul>
-          </div>
-          <hr class="border border-gray-500/10" />
-          <div class="py-4">
-            <p class="text-xs text-primary">Instructions:</p>
-            <ol>
-              <li
-                v-for="(
-                  instruction, index
-                ) in selectedAllRecipe.allInstructions"
-                :key="instruction.id"
-              >
-                {{ index + 1 }}. {{ instruction }}
-              </li>
-            </ol>
-          </div>
-          <hr class="border border-gray-500/10 my-2" />
-          <div v-if="ratingsInText">
-            <span
-              class="text-sm tracking-wide bg-blue-500/10 shadow text-blue-500 px-2 py-1 rounded-full"
-              >{{ ratingsInText }}</span
-            >
-          </div>
-          <div class="flex justify-start items-center gap-2">
-            <div class="flex gap-1">
-              <span class="text-sm font-semibold">RATE:</span>
-            </div>
-            <div
-              class="text-yellow-500 text-xl px-1 border border-yellow-500/50 py-1 rounded-full flex gap-1"
-            >
-              <div v-for="star in 5" :key="star">
-                <button
-                  @click="setRating(star, selectedAllRecipe.id)"
-                  class="flex justify-center items-center"
-                >
-                  <Icon
-                    :icon="
-                      ratings >= star
-                        ? 'ic:outline-star'
-                        : 'ic:outline-star-border'
-                    "
-                  />
-                </button>
-              </div>
-            </div>
-
-            <button class="btn shadow rounded-full" @click="sendRatings">
-              Send
-              <Icon icon="iconamoon:send-fill" class="text-primary text-xl" />
-            </button>
-          </div>
-        </div>
-      </dialog>
     </div>
+
+    <!-- modal -->
+    <dialog id="my_modal_4" class="modal" ref="recipeModal">
+      <div class="modal-box">
+        <form method="dialog" class="absolute top-0 right-0 p-2 z-10">
+          <button @click="closeModal">
+            <Icon icon="iconamoon:close-duotone" class="text-2xl" />
+          </button>
+        </form>
+        <h3 class="font-bold text-4xl capitalize">
+          {{ selectedAllRecipe.title }} <span class="text-xs">ni</span>
+        </h3>
+        <div>
+          <span
+            class="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary"
+          >
+            {{ selectedAllRecipe.userName }}</span
+          >
+        </div>
+
+        <div class="py-2 flex justify-start items-center">
+          <div
+            v-if="selectedAllRecipe.totalRatings > 0"
+            v-for="(star, index) in starArray"
+            :key="index"
+          >
+            <Icon
+              :icon="
+                star === 'full'
+                  ? 'ic:round-star'
+                  : star === 'half'
+                  ? 'ic:round-star-half'
+                  : 'ic:outline-star-border'
+              "
+              class="text-xl text-yellow-500"
+            />
+          </div>
+
+          <div v-else class="py-2 flex justify-start items-center">
+            <div v-for="noStars in 5" :key="noStars.id">
+              <Icon icon="ic:outline-star-border" class="text-xl" />
+            </div>
+          </div>
+          <span class="px-2 text-sm">{{ selectedAllRecipe.ratingCount }}</span>
+        </div>
+
+        <hr class="border border-gray-500/10" />
+        <div class="py-4">
+          <p class="text-xs text-primary">Discriptions:</p>
+          <p class="capitalize">
+            {{ selectedAllRecipe.descriptions }}
+          </p>
+        </div>
+        <hr class="border border-gray-500/10" />
+
+        <div class="py-4">
+          <p class="text-xs text-primary">Ingredients:</p>
+          <ul>
+            <li
+              v-for="(ingredient, index) in selectedAllRecipe.allIngredients"
+              :key="ingredient.id"
+              class="capitalize"
+            >
+              {{ index + 1 }}. {{ ingredient }}
+            </li>
+          </ul>
+        </div>
+        <hr class="border border-gray-500/10" />
+        <div class="py-4">
+          <p class="text-xs text-primary">Instructions:</p>
+          <ol>
+            <li
+              v-for="(instruction, index) in selectedAllRecipe.allInstructions"
+              :key="instruction.id"
+            >
+              {{ index + 1 }}. {{ instruction }}
+            </li>
+          </ol>
+        </div>
+        <hr class="border border-gray-500/10 my-2" />
+        <div v-if="ratingsInText">
+          <span
+            class="text-sm tracking-wide bg-blue-500/10 shadow text-blue-500 px-2 py-1 rounded-full"
+            >{{ ratingsInText }}</span
+          >
+        </div>
+        <div class="flex justify-start items-center gap-2">
+          <div class="flex gap-1">
+            <span class="text-sm font-semibold">RATE:</span>
+          </div>
+          <div
+            class="text-yellow-500 text-xl px-1 border border-yellow-500/50 py-1 rounded-full flex gap-1"
+          >
+            <div v-for="star in 5" :key="star">
+              <button
+                @click="setRating(star, selectedAllRecipe.id)"
+                class="flex justify-center items-center"
+              >
+                <Icon
+                  :icon="
+                    ratings >= star
+                      ? 'ic:outline-star'
+                      : 'ic:outline-star-border'
+                  "
+                />
+              </button>
+            </div>
+          </div>
+
+          <button class="btn shadow rounded-full" @click="sendRatings">
+            Send
+            <Icon icon="iconamoon:send-fill" class="text-primary text-xl" />
+          </button>
+        </div>
+      </div>
+    </dialog>
   </div>
 </template>
 <script>
