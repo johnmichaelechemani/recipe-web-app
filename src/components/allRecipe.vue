@@ -6,7 +6,7 @@
         class="grid grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3 overflow-hidden py-5 px-2 sm:p-2"
       >
         <div
-          v-for="item in recipe"
+          v-for="item in filteredRecipes"
           :key="item.id"
           @click="showRecipeAllModal(item)"
           class="card sm:w-52 w-26 bg-base-100 shadow border border-gray-200/10 relative rounded-md"
@@ -199,11 +199,17 @@ import {
 } from "firebase/firestore";
 
 export default {
+  props: {
+    searchQuery: {
+      type: String,
+      default: "",
+    },
+  },
   components: {
     Loading,
     Icon,
   },
-  setup() {
+  setup(props) {
     const loading = ref(true);
 
     const auth = getAuth();
@@ -214,6 +220,13 @@ export default {
     const userId = uid;
 
     const recipe = ref([]);
+
+    const filteredRecipes = computed(() => {
+      return recipe.value.filter((recipe) =>
+        recipe.title.toLowerCase().includes(props.searchQuery.toLowerCase())
+      );
+    });
+
     const selectedAllRecipe = ref({});
     let ratings = ref(0);
     const ratingTexts = {
@@ -348,6 +361,7 @@ export default {
       ratingsInText,
       sendRatings,
       starArray,
+      filteredRecipes,
     };
   },
 };

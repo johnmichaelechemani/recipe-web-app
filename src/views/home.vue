@@ -14,7 +14,7 @@
     </div>
     <AddRecipe />
     <YourRecipe />
-    <AllRecipe />
+    <AllRecipe :searchQuery="search" />
   </div>
 </template>
 <script>
