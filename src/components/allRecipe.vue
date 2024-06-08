@@ -177,9 +177,20 @@
             </div>
           </div>
 
-          <button class="btn shadow rounded-full" @click="sendRatings">
+          <button
+            :disabled="ratings === 0"
+            class="btn shadow rounded-full"
+            @click="sendRatings"
+          >
             Send
-            <Icon icon="iconamoon:send-fill" class="text-primary text-xl" />
+            <Icon
+              icon="iconamoon:send-fill"
+              :class="ratings === 0 ? 'text-gray-500' : 'text-primary'"
+            />
+            <span
+              v-if="sendingRatingLoading"
+              class="loading loading-dots loading-xs"
+            ></span>
           </button>
         </div>
       </div>
@@ -220,6 +231,7 @@ export default {
     const user = ref(auth.currentUser);
     const firestore = getFirestore();
     const isLoading = true;
+    const sendingRatingLoading = ref(false);
     const { uid } = user.value;
     const userId = uid;
 
@@ -293,6 +305,7 @@ export default {
 
     const updateRecipeRatings = async (recipeId, newRating) => {
       try {
+        sendingRatingLoading.value = true;
         const recipeDocRef = doc(firestore, "recipe", recipeId);
         const recipeDoc = await getDoc(recipeDocRef);
 
@@ -319,6 +332,8 @@ export default {
         }
       } catch (error) {
         console.error("Error updating ratings: ", error);
+      } finally {
+        sendingRatingLoading.value = false;
       }
     };
 
@@ -354,6 +369,7 @@ export default {
 
     return {
       loading,
+      sendingRatingLoading,
       recipe,
       formatHour,
       isLoading,
