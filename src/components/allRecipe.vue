@@ -82,18 +82,28 @@
           <div class="py-2 flex justify-start items-center">
             <div
               v-if="selectedAllRecipe.totalRatings > 0"
-              v-for="s in selectedAllRecipe.totalRatings"
-              :key="s.id"
+              v-for="(star, index) in starArray"
+              :key="index"
             >
-              <Icon icon="ic:round-star" class="text-xl text-yellow-500" />
+              <Icon
+                :icon="
+                  star === 'full'
+                    ? 'ic:round-star'
+                    : star === 'half'
+                    ? 'ic:round-star-half'
+                    : 'ic:outline-star-border'
+                "
+                class="text-xl text-yellow-500"
+              />
             </div>
+
             <div v-else class="py-2 flex justify-start items-center">
               <div v-for="noStars in 5" :key="noStars.id">
                 <Icon icon="ic:outline-star-border" class="text-xl" />
               </div>
             </div>
             <span class="px-2 text-sm">{{
-              selectedAllRecipe.totalRatings
+              selectedAllRecipe.ratingCount
             }}</span>
           </div>
 
@@ -181,6 +191,9 @@ import {
   query,
   collection,
   orderBy,
+  updateDoc,
+  doc,
+  getDoc,
   onSnapshot,
   getFirestore,
 } from "firebase/firestore";
@@ -247,7 +260,6 @@ export default {
       console.log(selectedAllRecipe.value);
       const modal = document.getElementById("my_modal_4");
       modal.showModal();
-      console.log(selectedAllRecipe.value);
     };
 
     const closeModal = () => {
@@ -255,22 +267,74 @@ export default {
       const modal = document.getElementById("my_modal_4");
       modal.close();
     };
+
+    let recipeId = ref("");
     const setRating = (star, id) => {
-      console.log(star);
-      console.log(id);
+      recipeId.value = id;
       ratings.value = star;
     };
 
-    const sendRatings = () => {
-      console.log(ratingsInText.value);
-      console.log(userId);
+    const updateRecipeRatings = async (recipeId, newRating) => {
+      try {
+        const recipeDocRef = doc(firestore, "recipe", recipeId);
+        const recipeDoc = await getDoc(recipeDocRef);
+
+        if (recipeDoc.exists()) {
+          const recipeData = recipeDoc.data();
+          const currentTotalRatings = recipeData.totalRatings || 0;
+          const currentRatingCount = recipeData.ratingCount || 0;
+
+          const updatedTotalRatings = currentTotalRatings + newRating;
+          const updatedRatingCount = currentRatingCount + 1;
+          const updatedAverageRating = updatedTotalRatings / updatedRatingCount;
+
+          await updateDoc(recipeDocRef, {
+            totalRatings: updatedTotalRatings,
+            ratingCount: updatedRatingCount,
+            averageRating: updatedAverageRating,
+          });
+
+          console.log(
+            `Updated recipe ${recipeId} with new ratings and average rating.`
+          );
+        } else {
+          console.log("No such recipe document!");
+        }
+      } catch (error) {
+        console.error("Error updating ratings: ", error);
+      }
     };
+
+    const sendRatings = async () => {
+      const newRating = ratings.value;
+      const recipeIds = recipeId.value;
+
+      await updateRecipeRatings(recipeIds, newRating);
+      closeModal();
+    };
+
+    const starArray = computed(() => {
+      const stars = [];
+      const rating = selectedAllRecipe.value.averageRating || 0;
+      const fullStars = Math.floor(rating);
+      const hasHalfStar = rating % 1 !== 0;
+
+      for (let i = 0; i < fullStars; i++) {
+        stars.push("full");
+      }
+      if (hasHalfStar) {
+        stars.push("half");
+      }
+      while (stars.length < 5) {
+        stars.push("empty");
+      }
+      return stars;
+    });
 
     onUnmounted(() => {
       unsubscribe();
     });
 
-    console.log(recipe);
     return {
       loading,
       recipe,
@@ -283,6 +347,7 @@ export default {
       closeModal,
       ratingsInText,
       sendRatings,
+      starArray,
     };
   },
 };
