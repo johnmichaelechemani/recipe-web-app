@@ -287,6 +287,7 @@ export default {
     const showRecipeAllModal = (item) => {
       selectedAllRecipe.value = item;
       console.log(selectedAllRecipe.value);
+      hasUserRated(userId);
       const modal = document.getElementById("my_modal_4");
       modal.showModal();
     };
@@ -303,7 +304,7 @@ export default {
       ratings.value = star;
     };
 
-    const updateRecipeRatings = async (recipeId, newRating) => {
+    const updateRecipeRatings = async (recipeId, newRating, id) => {
       try {
         sendingRatingLoading.value = true;
         const recipeDocRef = doc(firestore, "recipe", recipeId);
@@ -311,17 +312,21 @@ export default {
 
         if (recipeDoc.exists()) {
           const recipeData = recipeDoc.data();
+
           const currentTotalRatings = recipeData.totalRatings || 0;
           const currentRatingCount = recipeData.ratingCount || 0;
 
           const updatedTotalRatings = currentTotalRatings + newRating;
           const updatedRatingCount = currentRatingCount + 1;
           const updatedAverageRating = updatedTotalRatings / updatedRatingCount;
+          const usersIdThatRate = recipeData.usersIdThatRate || [];
+          usersIdThatRate.push(id);
 
           await updateDoc(recipeDocRef, {
             totalRatings: updatedTotalRatings,
             ratingCount: updatedRatingCount,
             averageRating: updatedAverageRating,
+            usersIdThatRate: usersIdThatRate,
           });
 
           console.log(
@@ -340,9 +345,15 @@ export default {
     const sendRatings = async () => {
       const newRating = ratings.value;
       const recipeIds = recipeId.value;
+      const id = userId;
 
-      await updateRecipeRatings(recipeIds, newRating);
+      await updateRecipeRatings(recipeIds, newRating, id);
       closeModal();
+    };
+
+    const hasUserRated = (id) => {
+      const usersIdThatRate = selectedAllRecipe.value.usersIdThatRate || [];
+      return usersIdThatRate.includes(id);
     };
 
     const starArray = computed(() => {
@@ -382,6 +393,7 @@ export default {
       sendRatings,
       starArray,
       filteredRecipes,
+      hasUserRated,
     };
   },
 };
