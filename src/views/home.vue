@@ -8,7 +8,11 @@
         placeholder="Search..."
         class="input input-bordered sm:w-52 md:w-96 w-full"
       />
-      <button class="btn btn-primary" @click="filter">
+      <button
+        :disabled="search.length === 0"
+        class="btn btn-primary"
+        @click="filter"
+      >
         <Icon icon="bi:search" class="text-xl" />
       </button>
     </div>
