@@ -151,23 +151,23 @@
             >{{ ratingsInText }}</span
           >
         </div>
-        <div class="my-2 flex justify-center items-center" v-if="muteRateBnt">
+        <div class="my-2 flex justify-start items-center" v-if="muteRateBnt">
           <span
             class="px-3 py-1 bg-secondary/10 rounded-full font-semibold text-sm"
             >You're already rate this recipe.</span
           >
         </div>
-        <div class="flex justify-start items-center gap-2">
-          <div class="flex gap-1">
-            <span class="text-sm font-semibold">RATE:</span>
-          </div>
+        <div class="flex gap-1">
+          <span class="text-sm font-semibold mt-1">RATE:</span>
+        </div>
+        <div class="flex justify-between items-center gap-2">
           <div
             :class="
               muteRateBnt
                 ? 'border-gray-500/50 text-neutral'
                 : 'text-yellow-500 border-yellow-500/50'
             "
-            class="ttext-xl px-1 border py-1 rounded-full flex gap-1"
+            class="ttext-xl px-4 border py-2 rounded-full flex gap-1"
           >
             <div v-for="star in 5" :key="star">
               <button
@@ -194,7 +194,9 @@
             Send
             <Icon
               icon="iconamoon:send-fill"
-              :class="ratings === 0 ? 'text-gray-500' : 'text-primary'"
+              :class="
+                ratings === 0 ? 'text-gray-500 text-xl' : 'text-primary text-xl'
+              "
             />
             <span
               v-if="sendingRatingLoading"
