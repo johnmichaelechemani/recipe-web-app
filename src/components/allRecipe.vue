@@ -23,19 +23,16 @@
             class="rounded-full absolute -top-1 -left-1 shadow-xl border border-secondary"
           >
             <div class="flex justify-center items-center">
-              <img
-                class="h-8 w-8 rounded-full"
-                v-if="item.userPhotoUrl && !isLoading"
-                :src="item.userPhotoUrl"
-                alt="profile"
-                @load="isLoading = false"
-                @error="isLoading = false"
-              />
-              <div
-                v-else
-                class="bg-primary text-neutral shadow rounded-full p-1"
-              >
-                <Icon icon="mdi:user" class="text-xl" />
+              <div class="avatar">
+                <div
+                  class="w-5 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"
+                >
+                  <img
+                    v-if="item.userPhotoURL"
+                    :src="item.userPhotoURL"
+                    alt="profile"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -254,6 +251,7 @@ export default {
         recipe.title.toLowerCase().includes(props.searchQuery.toLowerCase())
       );
     });
+    console.log(recipe.value);
 
     const selectedAllRecipe = ref({});
     let ratings = ref(0);
@@ -298,7 +296,7 @@ export default {
     let muteRateBnt = ref(false);
     const showRecipeAllModal = (item) => {
       selectedAllRecipe.value = item;
-      // console.log(selectedAllRecipe.value);
+      console.log(selectedAllRecipe.value);
       muteRateBnt.value = hasUserRated(userId);
       //  console.log(muteRateBnt.value);
       const modal = document.getElementById("my_modal_4");
