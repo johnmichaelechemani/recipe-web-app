@@ -20,45 +20,46 @@
 
         <form @submit.prevent="post">
           <div class="py-3 grid grid-cols-1 gap-2">
-            <label class="input input-bordered flex items-center gap-2">
-              <span class="text-xs sm:text-base">Title:</span>
+            <label class="form-control w-full max-w-xs">
+              <div class="label">
+                <span class="text-xs sm:text-base">Title:</span>
+              </div>
               <input
+                type="text"
                 v-model="title"
-                required
-                type="text"
-                class="grow placeholder:text-xs"
                 placeholder="Adobo"
+                class="input input-bordered placeholder:text-xs w-full max-w-xs"
               />
             </label>
-            <label class="input input-bordered flex items-center gap-2">
+            <div>
               <span class="text-xs sm:text-base">Descriptions:</span>
-              <input
+              <textarea
+                class="textarea textarea-bordered w-full placeholder:text-xs"
                 v-model="descriptions"
-                required
-                type="text"
-                class="w-full placeholder:text-xs"
                 placeholder="A classic..."
-              />
-            </label>
-            <label class="input input-bordered pr-0 flex items-center gap-2">
+              ></textarea>
+            </div>
+            <div>
               <span class="text-xs sm:text-base">Ingredients:</span>
-              <input
-                v-model="ingredients"
-                type="text"
-                class="w-full placeholder:text-xs"
-                placeholder="Eggs"
-              />
-              <button
-                :class="[
-                  'btn',
-                  !canAddIngredient ? 'btn-disabled' : 'btn-primary ',
-                ]"
-                :disabled="!canAddIngredient"
-                @click.prevent="addIngredients"
-              >
-                <Icon icon="ci:add-plus" class="text-2xl" />
-              </button>
-            </label>
+              <label class="input input-bordered pr-0 flex items-center gap-2">
+                <input
+                  v-model="ingredients"
+                  type="text"
+                  class="w-full placeholder:text-xs"
+                  placeholder="Eggs"
+                />
+                <button
+                  :class="[
+                    'btn',
+                    !canAddIngredient ? 'btn-disabled' : 'btn-primary ',
+                  ]"
+                  :disabled="!canAddIngredient"
+                  @click.prevent="addIngredients"
+                >
+                  <Icon icon="ci:add-plus" class="text-2xl" />
+                </button>
+              </label>
+            </div>
 
             <div v-if="allIngredients.length !== 0">
               <div class="grid grid-cols-1 gap-1">
@@ -76,26 +77,27 @@
                 </div>
               </div>
             </div>
-
-            <label class="input input-bordered pr-0 flex items-center gap-2">
+            <div>
               <span class="text-xs sm:text-base">Instructions:</span>
-              <input
-                type="text"
-                v-model="instructions"
-                class="w-full placeholder:text-xs"
-                placeholder="Cook spaghetti until..."
-              />
-              <button
-                :class="[
-                  'btn',
-                  !canAddIntructions ? 'btn-disabled' : 'btn-primary',
-                ]"
-                :disabled="!canAddIntructions"
-                @click.prevent="addInstructions"
-              >
-                <Icon icon="ci:add-plus" class="text-2xl" />
-              </button>
-            </label>
+              <label class="input input-bordered pr-0 flex items-center gap-2">
+                <input
+                  type="text"
+                  v-model="instructions"
+                  class="w-full placeholder:text-xs"
+                  placeholder="Cook spaghetti until..."
+                />
+                <button
+                  :class="[
+                    'btn',
+                    !canAddIntructions ? 'btn-disabled' : 'btn-primary',
+                  ]"
+                  :disabled="!canAddIntructions"
+                  @click.prevent="addInstructions"
+                >
+                  <Icon icon="ci:add-plus" class="text-2xl" />
+                </button>
+              </label>
+            </div>
 
             <div v-if="allInstructions.length !== 0">
               <div class="grid grid-cols-1 gap-1">
@@ -115,7 +117,7 @@
             </div>
 
             <div>
-              <p class="text-sm font-semibold">Add Image:</p>
+              <p class="text-xs font-medium">Add Image:</p>
               <input
                 type="file"
                 @change="handleImageUpload"
