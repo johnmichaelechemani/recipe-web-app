@@ -296,7 +296,7 @@ export default {
     let muteRateBnt = ref(false);
     const showRecipeAllModal = (item) => {
       selectedAllRecipe.value = item;
-      console.log(selectedAllRecipe.value);
+      //console.log(selectedAllRecipe.value);
       muteRateBnt.value = hasUserRated(userId);
       //  console.log(muteRateBnt.value);
       const modal = document.getElementById("my_modal_4");

@@ -26,6 +26,7 @@
               </div>
               <input
                 type="text"
+                required
                 v-model="title"
                 placeholder="Adobo"
                 class="input input-bordered placeholder:text-xs w-full max-w-xs"
@@ -36,6 +37,7 @@
               <textarea
                 class="textarea textarea-bordered w-full placeholder:text-xs"
                 v-model="descriptions"
+                required
                 placeholder="A classic..."
               ></textarea>
             </div>
@@ -128,7 +130,11 @@
             <button
               :class="[
                 'btn mt-5 w-full',
-                loading ? 'btn-disabled' : 'btn-primary ',
+                loading ||
+                allIngredients.length === 0 ||
+                allInstructions.length === 0
+                  ? 'btn-disabled'
+                  : 'btn-primary ',
               ]"
               type="submit"
             >
