@@ -242,8 +242,11 @@ export default {
     const firestore = getFirestore();
     const isLoading = true;
     const sendingRatingLoading = ref(false);
-    const { uid } = user.value;
+    const { uid, displayName } = user.value;
     const userId = uid;
+    const stat = displayName;
+    console.log(user.value);
+    console.log(stat);
 
     const recipe = ref([]);
 
@@ -277,6 +280,7 @@ export default {
         .reverse();
       loading.value = false;
     });
+    console.log(recipe.value);
 
     const firestoreTimestampToJsDate = (timestamp) => {
       const seconds = timestamp.seconds;

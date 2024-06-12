@@ -1,10 +1,5 @@
 import { getFirestore, collection, doc, setDoc } from "firebase/firestore";
-import {
-  updateProfile,
-  getAuth,
-  signInWithPopup,
-  GoogleAuthProvider,
-} from "firebase/auth";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 import { useRouter } from "vue-router";
 
@@ -21,12 +16,13 @@ export function useAuth() {
   const signInWithGoogle = () => {
     signInWithPopup(auth, authgoogle)
       .then((res) => {
-        const usersCollection = collection(firestore, "users");
+        const usersCollection = collection(firestore, "recipeUsers");
         const userDocRef = doc(usersCollection, res.user.uid);
         setDoc(userDocRef, {
           userName: res.user.displayName,
           userId: res.user.uid,
           userPhotoURL: res.user.photoURL,
+          status: "online",
         });
         router.push("/home");
       })

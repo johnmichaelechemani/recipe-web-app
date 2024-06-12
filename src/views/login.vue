@@ -31,6 +31,7 @@
 <script>
 import { Icon } from "@iconify/vue";
 import { useAuth } from "../firebase.js";
+
 export default {
   components: {
     Icon,

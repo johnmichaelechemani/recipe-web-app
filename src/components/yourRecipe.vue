@@ -71,14 +71,16 @@
             </p>
           </div>
         </div>
-        <div v-if="recipe.length === 0 && !loading">
-          <span
-            class="font-semibold text-sm px-4 py-2 bg-blue-300/10 rounded-full shadow"
-            >You don't have recipe yet.</span
-          >
-        </div>
+
         <div v-if="loading">
           <Loading />
+        </div>
+      </div>
+      <div v-if="recipe.length === 0 && !loading">
+        <div
+          class="font-semibold text-sm px-4 py-2 w-full bg-blue-300/10 rounded-full shadow"
+        >
+          You don't have recipe yet.
         </div>
       </div>
       <!-- modal for edit -->
