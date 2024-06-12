@@ -38,6 +38,7 @@ export default {
 
   setup() {
     const { signInWithGoogle } = useAuth();
+
     return {
       signInWithGoogle,
     };

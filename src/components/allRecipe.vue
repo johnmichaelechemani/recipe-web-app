@@ -85,12 +85,11 @@
           >
         </div>
 
-        <div class="py-2 flex justify-start items-center">
-          <div
-            v-if="selectedAllRecipe.totalRatings > 0"
-            v-for="(star, index) in starArray"
-            :key="index"
-          >
+        <div
+          class="py-2 flex justify-start items-center"
+          v-if="selectedAllRecipe.totalRatings > 0"
+        >
+          <div v-for="(star, index) in starArray" :key="index">
             <Icon
               :icon="
                 star === 'full'
@@ -103,12 +102,12 @@
             />
           </div>
 
-          <div v-else class="py-2 flex justify-start items-center">
-            <div v-for="noStars in 5" :key="noStars.id">
-              <Icon icon="ic:outline-star-border" class="text-xl" />
-            </div>
-          </div>
           <span class="px-2 text-sm">{{ selectedAllRecipe.ratingCount }}</span>
+        </div>
+        <div v-else class="py-2 flex justify-start items-center">
+          <div v-for="noStars in 5" :key="noStars.id">
+            <Icon icon="ic:outline-star-border" class="text-xl" />
+          </div>
         </div>
 
         <hr class="border border-gray-500/10" />

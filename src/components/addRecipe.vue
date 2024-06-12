@@ -244,8 +244,8 @@ export default {
         await addDoc(recipeCollection, recipeData);
         title.value = "";
         descriptions.value = "";
-        allIngredients.value = "";
-        allInstructions.value = "";
+        allIngredients.value = [];
+        allInstructions.value = [];
         instructions.value = "";
         ingredients.value = "";
         imageFile.value = null;
