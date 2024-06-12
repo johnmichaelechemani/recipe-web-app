@@ -75,36 +75,15 @@
 </template>
 <script>
 import { Icon } from "@iconify/vue";
-import { useRouter } from "vue-router";
-import { signOut, getAuth } from "firebase/auth";
-import { ref } from "vue";
+import { useAuth } from "../firebase";
 export default {
   components: {
     Icon,
   },
   setup() {
-    const auth = getAuth();
+    const { user, logout } = useAuth();
 
-    const user = ref(auth.currentUser);
-    const router = useRouter();
-    const isLoading = true;
-
-    const logout = () => {
-      const user = auth.currentUser;
-
-      if (user) {
-        signOut(auth).then(() => {
-          router.push("/");
-        });
-      } else {
-        router.push({
-          path: "/",
-          state: { errorMessage: "You must login first" },
-        });
-      }
-    };
-
-    return { user, logout, isLoading };
+    return { user, logout };
   },
 };
 </script>

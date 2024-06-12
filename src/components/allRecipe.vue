@@ -25,7 +25,12 @@
             <div class="flex justify-center items-center">
               <div class="avatar">
                 <div
-                  class="w-5 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"
+                  :class="
+                    usersStatus[item.userId] === 'online'
+                      ? 'ring-green-500'
+                      : 'ring-gray-500/50'
+                  "
+                  class="w-5 rounded-full ring ring-offset-base-100 ring-offset-2"
                 >
                   <img
                     v-if="item.userPhotoURL"
@@ -50,6 +55,7 @@
           </figure>
           <div class="px-1 py-2">
             <h2 class="card-title">{{ item.title }}</h2>
+
             <p class="text-xs truncate">
               {{ item.descriptions }}
             </p>
@@ -210,18 +216,8 @@
 <script>
 import Loading from "../components/loading.vue";
 import { Icon } from "@iconify/vue";
-import { ref, watch, onUnmounted, computed } from "vue";
-import { getAuth } from "firebase/auth";
-import {
-  query,
-  collection,
-  orderBy,
-  updateDoc,
-  doc,
-  getDoc,
-  onSnapshot,
-  getFirestore,
-} from "firebase/firestore";
+import { getAllRecipe, useAuth } from "../firebase";
+import { ref, watch, onUnmounted, computed, reactive } from "vue";
 
 export default {
   props: {
@@ -235,168 +231,57 @@ export default {
     Icon,
   },
   setup(props) {
-    const loading = ref(true);
+    const {
+      sendingRatingLoading,
+      recipe,
+      formatHour,
+      isLoading,
+      loading,
+      showRecipeAllModal,
+      selectedAllRecipe,
+      ratings,
+      setRating,
+      closeModal,
+      ratingsInText,
+      sendRatings,
+      starArray,
+      filteredRecipes,
+      muteRateBnt,
+    } = getAllRecipe(props);
+    const { user, collection, query, where, onSnapshot, firestore } = useAuth();
 
-    const auth = getAuth();
-    const user = ref(auth.currentUser);
-    const firestore = getFirestore();
-    const isLoading = true;
-    const sendingRatingLoading = ref(false);
-    const { uid, displayName } = user.value;
+    const userContainer = ref([]);
+    const usersStatus = reactive({});
+
+    // Extract user ID from the provided user object
+    const { uid } = user.value;
     const userId = uid;
-    const stat = displayName;
-    console.log(user.value);
-    console.log(stat);
 
-    const recipe = ref([]);
+    // Define Firestore collection and query
+    const usersCollection = collection(firestore, "users");
+    const usersQuery = query(usersCollection);
 
-    const filteredRecipes = computed(() => {
-      return recipe.value.filter((recipe) =>
-        recipe.title.toLowerCase().includes(props.searchQuery.toLowerCase())
-      );
-    });
-    console.log(recipe.value);
+    const unsubscribe = onSnapshot(usersQuery, (snapshot) => {
+      const users = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
 
-    const selectedAllRecipe = ref({});
-    let ratings = ref(0);
-    const ratingTexts = {
-      1: "Poor",
-      2: "Fair",
-      3: "Good",
-      4: "Very Good",
-      5: "Excellent",
-    };
+      // Store the users data in local storage
+      localStorage.setItem("users", JSON.stringify(users));
 
-    const ratingsInText = computed(() => ratingTexts[ratings.value] || "");
+      userContainer.value = users;
 
-    const recipeCollection = collection(firestore, "recipe");
-    const recipeQuery = query(recipeCollection, orderBy("createdAt", "asc"));
-    const unsubscribe = onSnapshot(recipeQuery, (snapshot) => {
-      recipe.value = snapshot.docs
-        .map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }))
-        .reverse();
-      loading.value = false;
-    });
-    console.log(recipe.value);
-
-    const firestoreTimestampToJsDate = (timestamp) => {
-      const seconds = timestamp.seconds;
-      const milliseconds = timestamp.nanoseconds / 1e6; // Convert nanoseconds to milliseconds
-      const jsDate = new Date(seconds * 1000 + milliseconds);
-      return jsDate;
-    };
-    const formatHour = (timestamp) => {
-      const date = firestoreTimestampToJsDate(timestamp);
-
-      // Extract date components
-      const year = date.getFullYear().toString().slice(-2);
-      const month = date.toLocaleString("default", { month: "short" });
-      const day = date.getUTCDate();
-
-      // Extract time components
-      const hours = date.getHours() % 12 || 12; // Convert to 12-hour format
-      const minutes = ("0" + date.getMinutes()).slice(-2); // Pad minutes with leading zero
-      const period = date.getHours() < 12 ? "am" : "pm";
-
-      // Return formatted string
-      return `${day} ${month} ${year} (${hours}:${minutes} ${period})`;
-    };
-
-    let muteRateBnt = ref(false);
-    const showRecipeAllModal = (item) => {
-      selectedAllRecipe.value = item;
-      //console.log(selectedAllRecipe.value);
-      muteRateBnt.value = hasUserRated(userId);
-      //  console.log(muteRateBnt.value);
-      const modal = document.getElementById("my_modal_4");
-      modal.showModal();
-    };
-
-    const closeModal = () => {
-      ratings.value = 0;
-      const modal = document.getElementById("my_modal_4");
-      modal.close();
-    };
-
-    let recipeId = ref("");
-    const setRating = (star, id) => {
-      recipeId.value = id;
-      ratings.value = star;
-    };
-
-    const updateRecipeRatings = async (recipeId, newRating, id) => {
-      try {
-        sendingRatingLoading.value = true;
-        const recipeDocRef = doc(firestore, "recipe", recipeId);
-        const recipeDoc = await getDoc(recipeDocRef);
-
-        if (recipeDoc.exists()) {
-          const recipeData = recipeDoc.data();
-
-          const currentTotalRatings = recipeData.totalRatings || 0;
-          const currentRatingCount = recipeData.ratingCount || 0;
-
-          const updatedTotalRatings = currentTotalRatings + newRating;
-          const updatedRatingCount = currentRatingCount + 1;
-          const updatedAverageRating = updatedTotalRatings / updatedRatingCount;
-          const usersIdThatRate = recipeData.usersIdThatRate || [];
-          usersIdThatRate.push(id);
-
-          await updateDoc(recipeDocRef, {
-            totalRatings: updatedTotalRatings,
-            ratingCount: updatedRatingCount,
-            averageRating: updatedAverageRating,
-            usersIdThatRate: usersIdThatRate,
-          });
-
-          console.log(
-            `Updated recipe ${recipeId} with new ratings and average rating.`
-          );
-        } else {
-          console.log("No such recipe document!");
-        }
-      } catch (error) {
-        console.error("Error updating ratings: ", error);
-      } finally {
-        sendingRatingLoading.value = false;
-      }
-    };
-
-    const sendRatings = async () => {
-      const newRating = ratings.value;
-      const recipeIds = recipeId.value;
-      const id = userId;
-
-      await updateRecipeRatings(recipeIds, newRating, id);
-      closeModal();
-    };
-
-    const hasUserRated = (id) => {
-      const usersIdThatRate = selectedAllRecipe.value.usersIdThatRate || [];
-      return usersIdThatRate.includes(id);
-    };
-
-    const starArray = computed(() => {
-      const stars = [];
-      const rating = selectedAllRecipe.value.averageRating || 0;
-      const fullStars = Math.floor(rating);
-      const hasHalfStar = rating % 1 !== 0;
-
-      for (let i = 0; i < fullStars; i++) {
-        stars.push("full");
-      }
-      if (hasHalfStar) {
-        stars.push("half");
-      }
-      while (stars.length < 5) {
-        stars.push("empty");
-      }
-      return stars;
+      // Update usersStatus with the latest status
+      users.forEach((user) => {
+        usersStatus[user.id] = user.status;
+      });
     });
 
+    const storedUsers = JSON.parse(localStorage.getItem("users"));
+    console.log(storedUsers);
+
+    // Unsubscribe from Firestore updates when the component is unmounted
     onUnmounted(() => {
       unsubscribe();
     });
@@ -417,6 +302,7 @@ export default {
       starArray,
       filteredRecipes,
       muteRateBnt,
+      usersStatus,
     };
   },
 };
