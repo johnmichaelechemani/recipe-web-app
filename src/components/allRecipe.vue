@@ -248,14 +248,10 @@ export default {
       filteredRecipes,
       muteRateBnt,
     } = getAllRecipe(props);
-    const { user, collection, query, where, onSnapshot, firestore } = useAuth();
+    const { collection, query, onSnapshot, firestore } = useAuth();
 
     const userContainer = ref([]);
     const usersStatus = reactive({});
-
-    // Extract user ID from the provided user object
-    const { uid } = user.value;
-    const userId = uid;
 
     // Define Firestore collection and query
     const usersCollection = collection(firestore, "users");
