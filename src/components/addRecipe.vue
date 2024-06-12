@@ -29,7 +29,7 @@
                 required
                 v-model="title"
                 placeholder="Adobo"
-                class="input input-bordered placeholder:text-xs w-full max-w-xs"
+                class="input input-bordered placeholder:text-xs w-full"
               />
             </label>
             <div>

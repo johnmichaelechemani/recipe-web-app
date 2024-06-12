@@ -7,7 +7,6 @@ import {
 } from "firebase/auth";
 
 import { useRouter } from "vue-router";
-import { ref, watch } from "vue";
 
 const auth = getAuth();
 const firestore = getFirestore();

@@ -3,10 +3,10 @@
     <h1 class="font-semibold py-2">Your Recipes</h1>
     <div class="flex justify-center sm:justify-start items-center">
       <div
+        v-if="recipe"
         class="grid grid-cols-3 lg:grid-cols-5 gap-1 sm:gap-3 overflow-hidden py-5 sm:p-2"
       >
         <div
-          v-if="recipe"
           v-for="item in recipe"
           :key="item.id"
           @click="showRecipeModal(item)"
