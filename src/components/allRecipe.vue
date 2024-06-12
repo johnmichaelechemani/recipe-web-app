@@ -286,14 +286,21 @@ export default {
     };
     const formatHour = (timestamp) => {
       const date = firestoreTimestampToJsDate(timestamp);
+
+      // Extract date components
       const year = date.getFullYear().toString().slice(-2);
       const month = date.toLocaleString("default", { month: "short" });
       const day = date.getUTCDate();
-      const hours = date.getHours() % 12 || 12;
-      const minutes = ("0" + date.getMinutes()).slice(-2);
+
+      // Extract time components
+      const hours = date.getHours() % 12 || 12; // Convert to 12-hour format
+      const minutes = ("0" + date.getMinutes()).slice(-2); // Pad minutes with leading zero
       const period = date.getHours() < 12 ? "am" : "pm";
+
+      // Return formatted string
       return `${day} ${month} ${year} (${hours}:${minutes} ${period})`;
     };
+
     let muteRateBnt = ref(false);
     const showRecipeAllModal = (item) => {
       selectedAllRecipe.value = item;
