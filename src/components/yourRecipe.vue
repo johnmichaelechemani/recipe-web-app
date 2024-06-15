@@ -209,7 +209,7 @@
 
             <div class="flex items-center justify-center w-full my-2">
               <label
-                for="dropzone-file"
+                for="dropzone-files"
                 class="flex flex-col items-center justify-center w-full border border-gray-400/50 h-20 rounded-md cursor-pointer"
               >
                 <div
@@ -222,7 +222,7 @@
                   <span v-if="imageName" class="text-xs">{{ imageName }}</span>
                 </div>
                 <input
-                  id="dropzone-file"
+                  id="dropzone-files"
                   accept="image/*"
                   type="file"
                   class="hidden"
@@ -456,10 +456,6 @@ export default {
       }
     };
 
-    const imageFile = ref(null);
-    const imageName = ref("");
-    const imageURL = ref(null);
-
     const uploadImageToStorage = async (file, userId) => {
       const storage = getStorage();
       const fileRef = storageRef(storage, `images/${userId}/${file.name}`);
@@ -520,6 +516,10 @@ export default {
       console.log(selectedRecipe.value.allInstructions);
     };
 
+    const imageFile = ref(null);
+    const imageName = ref("");
+    const imageURL = ref(null);
+
     const handleImageUpload = (event) => {
       const file = event.target.files[0];
       if (file) {
@@ -528,6 +528,7 @@ export default {
         imageName.value = file.name;
       }
       selectedRecipe.value.imageURL = imageFile.value;
+      console.log(file);
     };
     // Ensure to clear the image file and URL when the modal is closed
     const clearImageSelection = () => {
