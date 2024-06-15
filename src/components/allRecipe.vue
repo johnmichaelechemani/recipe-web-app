@@ -51,7 +51,9 @@
             </div>
           </figure>
           <div class="px-1 py-2">
-            <h2 class="card-title">{{ item.title }}</h2>
+            <h2 class="card-title text-sm sm:text-lg truncate">
+              {{ item.title }}
+            </h2>
 
             <p class="text-xs truncate">
               {{ item.descriptions }}
@@ -61,13 +63,23 @@
             >
               {{ item.userName }}
             </p>
-            <div v-if="item.averageRating" class="py-2">
+            <div class="py-2">
               <span
+                v-if="item.averageRating"
                 class="gap-1 text-sm font-medium flex justify-start items-center"
               >
                 <Icon icon="ic:round-star" class="text-xl text-yellow-500" />{{
                   item.averageRating.toFixed(1)
                 }}/5</span
+              >
+              <span
+                v-else
+                class="gap-1 text-sm font-medium flex justify-start items-center"
+              >
+                <Icon
+                  icon="ic:round-star"
+                  class="text-xl text-yellow-500"
+                />?/5</span
               >
             </div>
           </div>
