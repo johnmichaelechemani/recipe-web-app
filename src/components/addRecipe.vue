@@ -120,12 +120,31 @@
 
             <div>
               <p class="text-xs font-medium">Add Image:</p>
-              <input
-                type="file"
-                @change="handleImageUpload"
-                accept="image/*"
-                class="file-input file-input-bordered w-full"
-              />
+              <div class="flex items-center justify-center w-full my-2">
+                <label
+                  for="dropzone-file"
+                  class="flex flex-col items-center justify-center w-full border border-gray-400/50 h-20 rounded-md cursor-pointer"
+                >
+                  <div
+                    class="flex flex-col items-center justify-center pt-5 pb-6"
+                  >
+                    <Icon icon="solar:upload-bold-duotone" class="text-xl" />
+                    <p class="mb-2 text-sm">
+                      <span class="font-semibold">Click to upload</span>
+                    </p>
+                    <span v-if="imageName" class="text-xs">{{
+                      imageName
+                    }}</span>
+                  </div>
+                  <input
+                    id="dropzone-file"
+                    accept="image/*"
+                    type="file"
+                    class="hidden"
+                    @change="handleImageUpload"
+                  />
+                </label>
+              </div>
             </div>
             <button
               :class="[
@@ -210,9 +229,11 @@ export default {
     const removeIngredients = (item) => {
       allIngredients.value.pop(item);
     };
+    const imageName = ref("");
 
     const handleImageUpload = (event) => {
       imageFile.value = event.target.files[0];
+      imageName.value = event.target.files[0].name;
     };
 
     const post = async () => {
@@ -275,6 +296,7 @@ export default {
       canAddIngredient,
       loading,
       handleImageUpload,
+      imageName,
     };
   },
 };
