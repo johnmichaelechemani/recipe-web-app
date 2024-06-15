@@ -272,6 +272,8 @@ export default {
         imageFile.value = null;
         const modal = document.getElementById("my_modal_3");
         modal.close();
+        imageFile.value = null;
+        imageName.value = "";
         console.log("success!");
       } catch (error) {
         console.error("Error sending post recipe:", error);

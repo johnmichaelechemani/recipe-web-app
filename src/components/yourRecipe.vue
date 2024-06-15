@@ -12,7 +12,9 @@
           @click="showRecipeModal(item)"
           class="card sm:w-52 w-26 bg-base-100 shadow border border-gray-200/10 relative rounded-md"
         >
-          <div class="dropdown absolute top-0 right-0 text-gray-800 shadow">
+          <div
+            class="dropdown dropdown-end absolute z-50 top-0 right-0 text-gray-800 shadow"
+          >
             <button
               class="flex justify-center items-center"
               @click.stop="editShowRecipe(item.id, item)"
@@ -460,7 +462,7 @@ export default {
 
     const uploadImageToStorage = async (file, userId) => {
       const storage = getStorage();
-      const fileRef = storageRef(storage, `recipes/${userId}/${file.name}`);
+      const fileRef = storageRef(storage, `images/${userId}/${file.name}`);
       await uploadBytes(fileRef, file);
       return await getDownloadURL(fileRef);
     };
