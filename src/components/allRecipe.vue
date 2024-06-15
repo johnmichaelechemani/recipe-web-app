@@ -43,12 +43,9 @@
           </div>
 
           <figure>
-            <img
-              v-if="item.imageURL"
-              :src="item.imageURL"
-              alt="recipe"
-              class="rounded-md"
-            />
+            <div v-if="item.imageURL">
+              <img :src="item.imageURL" alt="recipe" class="rounded-md" />
+            </div>
             <div v-else class="pt-2">
               <Icon icon="emojione-v1:pot-of-food" class="text-4xl" />
             </div>
@@ -64,6 +61,15 @@
             >
               {{ item.userName }}
             </p>
+            <div v-if="item.averageRating" class="py-2">
+              <span
+                class="gap-1 text-sm font-medium flex justify-start items-center"
+              >
+                <Icon icon="ic:round-star" class="text-xl text-yellow-500" />{{
+                  item.averageRating.toFixed(1)
+                }}/5</span
+              >
+            </div>
           </div>
         </div>
         <div v-if="loading">
@@ -274,8 +280,8 @@ export default {
       });
     });
 
-    const storedUsers = JSON.parse(localStorage.getItem("users"));
-    console.log(storedUsers);
+    // const storedUsers = JSON.parse(localStorage.getItem("users"));
+    //console.log(storedUsers);
 
     // Unsubscribe from Firestore updates when the component is unmounted
     onUnmounted(() => {

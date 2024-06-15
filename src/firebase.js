@@ -153,6 +153,7 @@ export function getAllRecipe(props) {
   let muteRateBnt = ref(false);
   const showRecipeAllModal = (item) => {
     selectedAllRecipe.value = item;
+    console.log(selectedAllRecipe.value);
     muteRateBnt.value = hasUserRated(user.value?.uid);
     const modal = document.getElementById("my_modal_4");
     modal.showModal();
