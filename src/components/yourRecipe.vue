@@ -183,13 +183,26 @@
           </div>
           <div class="py-2">
             <label class="block text-sm font-medium text-primary">Image</label>
-            <div>
+            <div v-if="imageURL || selectedRecipe.imageURL" class="relative">
+              <button
+                v-if="imageURL"
+                @click="clearImageSelection"
+                class="absolute -top-1 -right-1 z-10 btn btn-xs"
+              >
+                <Icon icon="ri:close-line" class="text-red-500 text-xl" />
+              </button>
               <img
-                :src="selectedRecipe.imageURL"
-                v-if="selectedRecipe.imageURL"
+                v-if="imageURL || selectedRecipe.imageURL"
+                :src="imageURL || selectedRecipe.imageURL"
                 alt="recipe"
                 class="w-min rounded-md my-1"
               />
+            </div>
+            <div v-else class="my-1">
+              <span
+                class="text-sm font-medium px-4 py-1 bg-primary/10 rounded-full text-error"
+                >No image atm.</span
+              >
             </div>
 
             <div class="flex items-center justify-center w-full my-2">
@@ -204,13 +217,14 @@
                   <p class="mb-2 text-sm">
                     <span class="font-semibold">Click to upload</span>
                   </p>
-                  <span class="text-xs">Name</span>
+                  <span v-if="imageName" class="text-xs">{{ imageName }}</span>
                 </div>
                 <input
                   id="dropzone-file"
                   accept="image/*"
                   type="file"
                   class="hidden"
+                  @change="handleImageUpload"
                 />
               </label>
             </div>
@@ -318,7 +332,13 @@ import {
   getDoc,
   where,
 } from "firebase/firestore";
-import { getStorage, ref as storageRef, deleteObject } from "firebase/storage";
+import {
+  getStorage,
+  ref as storageRef,
+  deleteObject,
+  uploadBytes,
+  getDownloadURL,
+} from "firebase/storage";
 export default {
   components: {
     Loading,
@@ -373,6 +393,7 @@ export default {
     let editId = ref("");
     const showRecipeModal = (item) => {
       selectedRecipe.value = item;
+
       const modal = document.getElementById("my_modal_2");
       modal.showModal();
     };
@@ -387,6 +408,7 @@ export default {
     };
     const editRecipe = () => {
       console.log("edit recipe", editId.value);
+      console.log(selectedRecipe.value);
       const modal = document.getElementById("my_modal_edit");
       modal.showModal();
     };
@@ -432,20 +454,38 @@ export default {
       }
     };
 
+    const imageFile = ref(null);
+    const imageName = ref("");
+    const imageURL = ref(null);
+
+    const uploadImageToStorage = async (file, userId) => {
+      const storage = getStorage();
+      const fileRef = storageRef(storage, `recipes/${userId}/${file.name}`);
+      await uploadBytes(fileRef, file);
+      return await getDownloadURL(fileRef);
+    };
+
     const saveEditRecipe = async () => {
       try {
         isSaveloading.value = true;
+
+        let newImageURL = null;
+        if (imageFile.value) {
+          newImageURL = await uploadImageToStorage(imageFile.value, userId);
+        }
+
         // Get the reference to the specific recipe document
         const recipeRef = doc(firestore, "recipe", editId.value);
 
+        const oldRecipeDoc = await getDoc(recipeRef);
+        const oldRecipeData = oldRecipeDoc.data();
         // Update the document with new data
         await updateDoc(recipeRef, {
           ...selectedRecipe.value,
+          imageURL: newImageURL || oldRecipeData.imageURL,
         });
 
-        // Close the modal after saving
-        const modal = document.getElementById("my_modal_edit");
-        modal.close();
+        closeModal("my_modal_edit");
 
         console.log("Recipe updated successfully:", editId.value);
       } catch (error) {
@@ -478,6 +518,29 @@ export default {
       console.log(selectedRecipe.value.allInstructions);
     };
 
+    const handleImageUpload = (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        imageFile.value = file;
+        imageURL.value = URL.createObjectURL(file);
+        imageName.value = file.name;
+      }
+      selectedRecipe.value.imageURL = imageFile.value;
+    };
+    // Ensure to clear the image file and URL when the modal is closed
+    const clearImageSelection = () => {
+      imageFile.value = null;
+      imageURL.value = null;
+      imageName.value = "";
+    };
+
+    // Call clearImageSelection when the edit modal is closed
+    const closeModal = (modalId) => {
+      const modal = document.getElementById(modalId);
+      modal.close();
+      clearImageSelection();
+    };
+
     onUnmounted(() => {
       unsubscribe();
     });
@@ -501,6 +564,10 @@ export default {
       editAddIngredient,
       removeInstruction,
       addInstruction,
+      handleImageUpload,
+      imageName,
+      imageURL,
+      clearImageSelection,
     };
   },
 };
