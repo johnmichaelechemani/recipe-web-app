@@ -109,6 +109,23 @@
               >Ingredients</label
             >
             <div class="border border-gray-400/50 p-2 rounded-md">
+              <div class="flex justify-start items-center gap-1">
+                <input
+                  type="text"
+                  v-model="editAddIngredient"
+                  class="input my-1 input-bordered w-full capitalize"
+                />
+                <div class="py-1">
+                  <button
+                    :disabled="editAddIngredient === ''"
+                    class="btn btn-primary"
+                    @click="addIngredient"
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
+              <hr class="my-1 border border-gray-400/20" />
               <div
                 v-for="(ingredient, index) in selectedRecipe.allIngredients"
                 :key="index"
@@ -120,6 +137,9 @@
                   v-model="selectedRecipe.allIngredients[index]"
                   class="input my-1 input-bordered w-full capitalize"
                 />
+                <button class="btn text-xl" @click="removeIngredient(index)">
+                  <Icon icon="ri:close-line" class="text-red-500" />
+                </button>
               </div>
             </div>
           </div>
@@ -128,6 +148,22 @@
               >Instructions</label
             >
             <div class="border border-gray-400/50 p-2 rounded-md">
+              <div class="flex justify-start items-center gap-1">
+                <input
+                  type="text"
+                  v-model="editAddInstruction"
+                  class="input my-1 input-bordered w-full capitalize"
+                />
+                <div class="py-1">
+                  <button
+                    :disabled="editAddInstruction === ''"
+                    class="btn btn-primary"
+                    @click="addInstruction"
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
               <div
                 v-for="(instruction, index) in selectedRecipe.allInstructions"
                 :key="index"
@@ -139,7 +175,44 @@
                   v-model="selectedRecipe.allInstructions[index]"
                   class="input my-1 input-bordered w-full capitalize"
                 />
+                <button class="btn text-xl" @click="removeInstruction(index)">
+                  <Icon icon="ri:close-line" class="text-red-500" />
+                </button>
               </div>
+            </div>
+          </div>
+          <div class="py-2">
+            <label class="block text-sm font-medium text-primary">Image</label>
+            <div>
+              <img
+                :src="selectedRecipe.imageURL"
+                v-if="selectedRecipe.imageURL"
+                alt="recipe"
+                class="w-min rounded-md my-1"
+              />
+            </div>
+
+            <div class="flex items-center justify-center w-full my-2">
+              <label
+                for="dropzone-file"
+                class="flex flex-col items-center justify-center w-full border border-gray-400/50 h-20 rounded-md cursor-pointer"
+              >
+                <div
+                  class="flex flex-col items-center justify-center pt-5 pb-6"
+                >
+                  <Icon icon="solar:upload-bold-duotone" class="text-xl" />
+                  <p class="mb-2 text-sm">
+                    <span class="font-semibold">Click to upload</span>
+                  </p>
+                  <span class="text-xs">Name</span>
+                </div>
+                <input
+                  id="dropzone-file"
+                  accept="image/*"
+                  type="file"
+                  class="hidden"
+                />
+              </label>
             </div>
           </div>
           <div class="modal-action">
@@ -384,6 +457,27 @@ export default {
       }
     };
 
+    const editAddIngredient = ref("");
+    const editAddInstruction = ref("");
+    const addIngredient = () => {
+      selectedRecipe.value.allIngredients.push(editAddIngredient.value);
+      console.log(selectedRecipe.value.allIngredients);
+      editAddIngredient.value = "";
+    };
+    const removeIngredient = (index) => {
+      selectedRecipe.value.allIngredients.pop(index);
+      console.log(selectedRecipe.value.allIngredients);
+    };
+    const addInstruction = () => {
+      selectedRecipe.value.allInstructions.push(editAddInstruction.value);
+      console.log(selectedRecipe.value.allInstructions);
+      editAddInstruction.value = "";
+    };
+    const removeInstruction = (index) => {
+      selectedRecipe.value.allInstructions.pop(index);
+      console.log(selectedRecipe.value.allInstructions);
+    };
+
     onUnmounted(() => {
       unsubscribe();
     });
@@ -401,6 +495,12 @@ export default {
       editRecipe,
       deleteRecipe,
       saveEditRecipe,
+      removeIngredient,
+      addIngredient,
+      editAddInstruction,
+      editAddIngredient,
+      removeInstruction,
+      addInstruction,
     };
   },
 };
