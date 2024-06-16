@@ -120,6 +120,19 @@
 
             <div>
               <p class="text-xs font-medium">Add Image:</p>
+              <div class="relative" v-if="imageURL">
+                <img
+                  :src="imageURL"
+                  alt="recipe image"
+                  class="w-32 h-32 rounded-md my-1"
+                />
+                <button
+                  class="btn absolute top-0 right-0 btn-xs"
+                  @click.prevent="removeSelectedImage"
+                >
+                  <Icon icon="carbon:close" class="text-xl text-red-500" />
+                </button>
+              </div>
               <div class="flex items-center justify-center w-full my-2">
                 <label
                   for="dropzone-file"
@@ -196,6 +209,7 @@ export default {
     const canAddIntructions = ref(false);
     const loading = ref(false);
     const imageFile = ref(null);
+    const imageURL = ref(null);
 
     const auth = getAuth();
     const user = ref(auth.currentUser);
@@ -232,8 +246,17 @@ export default {
     const imageName = ref("");
 
     const handleImageUpload = (event) => {
-      imageFile.value = event.target.files[0];
-      imageName.value = event.target.files[0].name;
+      const file = event.target.files[0];
+      if (file) {
+        imageFile.value = file;
+        imageURL.value = URL.createObjectURL(file);
+        imageName.value = file.name;
+      }
+    };
+    const removeSelectedImage = () => {
+      imageFile.value = null;
+      imageURL.value = null;
+      imageName.value = "";
     };
 
     const post = async () => {
@@ -299,6 +322,8 @@ export default {
       loading,
       handleImageUpload,
       imageName,
+      imageURL,
+      removeSelectedImage,
     };
   },
 };

@@ -535,6 +535,7 @@ export default {
       imageFile.value = null;
       imageURL.value = null;
       imageName.value = "";
+      selectedRecipe.value.imageURL = null;
     };
 
     // Call clearImageSelection when the edit modal is closed
