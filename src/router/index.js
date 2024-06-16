@@ -12,6 +12,18 @@ const router = createRouter({
       meta: {
         requiresAuth: true,
       },
+      children: [
+        {
+          path: "/chefs",
+          name: "chefs",
+          component: () => import("../views/allChefs.vue"),
+        },
+        {
+          path: "/yourChats",
+          name: "yourChats",
+          component: () => import("../views/yourChats.vue"),
+        },
+      ],
     },
     {
       path: "/",

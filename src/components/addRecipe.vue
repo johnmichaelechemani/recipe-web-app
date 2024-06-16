@@ -1,8 +1,5 @@
 <template>
-  <button
-    class="btn mt-5 btn-primary rounded-full"
-    onclick="my_modal_3.showModal()"
-  >
+  <button class="btn btn-primary rounded-full" onclick="my_modal_3.showModal()">
     <Icon icon="ci:add-plus" class="text-2xl" />Add Recipes
   </button>
 
