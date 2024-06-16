@@ -44,6 +44,23 @@
         </div>
         <hr class="my-1 border border-gray-400/20" />
         <div class="h-80 bg-primary/20 rounded-md"></div>
+        <form action="" @submit.prevent="handleSubmit">
+          <div class="my-1 flex justify-start items-center gap-2">
+            <input
+              type="text"
+              required
+              v-model="message"
+              placeholder="Enter a message.."
+              class="input input-bordered w-full placeholder:text-sm rounded-full"
+            />
+            <button
+              class="rounded-full btn transition"
+              :class="message === '' ? 'hidden' : ''"
+            >
+              <Icon icon="bxs:send" class="text-xl text-blue-500" />
+            </button>
+          </div>
+        </form>
       </div>
     </dialog>
   </div>
@@ -56,10 +73,15 @@ import { getUsers } from "../scripts/getUsers.js";
 const { storedUsers } = getUsers();
 
 let selectedUser = ref([]);
+const message = ref("");
 
 const yourChat = (user) => {
   const modal = document.getElementById("openInbox");
   modal.showModal();
   selectedUser.value = user;
+};
+
+const handleSubmit = () => {
+  console.log(message.value);
 };
 </script>
