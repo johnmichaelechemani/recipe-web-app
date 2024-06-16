@@ -137,7 +137,7 @@
         <hr class="border border-gray-500/10" />
         <div class="py-4">
           <p class="text-xs text-primary">Discriptions:</p>
-          <p class="capitalize">
+          <p class="capitalize font-medium text-sm">
             {{ selectedAllRecipe.descriptions }}
           </p>
         </div>
