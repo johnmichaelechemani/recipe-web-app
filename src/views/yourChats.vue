@@ -23,7 +23,7 @@
     </div>
 
     <dialog id="openInbox" class="modal modal-bottom sm:modal-middle">
-      <div class="modal-box relative">
+      <div class="modal-box relative pb-4 pt-2 px-2">
         <div class="modal-action absolute z-10 -top-4 right-2">
           <form method="dialog">
             <!-- if there is a button in form, it will close the modal -->
@@ -43,7 +43,39 @@
           </div>
         </div>
         <hr class="my-1 border border-gray-400/20" />
-        <div class="h-80 bg-primary/20 rounded-md"></div>
+        <div class="h-80 rounded-md overflow-y-scroll">
+          <div class="chat chat-start">
+            <div class="chat-image avatar">
+              <div class="w-10 rounded-full">
+                <img
+                  alt="Tailwind CSS chat bubble component"
+                  :src="selectedUser.userPhotoURL"
+                />
+              </div>
+            </div>
+            <div class="chat-header text-xs font-medium">
+              {{ selectedUser.userName }}
+              <time class="text-[10px] opacity-50">12:45</time>
+            </div>
+            <div class="chat-bubble text-sm">You were the Chosen One!</div>
+            <div class="chat-footer opacity-50 text-xs">Delivered</div>
+          </div>
+          <div class="chat chat-end">
+            <div class="chat-image avatar">
+              <div class="w-10 rounded-full">
+                <img alt="Tailwind CSS chat bubble component" :src="photoURL" />
+              </div>
+            </div>
+            <div class="chat-header text-xs font-medium">
+              {{ userName }}
+              <time class="text-[10px] opacity-50">12:46</time>
+            </div>
+            <div class="chat-bubble chat-bubble-primary text-sm font-medium">
+              I hate you!
+            </div>
+            <div class="chat-footer opacity-50 text-xs">Seen at 12:46</div>
+          </div>
+        </div>
         <form action="" @submit.prevent="handleSubmit">
           <div class="my-1 flex justify-start items-center gap-2">
             <input
@@ -70,6 +102,16 @@
 import { ref } from "vue";
 import { Icon } from "@iconify/vue";
 import { getUsers } from "../scripts/getUsers.js";
+import { getAuth } from "firebase/auth";
+
+const auth = getAuth();
+const user = ref(auth.currentUser);
+const { uid, photoURL, displayName } = user.value;
+const userId = uid;
+const userPhoto = photoURL;
+const userName = displayName;
+//console.log(user.value);
+
 const { storedUsers } = getUsers();
 
 let selectedUser = ref([]);

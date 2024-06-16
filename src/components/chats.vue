@@ -9,7 +9,7 @@
     <div class="modal-box">
       <h3 class="font-bold text-xl">Chats</h3>
       <hr class="border border-gray-400/10 my-1" />
-      <div class="flex justify-start items-center gap-2 my-2">
+      <div class="flex justify-start items-center gap-2 mt-2 mb-4">
         <router-link to="yourChats">
           <button
             class="rounded-full"
