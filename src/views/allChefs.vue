@@ -22,8 +22,9 @@
 </template>
 
 <script setup>
-const storedUsers = JSON.parse(localStorage.getItem("users"));
-console.log(storedUsers);
+import { getUsers } from "../scripts/getUsers.js";
+const { storedUsers } = getUsers();
+
 const chatChef = (id) => {
   console.log(id);
 };
