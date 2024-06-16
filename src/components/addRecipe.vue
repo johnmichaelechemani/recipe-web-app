@@ -67,13 +67,20 @@
               <div class="grid grid-cols-1 gap-1">
                 <div v-for="(item, index) in allIngredients" :key="item.id">
                   <div
-                    class="flex justify-between items-center px-2 py-1 bg-blue-400/10 border shadow border-gray-500/10 rounded-md"
+                    class="flex justify-between items-center px-2 py-1 bg-blue-100/10 border shadow border-gray-500/10 rounded-md"
                   >
-                    <span class="text-sm font-medium"
-                      >{{ index + 1 }}. {{ item }}</span
+                    <span class="text-sm font-medium"> {{ index + 1 }}.</span>
+                    <input
+                      type="text"
+                      v-model="allIngredients[index]"
+                      class="input my-1 mx-1 input-bordered w-full capitalize"
+                    />
+
+                    <button
+                      class="btn text-xl"
+                      @click="removeIngredients(item)"
                     >
-                    <button class="" @click.prevent="removeIngredients(item)">
-                      <Icon icon="carbon:close" />
+                      <Icon icon="ri:close-line" class="text-red-500" />
                     </button>
                   </div>
                 </div>
@@ -105,13 +112,20 @@
               <div class="grid grid-cols-1 gap-1">
                 <div v-for="(item, index) in allInstructions" :key="item.id">
                   <div
-                    class="flex justify-between items-center px-2 py-1 bg-blue-400/10 border shadow border-gray-500/10 rounded-md"
+                    class="flex justify-between items-center px-2 py-1 bg-blue-100/10 border shadow border-gray-500/10 rounded-md"
                   >
-                    <span class="text-sm font-medium">
-                      {{ index + 1 }}. {{ item }}</span
+                    <span class="text-sm font-medium"> {{ index + 1 }}.</span>
+                    <input
+                      type="text"
+                      v-model="allInstructions[index]"
+                      class="input my-1 mx-1 input-bordered w-full capitalize"
+                    />
+
+                    <button
+                      class="btn text-xl"
+                      @click="removeIstructions(item)"
                     >
-                    <button class="" @click.prevent="removeIstructions(item)">
-                      <Icon icon="carbon:close" />
+                      <Icon icon="ri:close-line" class="text-red-500" />
                     </button>
                   </div>
                 </div>

@@ -295,7 +295,14 @@
                 :key="ingredient.id"
                 class="capitalize"
               >
-                {{ index + 1 }}. {{ ingredient }}
+                <div class="flex justify-start items-center gap-4 my-1">
+                  <span class="text-xs">{{ index + 1 }}</span>
+                  <div
+                    class="text-xs px-2 py-1 bg-gray-400/10 font-medium rounded-md"
+                  >
+                    {{ ingredient }}
+                  </div>
+                </div>
               </li>
             </ul>
           </div>
@@ -308,7 +315,14 @@
                 v-for="(instruction, index) in selectedRecipe.allInstructions"
                 :key="instruction.id"
               >
-                {{ index + 1 }}. {{ instruction }}
+                <div class="flex justify-start items-center gap-4 my-1">
+                  <span class="text-xs">{{ index + 1 }}</span>
+                  <div
+                    class="text-xs px-2 py-1 bg-gray-400/10 font-medium rounded-md"
+                  >
+                    {{ instruction }}
+                  </div>
+                </div>
               </li>
             </ol>
           </div>
