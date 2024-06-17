@@ -16,7 +16,7 @@
         <div class="">
           <h1 class="text-sm font-medium">{{ user.userName }}</h1>
           <span class="text-xs px-2 bg-blue-500/20 text-blue-500 rounded-full"
-            >Hey</span
+            >test</span
           >
         </div>
       </div>
@@ -44,7 +44,7 @@
         <hr class="my-1 border border-gray-400/20" />
         <div class="h-80 rounded-md overflow-y-scroll">
           <div
-            v-if="filteredMessages.length === 0"
+            v-if="filteredMessages.length === 0 && !isLoading"
             class="my-2 flex justify-center items-center text-sm"
           >
             <span class="py-1 px-4 bg-primary/10 rounded-full"
@@ -81,6 +81,9 @@
               </div>
             </div>
           </div>
+          <div v-if="isLoading">
+            <MessageLoading />
+          </div>
         </div>
 
         <form action="" @submit.prevent="sendMessage">
@@ -111,6 +114,7 @@ import { Icon } from "@iconify/vue";
 import { getUsers } from "../scripts/getUsers.js";
 import { getAuth } from "firebase/auth";
 import { useAuth } from "../firebase";
+import MessageLoading from "../components/messageLoading.vue";
 import {
   collection,
   addDoc,
@@ -135,6 +139,7 @@ const { storedUsers } = getUsers();
 let selectedUser = ref([]);
 const newMessage = ref("");
 const messages = ref([]);
+const isLoading = ref(false);
 
 const yourChat = (user) => {
   const modal = document.getElementById("openInbox");
@@ -165,14 +170,12 @@ const filteredMessages = computed(() =>
   )
 );
 const formatTime = (timestamp) => {
-  if (!timestamp) return "";
-  const date = timestamp.toDate
-    ? timestamp.toDate()
-    : new Date(timestamp.seconds * 1000);
-  return `${date.getHours()}:${date.getMinutes().toString().padStart(2, "0")}`;
+  const date = timestamp.toDate();
+  return `${date.getHours()}:${date.getMinutes()}`;
 };
 
 const loadMessages = () => {
+  isLoading.value = true;
   const q = query(
     collection(firestore, "messages"),
     where("senderId", "in", [userId, selectedUser.value.userId]),
@@ -184,6 +187,7 @@ const loadMessages = () => {
       id: doc.id,
       ...doc.data(),
     }));
+    isLoading.value = false;
   });
   onUnmounted(() => {
     if (unsub) {
