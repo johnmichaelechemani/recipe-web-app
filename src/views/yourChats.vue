@@ -44,6 +44,33 @@
         </div>
         <hr class="my-1 border border-gray-400/20" />
         <div class="h-80 rounded-md overflow-y-scroll">
+          <div v-for="m in filteredMessages" :key="m.id">
+            <div
+              class="chat"
+              :class="m.senderId === userId ? 'chat-end' : 'chat-start'"
+            >
+              <div class="chat-image avatar">
+                <div class="w-10 rounded-full">
+                  <img v-if="userId === m.senderId" :src="photoURL" />
+                  <img v-else :src="selectedUser.userPhotoURL" />
+                </div>
+              </div>
+              <div class="chat-header text-xs font-medium">
+                {{ m.senderId === userId ? userName : selectedUser.userName }}
+                <time class="text-[10px] opacity-50">{{
+                  formatTime(m.timestamp)
+                }}</time>
+              </div>
+              <div
+                class="chat-bubble text-sm"
+                :class="userId === m.senderId ? 'chat-bubble-primary' : ''"
+              >
+                {{ m.message }}
+              </div>
+              <!-- <div class="chat-footer opacity-50 text-xs">Delivered</div> -->
+            </div>
+          </div>
+
           <div class="chat chat-start">
             <div class="chat-image avatar">
               <div class="w-10 rounded-full">
@@ -58,7 +85,7 @@
               <time class="text-[10px] opacity-50">12:45</time>
             </div>
             <div class="chat-bubble text-sm">You were the Chosen One!</div>
-            <div class="chat-footer opacity-50 text-xs">Delivered</div>
+            <!-- <div class="chat-footer opacity-50 text-xs">Delivered</div> -->
           </div>
           <div class="chat chat-end">
             <div class="chat-image avatar">
@@ -71,23 +98,24 @@
               <time class="text-[10px] opacity-50">12:46</time>
             </div>
             <div class="chat-bubble chat-bubble-primary text-sm font-medium">
-              I hate you!
+              hey
             </div>
-            <div class="chat-footer opacity-50 text-xs">Seen at 12:46</div>
+
+            <!-- <div class="chat-footer opacity-50 text-xs">Seen at 12:46</div> -->
           </div>
         </div>
-        <form action="" @submit.prevent="handleSubmit">
+        <form action="" @submit.prevent="sendMessage">
           <div class="my-1 flex justify-start items-center gap-2">
             <input
               type="text"
               required
-              v-model="message"
+              v-model="newMessage"
               placeholder="Enter a message.."
               class="input input-bordered w-full placeholder:text-sm rounded-full"
             />
             <button
               class="rounded-full btn transition"
-              :class="message === '' ? 'hidden' : ''"
+              :class="newMessage === '' ? 'hidden' : ''"
             >
               <Icon icon="bxs:send" class="text-xl text-blue-500" />
             </button>
@@ -99,13 +127,24 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onUnmounted, computed } from "vue";
 import { Icon } from "@iconify/vue";
 import { getUsers } from "../scripts/getUsers.js";
 import { getAuth } from "firebase/auth";
+import { useAuth } from "../firebase";
+import {
+  collection,
+  addDoc,
+  where,
+  query,
+  orderBy,
+  onSnapshot,
+  serverTimestamp,
+} from "firebase/firestore";
 
 const auth = getAuth();
 const user = ref(auth.currentUser);
+const { firestore } = useAuth();
 const { uid, photoURL, displayName } = user.value;
 const userId = uid;
 const userPhoto = photoURL;
@@ -115,15 +154,56 @@ const userName = displayName;
 const { storedUsers } = getUsers();
 
 let selectedUser = ref([]);
-const message = ref("");
+const newMessage = ref("");
+const messages = ref([]);
 
 const yourChat = (user) => {
   const modal = document.getElementById("openInbox");
   modal.showModal();
   selectedUser.value = user;
+  console.log(selectedUser.value.userId);
+  loadMessages();
 };
 
-const handleSubmit = () => {
-  console.log(message.value);
+const sendMessage = async () => {
+  if (newMessage.value.trim() === "") return;
+
+  await addDoc(collection(firestore, `messages`), {
+    senderId: userId,
+    recipientId: selectedUser.value.userId,
+    message: newMessage.value,
+    timestamp: serverTimestamp(),
+  });
+
+  newMessage.value = "";
+};
+
+const loadMessages = () => {
+  const q = query(
+    collection(firestore, "messages"),
+    where("senderId", "in", [userId, selectedUser.value.userId]),
+    where("recipientId", "in", [userId, selectedUser.value.userId]),
+    orderBy("timestamp", "asc")
+  );
+  const unsub = onSnapshot(q, (snapshot) => {
+    messages.value = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+  });
+  onUnmounted(() => {
+    unsub();
+  });
+};
+const filteredMessages = computed(() =>
+  messages.value.filter(
+    (m) =>
+      (m.senderId === userId && m.recipientId === selectedUser.value.userId) ||
+      (m.senderId === selectedUser.value.userId && m.recipientId === userId)
+  )
+);
+const formatTime = (timestamp) => {
+  const date = timestamp.toDate();
+  return `${date.getHours()}:${date.getMinutes()}`;
 };
 </script>
