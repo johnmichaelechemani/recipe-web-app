@@ -1,23 +1,25 @@
 <template>
   <div>
-    <div v-for="user in storedUsers" :key="user.id">
-      <div
-        @click="yourChat(user)"
-        class="flex justify-start items-center gap-2 cursor-pointer hover:bg-gray-500/20 transition p-1 rounded-md"
-      >
+    <div>
+      <div v-for="user in storedUsers" :key="user.id">
         <div
-          class="avatar"
-          :class="user.status === 'online' ? 'online' : 'offline'"
+          @click="yourChat(user)"
+          class="flex justify-start items-center gap-2 cursor-pointer hover:bg-gray-500/20 transition p-1 rounded-md"
         >
-          <div class="w-10 rounded-full">
-            <img :src="user.userPhotoURL" />
-          </div>
-        </div>
-        <div class="">
-          <h1 class="text-sm font-medium">{{ user.userName }}</h1>
-          <span class="text-xs px-2 bg-blue-500/20 text-blue-500 rounded-full"
-            >test</span
+          <div
+            class="avatar"
+            :class="user.status === 'online' ? 'online' : 'offline'"
           >
+            <div class="w-10 rounded-full">
+              <img :src="user.userPhotoURL" />
+            </div>
+          </div>
+          <div class="">
+            <h1 class="text-sm font-medium">{{ user.userName }}</h1>
+            <span class="text-xs px-2 bg-blue-500/20 text-blue-500 rounded-full"
+              >test</span
+            >
+          </div>
         </div>
       </div>
     </div>
@@ -90,12 +92,18 @@
           <div class="my-1 flex justify-start items-center gap-2">
             <input
               type="text"
+              :disabled="isSendMessageLoading"
               required
               v-model="newMessage"
               placeholder="Enter a message.."
               class="input input-bordered w-full placeholder:text-sm rounded-full"
             />
+            <span
+              v-if="isSendMessageLoading"
+              class="loading loading-ring loading-lg"
+            ></span>
             <button
+              v-if="!isSendMessageLoading"
               class="rounded-full btn transition"
               :class="newMessage === '' ? 'hidden' : ''"
             >
@@ -140,6 +148,7 @@ let selectedUser = ref([]);
 const newMessage = ref("");
 const messages = ref([]);
 const isLoading = ref(false);
+const isSendMessageLoading = ref(false);
 
 const yourChat = (user) => {
   const modal = document.getElementById("openInbox");
@@ -151,14 +160,20 @@ const yourChat = (user) => {
 
 const sendMessage = async () => {
   if (newMessage.value.trim() === "") return;
-
-  await addDoc(collection(firestore, `messages`), {
-    senderId: userId,
-    recipientId: selectedUser.value.userId,
-    message: newMessage.value,
-    timestamp: serverTimestamp(),
-  });
-
+  isSendMessageLoading.value = true;
+  console.log("sending");
+  try {
+    await addDoc(collection(firestore, `messages`), {
+      senderId: userId,
+      recipientId: selectedUser.value.userId,
+      message: newMessage.value,
+      timestamp: serverTimestamp(),
+    });
+    console.log("send!");
+    isSendMessageLoading.value = false;
+  } catch {
+    isSendMessageLoading.value = false;
+  }
   newMessage.value = "";
 };
 
