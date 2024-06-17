@@ -26,7 +26,6 @@
       <div class="modal-box relative pb-4 pt-2 px-2">
         <div class="modal-action absolute z-10 -top-4 right-2">
           <form method="dialog">
-            <!-- if there is a button in form, it will close the modal -->
             <button class="btn btn-xs rounded-full">
               <Icon icon="carbon:close" class="text-xl text-red-500" />
             </button>
@@ -44,6 +43,17 @@
         </div>
         <hr class="my-1 border border-gray-400/20" />
         <div class="h-80 rounded-md overflow-y-scroll">
+          <div
+            v-if="filteredMessages.length === 0"
+            class="my-2 flex justify-center items-center text-sm"
+          >
+            <span class="py-1 px-4 bg-primary/10 rounded-full"
+              >No conversation with chef
+              <span class="text-primary font-semibold">{{
+                selectedUser.userName
+              }}</span></span
+            >
+          </div>
           <div v-for="m in filteredMessages" :key="m.id">
             <div
               class="chat"
@@ -55,55 +65,24 @@
                   <img v-else :src="selectedUser.userPhotoURL" />
                 </div>
               </div>
+
               <div class="chat-header text-xs font-medium">
                 {{ m.senderId === userId ? userName : selectedUser.userName }}
                 <time class="text-[10px] opacity-50">{{
                   formatTime(m.timestamp)
                 }}</time>
               </div>
+
               <div
                 class="chat-bubble text-sm"
                 :class="userId === m.senderId ? 'chat-bubble-primary' : ''"
               >
                 {{ m.message }}
               </div>
-              <!-- <div class="chat-footer opacity-50 text-xs">Delivered</div> -->
             </div>
-          </div>
-
-          <div class="chat chat-start">
-            <div class="chat-image avatar">
-              <div class="w-10 rounded-full">
-                <img
-                  alt="Tailwind CSS chat bubble component"
-                  :src="selectedUser.userPhotoURL"
-                />
-              </div>
-            </div>
-            <div class="chat-header text-xs font-medium">
-              {{ selectedUser.userName }}
-              <time class="text-[10px] opacity-50">12:45</time>
-            </div>
-            <div class="chat-bubble text-sm">You were the Chosen One!</div>
-            <!-- <div class="chat-footer opacity-50 text-xs">Delivered</div> -->
-          </div>
-          <div class="chat chat-end">
-            <div class="chat-image avatar">
-              <div class="w-10 rounded-full">
-                <img alt="Tailwind CSS chat bubble component" :src="photoURL" />
-              </div>
-            </div>
-            <div class="chat-header text-xs font-medium">
-              {{ userName }}
-              <time class="text-[10px] opacity-50">12:46</time>
-            </div>
-            <div class="chat-bubble chat-bubble-primary text-sm font-medium">
-              hey
-            </div>
-
-            <!-- <div class="chat-footer opacity-50 text-xs">Seen at 12:46</div> -->
           </div>
         </div>
+
         <form action="" @submit.prevent="sendMessage">
           <div class="my-1 flex justify-start items-center gap-2">
             <input
@@ -178,6 +157,21 @@ const sendMessage = async () => {
   newMessage.value = "";
 };
 
+const filteredMessages = computed(() =>
+  messages.value.filter(
+    (m) =>
+      (m.senderId === userId && m.recipientId === selectedUser.value.userId) ||
+      (m.senderId === selectedUser.value.userId && m.recipientId === userId)
+  )
+);
+const formatTime = (timestamp) => {
+  if (!timestamp) return "";
+  const date = timestamp.toDate
+    ? timestamp.toDate()
+    : new Date(timestamp.seconds * 1000);
+  return `${date.getHours()}:${date.getMinutes().toString().padStart(2, "0")}`;
+};
+
 const loadMessages = () => {
   const q = query(
     collection(firestore, "messages"),
@@ -192,18 +186,9 @@ const loadMessages = () => {
     }));
   });
   onUnmounted(() => {
-    unsub();
+    if (unsub) {
+      unsub();
+    }
   });
-};
-const filteredMessages = computed(() =>
-  messages.value.filter(
-    (m) =>
-      (m.senderId === userId && m.recipientId === selectedUser.value.userId) ||
-      (m.senderId === selectedUser.value.userId && m.recipientId === userId)
-  )
-);
-const formatTime = (timestamp) => {
-  const date = timestamp.toDate();
-  return `${date.getHours()}:${date.getMinutes()}`;
 };
 </script>
