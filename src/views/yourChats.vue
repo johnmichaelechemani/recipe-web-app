@@ -169,9 +169,19 @@ const filteredMessages = computed(() =>
       (m.senderId === selectedUser.value.userId && m.recipientId === userId)
   )
 );
+
+const firestoreTimestampToJsDate = (timestamp) => {
+  const seconds = timestamp.seconds;
+  const milliseconds = timestamp.nanoseconds / 1e6;
+  const jsDate = new Date(seconds * 1000 + milliseconds);
+  return jsDate;
+};
 const formatTime = (timestamp) => {
-  const date = timestamp.toDate();
-  return `${date.getHours()}:${date.getMinutes()}`;
+  const date = firestoreTimestampToJsDate(timestamp);
+  const hours = date.getHours() % 12 || 12;
+  const minutes = ("0" + date.getMinutes()).slice(-2);
+  const period = date.getHours() < 12 ? "am" : "pm";
+  return `${hours}:${minutes} ${period}`;
 };
 
 const loadMessages = () => {
