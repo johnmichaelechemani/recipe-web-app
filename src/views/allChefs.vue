@@ -24,7 +24,7 @@
         <div class="modal-action absolute z-10 -top-4 right-2">
           <form method="dialog">
             <!-- if there is a button in form, it will close the modal -->
-            <button class="btn btn-xs rounded-full">
+            <button class="btn btn-xs px-0.5 rounded-full">
               <Icon icon="carbon:close" class="text-xl text-red-500" />
             </button>
           </form>

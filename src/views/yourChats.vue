@@ -26,7 +26,7 @@
       <div class="modal-box relative pb-4 pt-2 px-2">
         <div class="modal-action absolute z-10 -top-4 right-2">
           <form method="dialog">
-            <button class="btn btn-xs rounded-full">
+            <button class="btn btn-xs px-0.5 rounded-full">
               <Icon icon="carbon:close" class="text-xl text-red-500" />
             </button>
           </form>
@@ -168,7 +168,7 @@ const sendMessage = async () => {
       timestamp: serverTimestamp(),
     });
     console.log("send!");
-    console.log("message:", messages.value);
+    //console.log("message:", messages.value);
     isSendMessageLoading.value = false;
   } catch {}
   newMessage.value = "";
