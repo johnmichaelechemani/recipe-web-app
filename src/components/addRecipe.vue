@@ -77,7 +77,7 @@
 
                     <button
                       class="btn btn-sm px-1.5 text-xl"
-                      @click="removeIngredients(index)"
+                      @click.prevent="removeIngredients(index)"
                     >
                       <Icon icon="ri:close-line" class="text-red-500" />
                     </button>
@@ -124,7 +124,7 @@
 
                     <button
                       class="btn btn-sm px-1.5 text-xl"
-                      @click="removeIstructions(index)"
+                      @click.prevent="removeIstructions(index)"
                     >
                       <Icon icon="ri:close-line" class="text-red-500" />
                     </button>

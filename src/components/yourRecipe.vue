@@ -133,13 +133,16 @@
                 :key="index"
                 class="flex items-center space-x-2"
               >
-                <span>{{ index + 1 }}.</span>
+                <span class="text-xs font-semibold">{{ index + 1 }}.</span>
                 <input
                   type="text"
                   v-model="selectedRecipe.allIngredients[index]"
-                  class="input my-1 input-bordered w-full capitalize"
+                  class="input my-1 input-bordered input-sm w-full capitalize"
                 />
-                <button class="btn text-xl" @click="removeIngredient(index)">
+                <button
+                  class="btn text-xl btn-sm px-1.5"
+                  @click.prevent="removeIngredient(index)"
+                >
                   <Icon icon="ri:close-line" class="text-red-500" />
                 </button>
               </div>
@@ -166,18 +169,22 @@
                   </button>
                 </div>
               </div>
+              <hr class="my-1 border border-gray-400/20" />
               <div
                 v-for="(instruction, index) in selectedRecipe.allInstructions"
                 :key="index"
                 class="flex items-center space-x-2"
               >
-                <span>{{ index + 1 }}.</span>
+                <span class="text-xs font-semibold">{{ index + 1 }}.</span>
                 <input
                   type="text"
                   v-model="selectedRecipe.allInstructions[index]"
-                  class="input my-1 input-bordered w-full capitalize"
+                  class="input my-1 input-bordered input-sm w-full capitalize"
                 />
-                <button class="btn text-xl" @click="removeInstruction(index)">
+                <button
+                  class="btn btn-sm px-1.5 text-xl"
+                  @click.prevent="removeInstruction(index)"
+                >
                   <Icon icon="ri:close-line" class="text-red-500" />
                 </button>
               </div>
@@ -517,7 +524,7 @@ export default {
       editAddIngredient.value = "";
     };
     const removeIngredient = (index) => {
-      selectedRecipe.value.allIngredients.pop(index);
+      selectedRecipe.value.allIngredients.splice(index, 1);
       console.log(selectedRecipe.value.allIngredients);
     };
     const addInstruction = () => {
@@ -526,7 +533,7 @@ export default {
       editAddInstruction.value = "";
     };
     const removeInstruction = (index) => {
-      selectedRecipe.value.allInstructions.pop(index);
+      selectedRecipe.value.allInstructions.splice(index, 1);
       console.log(selectedRecipe.value.allInstructions);
     };
 
