@@ -40,7 +40,11 @@
           </div>
         </div>
         <hr class="my-1 border border-gray-400/20" />
-        <div class="h-80 bg-primary/20 rounded-md"></div>
+        <div
+          class="h-80 bg-primary/10 rounded-md font-semibold text-sm flex justify-center items-center"
+        >
+          Not available for now 🤪
+        </div>
       </div>
     </dialog>
   </div>
