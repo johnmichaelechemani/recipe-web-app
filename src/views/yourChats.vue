@@ -1,25 +1,23 @@
 <template>
   <div>
-    <div>
-      <div v-for="user in storedUsers" :key="user.id">
+    <div v-for="user in storedUsers" :key="user.id">
+      <div
+        @click="yourChat(user)"
+        class="flex justify-start items-center gap-2 cursor-pointer hover:bg-gray-500/20 transition p-1 rounded-md"
+      >
         <div
-          @click="yourChat(user)"
-          class="flex justify-start items-center gap-2 cursor-pointer hover:bg-gray-500/20 transition p-1 rounded-md"
+          class="avatar"
+          :class="user.status === 'online' ? 'online' : 'offline'"
         >
-          <div
-            class="avatar"
-            :class="user.status === 'online' ? 'online' : 'offline'"
+          <div class="w-10 rounded-full">
+            <img :src="user.userPhotoURL" />
+          </div>
+        </div>
+        <div class="">
+          <h1 class="text-sm font-medium">{{ user.userName }}</h1>
+          <span class="text-xs px-2 bg-blue-500/20 text-blue-500 rounded-full"
+            >test</span
           >
-            <div class="w-10 rounded-full">
-              <img :src="user.userPhotoURL" />
-            </div>
-          </div>
-          <div class="">
-            <h1 class="text-sm font-medium">{{ user.userName }}</h1>
-            <span class="text-xs px-2 bg-blue-500/20 text-blue-500 rounded-full"
-              >test</span
-            >
-          </div>
         </div>
       </div>
     </div>
@@ -170,10 +168,9 @@ const sendMessage = async () => {
       timestamp: serverTimestamp(),
     });
     console.log("send!");
+    console.log("message:", messages.value);
     isSendMessageLoading.value = false;
-  } catch {
-    isSendMessageLoading.value = false;
-  }
+  } catch {}
   newMessage.value = "";
 };
 
@@ -185,18 +182,22 @@ const filteredMessages = computed(() =>
   )
 );
 
-const firestoreTimestampToJsDate = (timestamp) => {
-  const seconds = timestamp.seconds;
-  const milliseconds = timestamp.nanoseconds / 1e6;
-  const jsDate = new Date(seconds * 1000 + milliseconds);
-  return jsDate;
-};
 const formatTime = (timestamp) => {
-  const date = firestoreTimestampToJsDate(timestamp);
-  const hours = date.getHours() % 12 || 12;
-  const minutes = ("0" + date.getMinutes()).slice(-2);
-  const period = date.getHours() < 12 ? "am" : "pm";
-  return `${hours}:${minutes} ${period}`;
+  if (timestamp) {
+    const date = firestoreTimestampToJsDate(timestamp);
+    const hours = date.getHours() % 12 || 12;
+    const minutes = ("0" + date.getMinutes()).slice(-2);
+    const period = date.getHours() < 12 ? "am" : "pm";
+    return `${hours}:${minutes} ${period}`;
+  }
+};
+const firestoreTimestampToJsDate = (timestamp) => {
+  const milliseconds = timestamp.nanoseconds / 1e6;
+  const seconds = timestamp.seconds;
+  if (milliseconds) {
+    return new Date(seconds * 1000 + milliseconds);
+  }
+  return jsDate;
 };
 
 const loadMessages = () => {
