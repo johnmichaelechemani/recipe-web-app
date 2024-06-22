@@ -1,5 +1,5 @@
 <template>
-  <div class="p-2">
+  <div class="p-2" v-motion-fade>
     <Header />
     <div class="flex justify-end gap-2 items-center my-2">
       <input

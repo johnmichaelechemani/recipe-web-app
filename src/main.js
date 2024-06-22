@@ -1,6 +1,8 @@
 import { createApp } from "vue";
 import "./style.css";
 import App from "./App.vue";
+import { MotionPlugin } from "@vueuse/motion";
+
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import router from "./router";
@@ -16,7 +18,7 @@ const firebaseConfig = {
 initializeApp(firebaseConfig);
 
 const app = createApp(App);
-
+app.use(MotionPlugin);
 app.use(router);
 
 app.mount("#app");
