@@ -61,21 +61,23 @@
             </div>
 
             <div v-if="allIngredients.length !== 0">
-              <div class="grid grid-cols-1 gap-1">
+              <div
+                class="grid grid-cols-1 gap-1 border border-gray-400/10 p-1 rounded-md"
+              >
                 <div v-for="(item, index) in allIngredients" :key="item.id">
                   <div
-                    class="flex justify-between items-center px-2 py-1 bg-blue-100/10 border shadow border-gray-500/10 rounded-md"
+                    class="flex justify-between items-center px-2 py-0.5 bg-blue-100/10 border border-gray-500/10 rounded-md"
                   >
-                    <span class="text-sm font-medium"> {{ index + 1 }}.</span>
+                    <span class="text-xs font-medium"> {{ index + 1 }}.</span>
                     <input
                       type="text"
                       v-model="allIngredients[index]"
-                      class="input my-1 mx-1 input-bordered w-full capitalize"
+                      class="input my-1 mx-1 input-bordered input-sm w-full capitalize"
                     />
 
                     <button
-                      class="btn text-xl"
-                      @click="removeIngredients(item)"
+                      class="btn btn-sm px-1.5 text-xl"
+                      @click="removeIngredients(index)"
                     >
                       <Icon icon="ri:close-line" class="text-red-500" />
                     </button>
@@ -106,21 +108,23 @@
             </div>
 
             <div v-if="allInstructions.length !== 0">
-              <div class="grid grid-cols-1 gap-1">
+              <div
+                class="grid grid-cols-1 gap-1 border border-gray-400/10 p-1 rounded-md"
+              >
                 <div v-for="(item, index) in allInstructions" :key="item.id">
                   <div
-                    class="flex justify-between items-center px-2 py-1 bg-blue-100/10 border shadow border-gray-500/10 rounded-md"
+                    class="flex justify-between items-center px-2 py-0.5 bg-blue-100/10 border border-gray-500/10 rounded-md"
                   >
-                    <span class="text-sm font-medium"> {{ index + 1 }}.</span>
+                    <span class="text-xs font-medium"> {{ index + 1 }}.</span>
                     <input
                       type="text"
                       v-model="allInstructions[index]"
-                      class="input my-1 mx-1 input-bordered w-full capitalize"
+                      class="input my-1 mx-1 input-bordered input-sm w-full capitalize"
                     />
 
                     <button
-                      class="btn text-xl"
-                      @click="removeIstructions(item)"
+                      class="btn btn-sm px-1.5 text-xl"
+                      @click="removeIstructions(index)"
                     >
                       <Icon icon="ri:close-line" class="text-red-500" />
                     </button>
@@ -247,12 +251,13 @@ export default {
       console.log(allInstructions.value);
     };
 
-    const removeIstructions = (item) => {
-      allInstructions.value.pop(item);
+    const removeIstructions = (index) => {
+      allInstructions.value.splice(index, 1);
     };
 
-    const removeIngredients = (item) => {
-      allIngredients.value.pop(item);
+    const removeIngredients = (index) => {
+      allIngredients.value.splice(index, 1);
+      // console.log(index);
     };
     const imageName = ref("");
 
