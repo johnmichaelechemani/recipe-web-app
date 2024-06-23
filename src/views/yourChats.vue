@@ -42,7 +42,7 @@
           </div>
         </div>
         <hr class="my-1 border border-gray-400/20" />
-        <div class="h-80 rounded-md overflow-y-scroll">
+        <div class="h-80 rounded-md overflow-y-scroll" ref="messageContainer">
           <div
             v-if="filteredMessages.length === 0 && !isLoading"
             class="my-2 flex justify-center items-center text-sm"
@@ -115,7 +115,7 @@
 </template>
 
 <script setup>
-import { ref, onUnmounted, computed } from "vue";
+import { ref, onUnmounted, computed, nextTick } from "vue";
 import { Icon } from "@iconify/vue";
 import { getUsers } from "../scripts/getUsers.js";
 import { getAuth } from "firebase/auth";
@@ -147,6 +147,7 @@ const newMessage = ref("");
 const messages = ref([]);
 const isLoading = ref(false);
 const isSendMessageLoading = ref(false);
+const messageContainer = ref(null);
 
 const yourChat = (user) => {
   const modal = document.getElementById("openInbox");
@@ -199,6 +200,13 @@ const firestoreTimestampToJsDate = (timestamp) => {
   }
   return jsDate;
 };
+const scrollToBottom = () => {
+  nextTick(() => {
+    if (messageContainer.value) {
+      messageContainer.value.scrollTop = messageContainer.value.scrollHeight;
+    }
+  });
+};
 
 const loadMessages = () => {
   isLoading.value = true;
@@ -214,6 +222,7 @@ const loadMessages = () => {
       ...doc.data(),
     }));
     isLoading.value = false;
+    scrollToBottom();
   });
   onUnmounted(() => {
     if (unsub) {

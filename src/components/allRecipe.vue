@@ -224,7 +224,7 @@
           <button
             v-if="ratingsInText"
             :disabled="ratings === 0"
-            class="btn shadow rounded-full flex justify-center items-center"
+            class="btn px-6 shadow rounded-full btn-primary flex justify-center items-center"
             @click="sendRatings"
           >
             Submit
