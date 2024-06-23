@@ -70,16 +70,15 @@
               >
                 <Icon icon="ic:round-star" class="text-xl text-yellow-500" />{{
                   item.averageRating.toFixed(1)
-                }}/5</span
+                }}
+                | 5</span
               >
               <span
                 v-else
                 class="gap-1 text-sm font-medium flex justify-start items-center"
               >
-                <Icon
-                  icon="ic:round-star"
-                  class="text-xl text-yellow-500"
-                />?/5</span
+                <Icon icon="ic:round-star" class="text-xl text-yellow-500" />? |
+                5</span
               >
             </div>
           </div>
@@ -154,7 +153,13 @@
               <div class="flex justify-start items-center gap-4 my-1">
                 <span class="text-xs">{{ index + 1 }}</span>
                 <div
-                  class="text-xs px-2 py-1 bg-gray-400/10 font-medium rounded-md"
+                  class="text-xs px-2 py-1 bg-gray-400/10 font-medium cursor-pointer rounded-md"
+                  @click="clickIngredients(index)"
+                  :class="
+                    ingredientsDisables.some((item) => item === index)
+                      ? 'line-through'
+                      : ''
+                  "
                 >
                   {{ ingredient }}
                 </div>
@@ -172,8 +177,15 @@
             >
               <div class="flex justify-start items-center gap-4 my-1">
                 <span class="text-xs">{{ index + 1 }}</span>
+
                 <div
-                  class="text-xs px-2 py-1 bg-gray-400/10 font-medium rounded-md"
+                  class="text-xs px-2 py-1 bg-gray-400/10 font-medium cursor-pointer rounded-md"
+                  @click="clickInstructions(index)"
+                  :class="
+                    instructionsDisables.some((item) => item === index)
+                      ? 'line-through'
+                      : ''
+                  "
                 >
                   {{ instruction }}
                 </div>
@@ -256,7 +268,7 @@ export default {
     Loading,
     Icon,
   },
-  setup(props) {
+  setup(props, index) {
     const {
       sendingRatingLoading,
       recipe,
@@ -273,7 +285,11 @@ export default {
       starArray,
       filteredRecipes,
       muteRateBnt,
-    } = getAllRecipe(props);
+      clickInstructions,
+      instructionsDisables,
+      clickIngredients,
+      ingredientsDisables,
+    } = getAllRecipe(props, index);
     const { collection, query, onSnapshot, firestore } = useAuth();
 
     const userContainer = ref([]);
@@ -325,6 +341,10 @@ export default {
       filteredRecipes,
       muteRateBnt,
       usersStatus,
+      clickInstructions,
+      instructionsDisables,
+      clickIngredients,
+      ingredientsDisables,
     };
   },
 };

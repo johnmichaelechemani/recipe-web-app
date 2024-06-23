@@ -158,11 +158,43 @@ export function getAllRecipe(props) {
     const modal = document.getElementById("my_modal_4");
     modal.showModal();
   };
-
+  const instructionsDisables = ref([]);
+  const ingredientsDisables = ref([]);
   const closeModal = () => {
     ratings.value = 0;
+    instructionsDisables.value = [];
+    ingredientsDisables.value = [];
     const modal = document.getElementById("my_modal_4");
     modal.close();
+  };
+
+  const clickInstructions = (index) => {
+    console.log("instructions clicked", index);
+
+    if (!instructionsDisables.value.includes(index)) {
+      instructionsDisables.value.push(index);
+    } else {
+      const idx = instructionsDisables.value.indexOf(index);
+      if (idx !== -1) {
+        instructionsDisables.value.splice(idx, 1);
+      }
+    }
+
+    console.log(instructionsDisables.value);
+  };
+  const clickIngredients = (index) => {
+    console.log("ingre clicked", index);
+
+    if (!ingredientsDisables.value.includes(index)) {
+      ingredientsDisables.value.push(index);
+    } else {
+      const idx = ingredientsDisables.value.indexOf(index);
+      if (idx !== -1) {
+        ingredientsDisables.value.splice(idx, 1);
+      }
+    }
+
+    console.log(ingredientsDisables.value);
   };
 
   let recipeId = ref("");
@@ -262,5 +294,9 @@ export function getAllRecipe(props) {
     filteredRecipes,
     muteRateBnt,
     loading,
+    clickInstructions,
+    instructionsDisables,
+    clickIngredients,
+    ingredientsDisables,
   };
 }
