@@ -53,7 +53,10 @@
           </div>
 
           <figure>
-            <div v-if="item.imageURL" class="w-full h-24 sm:h-32 md:h-40">
+            <div
+              v-if="item.imageURL"
+              class="w-full bg-primary/10 h-24 sm:h-30 md:h-40"
+            >
               <img
                 :src="item.imageURL"
                 alt="recipe"
