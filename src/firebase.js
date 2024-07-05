@@ -228,11 +228,11 @@ export function getAllRecipe(props) {
           usersIdThatRate: usersIdThatRate,
         });
 
-        console.log(
-          `Updated recipe ${recipeId} with new ratings and average rating.`
-        );
+        // console.log(
+        //   `Updated recipe ${recipeId} with new ratings and average rating.`
+        // );
       } else {
-        console.log("No such recipe document!");
+        // console.log("No such recipe document!");
       }
     } catch (error) {
       console.error("Error updating ratings: ", error);

@@ -53,12 +53,13 @@
           </div>
 
           <figure>
-            <img
-              :src="item.imageURL"
-              v-if="item.imageURL"
-              alt="recipe"
-              class=""
-            />
+            <div v-if="item.imageURL" class="w-full h-24 sm:h-32 md:h-40">
+              <img
+                :src="item.imageURL"
+                alt="recipe"
+                class="object-cover object-center h-full w-full rounded-md"
+              />
+            </div>
             <div v-else class="pt-2">
               <Icon icon="emojione-v1:pot-of-food" class="text-4xl" />
             </div>
