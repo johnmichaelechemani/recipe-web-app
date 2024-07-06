@@ -47,7 +47,6 @@
 <script setup>
 import { Icon } from "@iconify/vue";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
-
 const messaging = getMessaging();
 getToken(messaging, {
   vapidKey:
