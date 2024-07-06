@@ -44,14 +44,47 @@
     </form>
   </dialog>
 </template>
-<script>
+<script setup>
 import { Icon } from "@iconify/vue";
-export default {
-  components: {
-    Icon,
-  },
-  setup() {
-    return {};
-  },
-};
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
+
+const messaging = getMessaging();
+getToken(messaging, {
+  vapidKey:
+    "BL86oYkhYfHm_nhwT89ZXqmTc_zaFp2Kd6PV5G48wUX0NIhd6gZjqqXORxWtf1EsK6d3buMJ-KN6IphPtJdMfus",
+})
+  .then((currentToken) => {
+    if (currentToken) {
+      // Send the token to your server and update the UI if necessary
+      console.log("Token received:", currentToken);
+      // ...
+    } else {
+      // Show permission request UI
+      console.log(
+        "No registration token available. Request permission to generate one."
+      );
+      // ...
+    }
+  })
+  .catch((err) => {
+    console.log("An error occurred while retrieving token. ", err);
+    // ...
+  });
+
+onMessage(messaging, (payload) => {
+  console.log("Message received:", payload);
+  new Notification(payload.notification.title, {
+    body: payload.notification.body,
+  });
+});
+
+// function requestPermission() {
+//   console.log("Requesting permission...");
+//   Notification.requestPermission().then((permission) => {
+//     if (permission === "granted") {
+//       console.log("Notification permission granted.");
+//     }
+//   });
+// }
+// requestPermission();
 </script>
