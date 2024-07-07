@@ -15,9 +15,9 @@
         </div>
         <div class="">
           <h1 class="text-sm font-medium">{{ user.userName }}</h1>
-          <span class="text-xs px-2 bg-blue-500/20 text-blue-500 rounded-full"
-            >test</span
-          >
+          <span class="text-xs px-2 bg-blue-500/20 text-blue-500 rounded-full">
+            test
+          </span>
         </div>
       </div>
     </div>
@@ -131,6 +131,9 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
+const messaging = getMessaging();
+
 const auth = getAuth();
 const user = ref(auth.currentUser);
 const { firestore } = useAuth();
@@ -230,4 +233,44 @@ const loadMessages = () => {
     }
   });
 };
+
+// getToken(messaging, {
+//   vapidKey:
+//     "BL86oYkhYfHm_nhwT89ZXqmTc_zaFp2Kd6PV5G48wUX0NIhd6gZjqqXORxWtf1EsK6d3buMJ-KN6IphPtJdMfus",
+// })
+//   .then((currentToken) => {
+//     if (currentToken) {
+//       // Send the token to your server and update the UI if necessary
+//       console.log("Token received:", currentToken);
+//       // ...
+//     } else {
+//       // Show permission request UI
+//       console.log(
+//         "No registration token available. Request permission to generate one."
+//       );
+//       // ...
+//     }
+//   })
+//   .catch((err) => {
+//     console.log("An error occurred while retrieving token. ", err);
+//     // ...
+//   });
+
+// onMessage(messaging, (payload) => {
+//   console.log("Message received:", payload);
+//   new Notification(payload.notification.title, {
+//     body: payload.notification.body,
+//     icon: notification.icon,
+//   });
+// });
+
+// function requestPermission() {
+//   console.log("Requesting permission...");
+//   Notification.requestPermission().then((permission) => {
+//     if (permission === "granted") {
+//       console.log("Notification permission granted.");
+//     }
+//   });
+// }
+// requestPermission();
 </script>
