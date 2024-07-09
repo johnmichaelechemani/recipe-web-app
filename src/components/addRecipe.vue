@@ -177,6 +177,8 @@
             <button
               :class="[
                 'btn mt-5 w-full',
+
+                postClickToAutoDisableIt ||
                 loading ||
                 allIngredients.length === 0 ||
                 allInstructions.length === 0
@@ -187,7 +189,7 @@
             >
               Post Recipe
               <span
-                v-if="loading"
+                v-if="loading && postClickToAutoDisableIt"
                 class="loading loading-dots loading-xs"
               ></span>
             </button>
@@ -274,8 +276,11 @@ export default {
       imageURL.value = null;
       imageName.value = "";
     };
+    const postClickToAutoDisableIt = ref(false);
 
     const post = async () => {
+      postClickToAutoDisableIt.value = true;
+
       const { uid, displayName, photoURL } = user.value;
       let imageURL = "";
       const createdAt = new Date();
@@ -316,8 +321,10 @@ export default {
         console.log("success!");
       } catch (error) {
         console.error("Error sending post recipe:", error);
+        postClickToAutoDisableIt.value = false;
       } finally {
         loading.value = false;
+        postClickToAutoDisableIt.value = false;
       }
     };
 
@@ -340,6 +347,7 @@ export default {
       imageName,
       imageURL,
       removeSelectedImage,
+      postClickToAutoDisableIt,
     };
   },
 };

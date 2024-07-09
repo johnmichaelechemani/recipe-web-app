@@ -3,7 +3,7 @@
     <h1 class="font-semibold py-2 text-blue-500">All Recipes</h1>
     <div v-if="filteredRecipes.length === 0 && !loading" class="w-full">
       <span
-        class="text-sm px-4 py-1 w-full rounded-full bg-error/10 font-semibold text-error"
+        class="text-sm px-4 py-1 w-full rounded-full bg-error/10 font-medium text-error"
         >No Recipe found</span
       >
     </div>
