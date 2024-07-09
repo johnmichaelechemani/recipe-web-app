@@ -102,7 +102,7 @@
           </button>
         </form>
         <h3 class="font-bold text-4xl capitalize">
-          {{ selectedAllRecipe.title }} <span class="text-xs">ni</span>
+          {{ selectedAllRecipe.title }}
         </h3>
         <div>
           <span
