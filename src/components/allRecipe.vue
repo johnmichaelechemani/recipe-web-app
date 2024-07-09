@@ -155,7 +155,15 @@
               class="capitalize"
             >
               <div class="flex justify-start items-center gap-4 my-1">
-                <span class="text-xs">{{ index + 1 }}</span>
+                <div>
+                  <Icon
+                    v-if="ingredientsDisables.some((item) => item === index)"
+                    icon="lets-icons:check-fill"
+                    class="text-green-500 text-sm"
+                  />
+                  <span v-else class="text-xs">{{ index + 1 }}</span>
+                </div>
+
                 <div
                   class="text-xs flex justify-start items-center gap-2 px-2 py-1 bg-gray-400/10 font-medium cursor-pointer rounded-md"
                   @click="clickIngredients(index)"
@@ -165,11 +173,6 @@
                       : ''
                   "
                 >
-                  <Icon
-                    v-if="ingredientsDisables.some((item) => item === index)"
-                    icon="lets-icons:check-fill"
-                    class="text-green-500 text-sm"
-                  />
                   {{ ingredient }}
                 </div>
               </div>
@@ -185,7 +188,14 @@
               :key="instruction.id"
             >
               <div class="flex justify-start items-center gap-4 my-1">
-                <span class="text-xs">{{ index + 1 }}</span>
+                <div>
+                  <Icon
+                    v-if="instructionsDisables.some((item) => item === index)"
+                    icon="lets-icons:check-fill"
+                    class="text-green-500 text-sm"
+                  />
+                  <span v-else class="text-xs">{{ index + 1 }}</span>
+                </div>
 
                 <div
                   class="text-xs px-2 py-1 bg-gray-400/10 flex justify-start items-center gap-2 font-medium cursor-pointer rounded-md"
@@ -196,11 +206,6 @@
                       : ''
                   "
                 >
-                  <Icon
-                    v-if="instructionsDisables.some((item) => item === index)"
-                    icon="lets-icons:check-fill"
-                    class="text-green-500 text-sm"
-                  />
                   {{ instruction }}
                 </div>
               </div>
