@@ -1,6 +1,7 @@
 <template>
-  <div class="p-2" v-motion-fade>
+  <div v-if="!LoadingWebsite" class="p-2" v-motion-fade>
     <Header />
+
     <div class="flex justify-end gap-2 items-center my-2">
       <input
         type="search"
@@ -23,15 +24,19 @@
     <YourRecipe />
     <AllRecipe :searchQuery="search" />
   </div>
+  <div v-else>
+    <Loading />
+  </div>
 </template>
 <script>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { Icon } from "@iconify/vue";
 import Header from "../components/header.vue";
 import AddRecipe from "../components/addRecipe.vue";
 import AllRecipe from "../components/allRecipe.vue";
 import YourRecipe from "../components/yourRecipe.vue";
 import Chats from "../components/chats.vue";
+import Loading from "../components/LoadingWebsite.vue";
 export default {
   components: {
     Header,
@@ -40,13 +45,24 @@ export default {
     AllRecipe,
     YourRecipe,
     Chats,
+    Loading,
   },
   setup() {
     const search = ref("");
+    const LoadingWebsite = ref(true);
+
+    onMounted(() => {
+      setTimeout(() => {
+        LoadingWebsite.value = false;
+        console.log("loading");
+      }, 1000);
+      LoadingWebsite.value = true;
+    });
+
     const filter = () => {
       console.log(search.value);
     };
-    return { search, filter };
+    return { search, filter, LoadingWebsite };
   },
 };
 </script>

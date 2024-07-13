@@ -32,7 +32,6 @@ export function useAuth() {
   const router = useRouter();
 
   const authgoogle = new GoogleAuthProvider();
-
   const signInWithGoogle = () => {
     signInWithPopup(auth, authgoogle)
       .then((res) => {
@@ -44,6 +43,7 @@ export function useAuth() {
           userPhotoURL: res.user.photoURL,
           status: "online",
         });
+
         router.push("/home");
       })
       .catch((error) => {
