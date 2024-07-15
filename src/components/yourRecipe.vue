@@ -254,7 +254,7 @@
               ></span>
             </button>
             <form method="dialog">
-              <button class="btn">Close</button>
+              <button class="btn">Cancel</button>
             </form>
           </div>
         </div>
@@ -266,7 +266,7 @@
             Are you sure you want to delete this recipe?
           </h3>
           <div class="modal-action">
-            <button @click.stop="deleteRecipe" class="btn text-red-500 w-32">
+            <button @click.stop="deleteRecipe" class="btn btn-danger w-32">
               Delete
               <span
                 v-if="isSaveloading"
@@ -274,7 +274,7 @@
               ></span>
             </button>
             <form method="dialog">
-              <button class="btn">Close</button>
+              <button class="btn">Cancel</button>
             </form>
           </div>
         </div>
