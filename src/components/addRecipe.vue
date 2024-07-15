@@ -17,7 +17,7 @@
 
         <form @submit.prevent="post">
           <div class="py-3 grid grid-cols-1 gap-2">
-            <label class="form-control w-full max-w-xs">
+            <label class="form-control w-full">
               <div class="label">
                 <span class="text-xs sm:text-base">Title:</span>
               </div>

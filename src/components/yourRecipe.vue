@@ -98,7 +98,7 @@
             <input
               type="text"
               v-model="selectedRecipe.title"
-              class="input input-bordered w-full max-w-xs"
+              class="input input-bordered w-full"
             />
           </div>
           <div class="py-2">
