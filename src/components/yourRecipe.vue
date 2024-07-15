@@ -68,7 +68,7 @@
             </div>
           </figure>
           <div class="card-body p-3">
-            <h2 class="card-title">{{ item.title }}</h2>
+            <h2 class="card-title truncate">{{ item.title }}</h2>
             <p class="text-xs truncate">
               {{ item.descriptions }}
             </p>
