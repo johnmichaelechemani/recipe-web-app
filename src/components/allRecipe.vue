@@ -75,14 +75,15 @@
                 <Icon icon="ic:round-star" class="text-xl text-yellow-500" />{{
                   item.averageRating.toFixed(1)
                 }}
-                | 5</span
-              >
+              </span>
               <span
                 v-else
                 class="gap-1 text-sm font-medium flex justify-start items-center"
               >
-                <Icon icon="ic:round-star" class="text-xl text-yellow-500" />? |
-                5</span
+                <Icon
+                  icon="ic:round-star"
+                  class="text-xl text-yellow-500"
+                />?</span
               >
             </div>
           </div>
