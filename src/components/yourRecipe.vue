@@ -243,10 +243,7 @@
             </div>
           </div>
           <div class="modal-action">
-            <button
-              @click.stop="saveEditRecipe"
-              class="btn text-green-500 w-32"
-            >
+            <button @click.stop="saveEditRecipe" class="btn btn-success w-32">
               Update
               <span
                 v-if="isSaveloading"
@@ -266,7 +263,7 @@
             Are you sure you want to delete this recipe?
           </h3>
           <div class="modal-action">
-            <button @click.stop="deleteRecipe" class="btn btn-danger w-32">
+            <button @click.stop="deleteRecipe" class="btn btn-error w-32">
               Delete
               <span
                 v-if="isSaveloading"
