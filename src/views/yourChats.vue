@@ -322,8 +322,6 @@ const scrollToBottom = () => {
   });
 };
 
-const messageMeta = ref(null);
-
 const loadMessages = () => {
   isLoading.value = true;
   const chatId = getChatId(userId, selectedUser.value.userId);
@@ -345,7 +343,6 @@ const loadMessages = () => {
 
   onUnmounted(() => {
     messageUnsub();
-    metaUnsub();
   });
 };
 onMounted(() => {
