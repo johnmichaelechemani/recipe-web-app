@@ -11,8 +11,8 @@ export function getUsers() {
 
   const filteredUsers = users.filter((storedUser) => storedUser.id !== userId);
   storedUsers.value = filteredUsers;
-  //   console.log(storedUsers);
-  //   console.log(userId);
+  //console.log(storedUsers.value);
+  //console.log(userId);
   return {
     storedUsers,
   };

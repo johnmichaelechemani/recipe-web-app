@@ -14,10 +14,29 @@
           </div>
         </div>
         <div class="">
-          <h1 class="text-sm font-medium">{{ user.userName }}</h1>
-          <span class="text-xs px-2 bg-blue-500/20 text-blue-500 rounded-full">
-            test
-          </span>
+          <h1 class="text-sm font-medium capitalize">{{ user.userName }}</h1>
+          <div class="flex gap-2 justify-start items-center">
+            <span
+              v-if="latestMessages[getChatId(userId, user.id)]"
+              class="text-xs px-2 py-0.5 bg-gray-500/20 rounded-full"
+              :class="
+                isSender[getChatId(userId, user.id)] === userId
+                  ? ''
+                  : 'text-blue-500'
+              "
+            >
+              <span
+                class="text-xs"
+                v-if="isSender[getChatId(userId, user.id)] === userId"
+              >
+                You:
+              </span>
+              {{ latestMessages[getChatId(userId, user.id)] }}
+            </span>
+            <span class="text-xs">{{
+              formatTime(timestamp[getChatId(userId, user.id)])
+            }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -48,11 +67,11 @@
             class="my-2 flex justify-center items-center text-sm"
           >
             <span class="py-1 px-4 bg-primary/10 rounded-full"
-              >No conversation with chef
+              >No conversation with
               <span class="text-primary font-semibold">{{
                 selectedUser.userName
-              }}</span></span
-            >
+              }}</span>
+            </span>
           </div>
           <div v-for="m in filteredMessages" :key="m.id">
             <div
@@ -61,7 +80,7 @@
             >
               <div class="chat-image avatar">
                 <div class="w-10 rounded-full">
-                  <img v-if="userId === m.senderId" :src="photoURL" />
+                  <img v-if="userId === m.senderId" :src="userPhoto" />
                   <img v-else :src="selectedUser.userPhotoURL" />
                 </div>
               </div>
@@ -86,7 +105,7 @@
           </div>
         </div>
 
-        <form action="" @submit.prevent="sendMessage">
+        <form @submit.prevent="sendMessage">
           <div class="my-1 flex justify-start items-center gap-2">
             <input
               type="text"
@@ -115,11 +134,12 @@
 </template>
 
 <script setup>
-import { ref, onUnmounted, computed, nextTick } from "vue";
+import { ref, onUnmounted, computed, nextTick, onMounted } from "vue";
 import { Icon } from "@iconify/vue";
 import { getUsers } from "../scripts/getUsers.js";
 import { getAuth } from "firebase/auth";
 import { useAuth } from "../firebase";
+import { useRouter } from "vue-router";
 import MessageLoading from "../components/messageLoading.vue";
 import {
   collection,
@@ -128,24 +148,23 @@ import {
   query,
   orderBy,
   onSnapshot,
+  getDoc,
+  setDoc,
+  doc,
   serverTimestamp,
 } from "firebase/firestore";
-
-import { getMessaging, getToken, onMessage } from "firebase/messaging";
-const messaging = getMessaging();
 
 const auth = getAuth();
 const user = ref(auth.currentUser);
 const { firestore } = useAuth();
-const { uid, photoURL, displayName } = user.value;
-const userId = uid;
-const userPhoto = photoURL;
-const userName = displayName;
-//console.log(user.value);
+const userId = user.value.uid;
+const userPhoto = user.value.photoURL;
+const userName = user.value.displayName;
+const route = useRouter();
 
 const { storedUsers } = getUsers();
 
-let selectedUser = ref([]);
+let selectedUser = ref({});
 const newMessage = ref("");
 const messages = ref([]);
 const isLoading = ref(false);
@@ -156,27 +175,94 @@ const yourChat = (user) => {
   const modal = document.getElementById("openInbox");
   modal.showModal();
   selectedUser.value = user;
-  console.log(selectedUser.value.userId);
   loadMessages();
+  console.log(messages);
 };
 
 const sendMessage = async () => {
   if (newMessage.value.trim() === "") return;
   isSendMessageLoading.value = true;
-  console.log("sending");
   try {
-    await addDoc(collection(firestore, `messages`), {
+    const chatId = getChatId(userId, selectedUser.value.userId);
+
+    // create room
+    await setDoc(
+      doc(firestore, `chats/${chatId}`),
+      {
+        participants: {
+          [userId]: true,
+          [selectedUser.value.userId]: true,
+        },
+        lastMessage: newMessage.value,
+        sender: userId,
+        timestamp: serverTimestamp(),
+      },
+      { merge: true }
+    );
+
+    // then add the message
+
+    await addDoc(collection(firestore, `chats/${chatId}/messages`), {
       senderId: userId,
       recipientId: selectedUser.value.userId,
       message: newMessage.value,
       timestamp: serverTimestamp(),
     });
-    console.log("send!");
-    //console.log("message:", messages.value);
+
+    // set loading to false
+
     isSendMessageLoading.value = false;
-  } catch {}
+  } catch (error) {
+    console.error("Error sending message: ", error);
+  }
   newMessage.value = "";
 };
+
+const getChatId = (userId1, userId2) => {
+  return [userId1, userId2].sort().join("_");
+};
+const latestMessages = ref({});
+const isSender = ref({});
+const unsubscribers = ref([]);
+const timestamp = ref({});
+
+const setupChatListeners = () => {
+  // Clear any existing listeners
+  unsubscribers.value.forEach((unsub) => unsub());
+  unsubscribers.value = [];
+
+  storedUsers.value.forEach((user) => {
+    const chatId = getChatId(userId, user.id);
+    const chatDocRef = doc(firestore, "chats", chatId);
+
+    const unsubscribe = onSnapshot(
+      chatDocRef,
+      (doc) => {
+        if (doc.exists()) {
+          latestMessages.value[chatId] = doc.data().lastMessage || "";
+          isSender.value[chatId] = doc.data().sender || "";
+          timestamp.value[chatId] = doc.data().timestamp || "";
+        } else {
+          latestMessages.value[chatId] = "";
+          isSender.value[chatId] = "";
+          timestamp.value[chatId] = "";
+        }
+      },
+      (error) => {
+        console.error("Error listening to chat updates:", error);
+      }
+    );
+
+    unsubscribers.value.push(unsubscribe);
+  });
+};
+
+onMounted(() => {
+  setupChatListeners();
+});
+onUnmounted(() => {
+  unsubscribers.value.forEach((unsub) => unsub());
+});
 
 const filteredMessages = computed(() =>
   messages.value.filter(
@@ -185,24 +271,49 @@ const filteredMessages = computed(() =>
       (m.senderId === selectedUser.value.userId && m.recipientId === userId)
   )
 );
+console.log(messages);
 
 const formatTime = (timestamp) => {
   if (timestamp) {
-    const date = firestoreTimestampToJsDate(timestamp);
+    const date = new Date(timestamp.seconds * 1000);
+    const now = new Date();
+
     const hours = date.getHours() % 12 || 12;
     const minutes = ("0" + date.getMinutes()).slice(-2);
     const period = date.getHours() < 12 ? "am" : "pm";
-    return `${hours}:${minutes} ${period}`;
+    const time = `${hours}:${minutes} ${period}`;
+
+    // Check if the message is from today
+    if (date.toDateString() === now.toDateString()) {
+      return time;
+    }
+
+    // Check if the message is from yesterday
+    const yesterday = new Date(now);
+    yesterday.setDate(yesterday.getDate() - 1);
+    if (date.toDateString() === yesterday.toDateString()) {
+      return `Yesterday ${time}`;
+    }
+
+    // For other days, show the day name
+    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const dayName = days[date.getDay()];
+
+    // If it's within the last week, show the day name
+    const lastWeek = new Date(now);
+    lastWeek.setDate(lastWeek.getDate() - 7);
+    if (date > lastWeek) {
+      return `${dayName} ${time}`;
+    }
+
+    // For older messages, include the date
+    const month = date.toLocaleString("default", { month: "short" });
+    const day = date.getDate();
+    return `${month} ${day} ${time}`;
   }
+  return "";
 };
-const firestoreTimestampToJsDate = (timestamp) => {
-  const milliseconds = timestamp.nanoseconds / 1e6;
-  const seconds = timestamp.seconds;
-  if (milliseconds) {
-    return new Date(seconds * 1000 + milliseconds);
-  }
-  return jsDate;
-};
+
 const scrollToBottom = () => {
   nextTick(() => {
     if (messageContainer.value) {
@@ -211,15 +322,19 @@ const scrollToBottom = () => {
   });
 };
 
+const messageMeta = ref(null);
+
 const loadMessages = () => {
   isLoading.value = true;
-  const q = query(
-    collection(firestore, "messages"),
-    where("senderId", "in", [userId, selectedUser.value.userId]),
-    where("recipientId", "in", [userId, selectedUser.value.userId]),
+  const chatId = getChatId(userId, selectedUser.value.userId);
+
+  // Query for messages
+  const messagesQuery = query(
+    collection(firestore, `chats/${chatId}/messages`),
     orderBy("timestamp", "asc")
   );
-  const unsub = onSnapshot(q, (snapshot) => {
+
+  const messageUnsub = onSnapshot(messagesQuery, (snapshot) => {
     messages.value = snapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
@@ -227,50 +342,13 @@ const loadMessages = () => {
     isLoading.value = false;
     scrollToBottom();
   });
+
   onUnmounted(() => {
-    if (unsub) {
-      unsub();
-    }
+    messageUnsub();
+    metaUnsub();
   });
 };
-
-// getToken(messaging, {
-//   vapidKey:
-//     "BL86oYkhYfHm_nhwT89ZXqmTc_zaFp2Kd6PV5G48wUX0NIhd6gZjqqXORxWtf1EsK6d3buMJ-KN6IphPtJdMfus",
-// })
-//   .then((currentToken) => {
-//     if (currentToken) {
-//       // Send the token to your server and update the UI if necessary
-//       console.log("Token received:", currentToken);
-//       // ...
-//     } else {
-//       // Show permission request UI
-//       console.log(
-//         "No registration token available. Request permission to generate one."
-//       );
-//       // ...
-//     }
-//   })
-//   .catch((err) => {
-//     console.log("An error occurred while retrieving token. ", err);
-//     // ...
-//   });
-
-// onMessage(messaging, (payload) => {
-//   console.log("Message received:", payload);
-//   new Notification(payload.notification.title, {
-//     body: payload.notification.body,
-//     icon: notification.icon,
-//   });
-// });
-
-// function requestPermission() {
-//   console.log("Requesting permission...");
-//   Notification.requestPermission().then((permission) => {
-//     if (permission === "granted") {
-//       console.log("Notification permission granted.");
-//     }
-//   });
-// }
-// requestPermission();
+onMounted(() => {
+  loadMessages();
+});
 </script>
