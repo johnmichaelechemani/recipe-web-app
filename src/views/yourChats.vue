@@ -33,7 +33,7 @@
               </span>
               {{ latestMessages[getChatId(userId, user.id)] }}
             </span>
-            <span class="text-xs">{{
+            <span class="text-[10px]">{{
               formatTime(timestamp[getChatId(userId, user.id)])
             }}</span>
           </div>
