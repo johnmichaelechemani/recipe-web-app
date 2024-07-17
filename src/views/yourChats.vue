@@ -14,7 +14,9 @@
           </div>
         </div>
         <div class="">
-          <h1 class="text-sm font-medium capitalize">{{ user.userName }}</h1>
+          <h1 class="text-sm font-medium capitalize">
+            {{ user.userName }}
+          </h1>
           <div class="flex gap-2 justify-start items-center">
             <span
               v-if="latestMessages[getChatId(userId, user.id)]"
@@ -134,7 +136,7 @@
 </template>
 
 <script setup>
-import { ref, onUnmounted, computed, nextTick, onMounted } from "vue";
+import { ref, onUnmounted, computed, nextTick, onMounted, watch } from "vue";
 import { Icon } from "@iconify/vue";
 import { getUsers } from "../scripts/getUsers.js";
 import { getAuth } from "firebase/auth";
@@ -226,10 +228,7 @@ const latestMessages = ref({});
 const isSender = ref({});
 const unsubscribers = ref([]);
 const timestamp = ref({});
-const newMessageArray = ref([]);
-
-// const rawArray = toRaw(newMessageArray.value[0]);
-// console.log(rawArray.length);
+const newMessageArray = ref(0);
 
 const setupChatListeners = () => {
   // Clear any existing listeners
@@ -252,7 +251,8 @@ const setupChatListeners = () => {
             latestMessages.value[chatId] &&
             isSender.value[chatId] !== userId
           ) {
-            newMessageArray.value.push(latestMessages.value[chatId]);
+            newMessageArray.value++;
+            console.log(newMessageArray.value);
           }
         } else {
           latestMessages.value[chatId] = "";
@@ -274,6 +274,10 @@ onMounted(() => {
 });
 onUnmounted(() => {
   unsubscribers.value.forEach((unsub) => unsub());
+});
+
+watch(newMessageArray, (newVal) => {
+  console.log(newMessageArray.value);
 });
 
 const filteredMessages = computed(() =>

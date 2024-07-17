@@ -3,9 +3,9 @@
     <button class="btn rounded-full shadow" onclick="chatModal.showModal()">
       <Icon icon="ant-design:message-filled" class="text-xl" />
     </button>
-    <div class="absolute -top-2 -right-2">
+    <!-- <div class="absolute -top-2 -right-2">
       <span class="badge badge-primary font-semibold">2</span>
-    </div>
+    </div> -->
   </router-link>
 
   <dialog id="chatModal" class="modal">
