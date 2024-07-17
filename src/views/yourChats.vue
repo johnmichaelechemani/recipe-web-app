@@ -221,10 +221,15 @@ const sendMessage = async () => {
 const getChatId = (userId1, userId2) => {
   return [userId1, userId2].sort().join("_");
 };
+
 const latestMessages = ref({});
 const isSender = ref({});
 const unsubscribers = ref([]);
 const timestamp = ref({});
+const newMessageArray = ref([]);
+
+// const rawArray = toRaw(newMessageArray.value[0]);
+// console.log(rawArray.length);
 
 const setupChatListeners = () => {
   // Clear any existing listeners
@@ -242,6 +247,13 @@ const setupChatListeners = () => {
           latestMessages.value[chatId] = doc.data().lastMessage || "";
           isSender.value[chatId] = doc.data().sender || "";
           timestamp.value[chatId] = doc.data().timestamp || "";
+
+          if (
+            latestMessages.value[chatId] &&
+            isSender.value[chatId] !== userId
+          ) {
+            newMessageArray.value.push(latestMessages.value[chatId]);
+          }
         } else {
           latestMessages.value[chatId] = "";
           isSender.value[chatId] = "";
@@ -271,7 +283,7 @@ const filteredMessages = computed(() =>
       (m.senderId === selectedUser.value.userId && m.recipientId === userId)
   )
 );
-console.log(messages);
+//console.log(messages);
 
 const formatTime = (timestamp) => {
   if (timestamp) {
