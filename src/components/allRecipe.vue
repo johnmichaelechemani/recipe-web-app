@@ -17,7 +17,7 @@
           v-for="item in filteredRecipes"
           :key="item.id"
           @click="showRecipeAllModal(item)"
-          class="card sm:w-52 w-26 bg-base-100 shadow border border-gray-200/10 relative rounded-md"
+          class="card sm:w-52 w-26 bg-base-100 shadow-sm border border-gray-500/20 relative rounded-md"
         >
           <div
             class="rounded-full absolute -top-1 -left-1 shadow-xl border border-secondary"
