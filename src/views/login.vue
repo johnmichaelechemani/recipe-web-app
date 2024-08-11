@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-center my-2">
+  <div class="fixed top-2 left-1/2 transform -translate-x-1/2 z-10">
     <div>
       <div class="px-5 py-2 rounded-full border border-gray-300/10 shadow">
         <h1 class="text-base text-neutral font-semibold text-center">
