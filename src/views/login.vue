@@ -12,17 +12,17 @@
     </div>
   </div>
   <div class="flex items-center h-screen justify-center text-neutral">
-    <div class="px-5 py-3 border border-gray-500/10 rounded-md shadow">
-      <h1 class="text-2xl font-semibold py-2">Log in</h1>
+    <div class="px-5 py-5 border border-gray-500/50 rounded-xl shadow-lg">
+      <h1 class="text-3xl font-semibold py-2">Log in please 🥺</h1>
       <button
         @click="signInWithGoogle()"
-        class="btn items-center justify-between w-full gap-2 rounded-full"
+        class="btn items-center justify-between w-full gap-2 my-5 rounded-full"
       >
         <Icon icon="devicon:google" class="text-xl" />
         Google
       </button>
       <p class="text-xs py-2 font-medium">
-        You only need <span class="text-primary">GOOGLE</span> no need more than
+        You only need <span class="text-blue-500">GOOGLE</span> no need more than
         that.
       </p>
     </div>
