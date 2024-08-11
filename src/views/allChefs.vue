@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="text-red-500 p-2 text-center font-semibold text-sm bg-red-500/10 rounded-full my-2">
+      THIS IS UNDER DEVELOPMENT
+    </div>
     <div v-for="user in storedUsers" :key="user.id">
       <UsersChatHeads
         :user="user"
@@ -14,93 +17,19 @@
     </div>
 
     <dialog id="openChat" class="modal modal-bottom sm:modal-middle">
-      <div class="modal-box relative pb-4 pt-2 px-2">
-        <div class="modal-action absolute z-10 -top-4 right-2">
-          <form method="dialog">
-            <button class="btn btn-xs px-0.5 rounded-full">
-              <Icon icon="carbon:close" class="text-xl text-red-500" />
-            </button>
-          </form>
-        </div>
-        <div class="flex justify-start items-center gap-2">
-          <div class="avatar">
-            <div class="w-10 rounded-full">
-              <img :src="selectedUser.userPhotoURL" />
-            </div>
-          </div>
-          <div>
-            <h1 class="text-sm font-medium">{{ selectedUser.userName }}</h1>
-          </div>
-        </div>
-        <hr class="my-1 border border-gray-400/20" />
-        <div class="h-80 rounded-md overflow-y-scroll" ref="messageContainer">
-          <div
-            v-if="filteredMessages.length === 0 && !isLoading"
-            class="my-2 flex justify-center items-center text-sm"
-          >
-            <span class="py-1 px-4 bg-primary/10 rounded-full"
-              >No conversation with
-              <span class="text-primary font-semibold">{{
-                selectedUser.userName
-              }}</span>
-            </span>
-          </div>
-          <div v-for="m in filteredMessages" :key="m.id">
-            <div
-              class="chat"
-              :class="m.senderId === userId ? 'chat-end' : 'chat-start'"
-            >
-              <div class="chat-image avatar">
-                <div class="w-10 rounded-full">
-                  <img v-if="userId === m.senderId" :src="userPhoto" />
-                  <img v-else :src="selectedUser.userPhotoURL" />
-                </div>
-              </div>
-
-              <div class="chat-header text-xs font-medium">
-                {{ m.senderId === userId ? userName : selectedUser.userName }}
-                <time class="text-[10px] opacity-50">{{
-                  formatTime(m.timestamp)
-                }}</time>
-              </div>
-
-              <div
-                class="chat-bubble text-sm"
-                :class="userId === m.senderId ? 'chat-bubble-primary' : ''"
-              >
-                {{ m.message }}
-              </div>
-            </div>
-          </div>
-          <div v-if="isLoading">
-            <MessageLoading />
-          </div>
-        </div>
-
-        <form @submit.prevent="sendMessage">
-          <div class="my-1 flex justify-start items-center gap-2">
-            <input
-              type="text"
-              :disabled="isSendMessageLoading"
-              required
-              v-model="newMessage"
-              placeholder="Enter a message.."
-              class="input input-bordered w-full placeholder:text-sm rounded-full"
-            />
-            <span
-              v-if="isSendMessageLoading"
-              class="loading loading-ring loading-lg"
-            ></span>
-            <button
-              v-if="!isSendMessageLoading"
-              class="rounded-full btn transition"
-              :class="newMessage === '' ? 'hidden' : ''"
-            >
-              <Icon icon="bxs:send" class="text-xl text-blue-500" />
-            </button>
-          </div>
-        </form>
-      </div>
+      <ChatModal
+        :userId="userId"
+        :messages="messages"
+        :selectedUser="selectedUser"
+        :userPhoto="userPhoto"
+        :userName="userName"
+        :isSendMessageLoading="isSendMessageLoading"
+        :isLoading="isLoading"
+        :formatTime="formatTime"
+        :sendMessage="sendMessage"
+        :messageContainer="messageContainer"
+        :filteredMessages="filteredMessages"
+      />
     </dialog>
   </div>
 </template>
@@ -115,13 +44,12 @@ import {
   watch,
   defineComponent,
 } from "vue";
-import { Icon } from "@iconify/vue";
 import { getUsers } from "../scripts/getUsers.js";
 import { getAuth } from "firebase/auth";
 import { useAuth } from "../firebase";
 import { useRouter } from "vue-router";
-import MessageLoading from "../components/messageLoading.vue";
 import UsersChatHeads from "../components/usersChatHeads.vue";
+import ChatModal from "../components/ChatModal.vue";
 import {
   collection,
   addDoc,
@@ -137,6 +65,7 @@ import {
 
 const component = defineComponent({
   UsersChatHeads,
+  ChatModal,
 });
 
 const auth = getAuth();
@@ -346,5 +275,4 @@ const loadMessages = () => {
 onMounted(() => {
   loadMessages();
 });
-
 </script>

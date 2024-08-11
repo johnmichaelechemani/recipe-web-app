@@ -1,17 +1,20 @@
 <template>
   <div>
-    <div v-for="user in filteredUsers" :key="user.id">
-      <UsersChatHeads
-        :user="user"
-        :yourChat="yourChat"
-        :formatTime="formatTime"
-        :latestMessages="latestMessages"
-        :getChatId="getChatId"
-        :userId="userId"
-        :isSender="isSender"
-        :timestamp="timestamp"
-      />
+    <div v-if="filteredUsers.length !== 0">
+      <div v-for="user in filteredUsers" :key="user.id">
+        <UsersChatHeads
+          :user="user"
+          :yourChat="yourChat"
+          :formatTime="formatTime"
+          :latestMessages="latestMessages"
+          :getChatId="getChatId"
+          :userId="userId"
+          :isSender="isSender"
+          :timestamp="timestamp"
+        />
+      </div>
     </div>
+    <div v-if="filteredUsers.length === 0">No conversation</div>
 
     <dialog id="openInbox" class="modal modal-bottom sm:modal-middle">
       <div class="modal-box relative pb-4 pt-2 px-2">
