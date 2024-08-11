@@ -5,6 +5,9 @@
     >
       THIS IS UNDER DEVELOPMENT
     </div>
+    <div class="my-2">
+      <span  class="font-semibold text-sm text-gray-500 bg-gray-500/10 px-3 py-0.5 shadow-sm rounded-full">All</span>
+    </div>
     <div v-for="user in storedUsers" :key="user.id">
       <UsersChatHeads
         :user="user"
