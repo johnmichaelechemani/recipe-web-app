@@ -68,7 +68,8 @@
           type="text"
           :disabled="isSendMessageLoading"
           required
-          v-model="newMessage"
+          :value="modelValue"
+          @input="$emit('update:modelValue', $event.target.value)"
           placeholder="Enter a message.."
           class="input input-bordered w-full placeholder:text-sm rounded-full"
         />
@@ -79,7 +80,7 @@
         <button
           v-if="!isSendMessageLoading"
           class="rounded-full btn transition"
-          :class="newMessage === '' ? 'hidden' : ''"
+          :class="modelValue === '' ? 'hidden' : ''"
         >
           <Icon icon="bxs:send" class="text-xl text-blue-500" />
         </button>
@@ -128,13 +129,13 @@ const props = defineProps({
     type: Function,
     required: true,
   },
-
-  messageContainer: {
-    type: Object, // Since it's a ref, it's an object
-  },
   filteredMessages: {
     type: Array,
   },
+  modelValue: {
+    type: String,
+    required: true,
+  },
 });
-const newMessage = ref("");
+const messageContainer = ref(null);
 </script>

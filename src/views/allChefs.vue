@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div class="text-red-500 p-2 text-center font-semibold text-sm bg-red-500/10 rounded-full my-2">
+    <div
+      class="text-red-500 p-2 text-center font-semibold text-sm bg-red-500/10 rounded-full my-2"
+    >
       THIS IS UNDER DEVELOPMENT
     </div>
     <div v-for="user in storedUsers" :key="user.id">
@@ -27,8 +29,8 @@
         :isLoading="isLoading"
         :formatTime="formatTime"
         :sendMessage="sendMessage"
-        :messageContainer="messageContainer"
         :filteredMessages="filteredMessages"
+        v-model="newMessage"
       />
     </dialog>
   </div>
