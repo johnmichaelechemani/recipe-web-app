@@ -1,46 +1,16 @@
 <template>
   <div>
-    <div v-for="user in storedUsers" :key="user.id">
-      <div
-        @click="yourChat(user)"
-        class="flex justify-start items-center gap-2 cursor-pointer hover:bg-gray-500/20 transition p-1 rounded-md"
-      >
-        <div
-          class="avatar"
-          :class="user.status === 'online' ? 'online' : 'offline'"
-        >
-          <div class="w-10 rounded-full">
-            <img :src="user.userPhotoURL" />
-          </div>
-        </div>
-        <div class="">
-          <h1 class="text-sm font-medium capitalize">
-            {{ user.userName }}
-          </h1>
-          <div class="flex gap-2 justify-start items-center">
-            <span
-              v-if="latestMessages[getChatId(userId, user.id)]"
-              class="text-xs px-2 py-0.5 bg-gray-500/20 rounded-full"
-              :class="
-                isSender[getChatId(userId, user.id)] === userId
-                  ? ''
-                  : 'text-blue-500'
-              "
-            >
-              <span
-                class="text-xs"
-                v-if="isSender[getChatId(userId, user.id)] === userId"
-              >
-                You:
-              </span>
-              {{ latestMessages[getChatId(userId, user.id)] }}
-            </span>
-            <span class="text-[10px]">{{
-              formatTime(timestamp[getChatId(userId, user.id)])
-            }}</span>
-          </div>
-        </div>
-      </div>
+    <div v-for="user in filteredUsers" :key="user.id">
+      <UsersChatHeads
+        :user="user"
+        :yourChat="yourChat"
+        :formatTime="formatTime"
+        :latestMessages="latestMessages"
+        :getChatId="getChatId"
+        :userId="userId"
+        :isSender="isSender"
+        :timestamp="timestamp"
+      />
     </div>
 
     <dialog id="openInbox" class="modal modal-bottom sm:modal-middle">
@@ -136,13 +106,22 @@
 </template>
 
 <script setup>
-import { ref, onUnmounted, computed, nextTick, onMounted, watch } from "vue";
+import {
+  ref,
+  onUnmounted,
+  computed,
+  nextTick,
+  onMounted,
+  watch,
+  defineComponent,
+} from "vue";
 import { Icon } from "@iconify/vue";
 import { getUsers } from "../scripts/getUsers.js";
 import { getAuth } from "firebase/auth";
 import { useAuth } from "../firebase";
 import { useRouter } from "vue-router";
 import MessageLoading from "../components/messageLoading.vue";
+import UsersChatHeads from "../components/usersChatHeads.vue";
 import {
   collection,
   addDoc,
@@ -155,6 +134,10 @@ import {
   doc,
   serverTimestamp,
 } from "firebase/firestore";
+
+const component = defineComponent({
+  UsersChatHeads,
+});
 
 const auth = getAuth();
 const user = ref(auth.currentUser);
@@ -230,6 +213,12 @@ const unsubscribers = ref([]);
 const timestamp = ref({});
 const newMessageArray = ref(0);
 
+const filteredUsers = computed(() => {
+  return storedUsers.value.filter(
+    (user) => latestMessages.value[getChatId(userId, user.id)]
+  );
+});
+
 const setupChatListeners = () => {
   // Clear any existing listeners
   unsubscribers.value.forEach((unsub) => unsub());
@@ -252,7 +241,6 @@ const setupChatListeners = () => {
             isSender.value[chatId] !== userId
           ) {
             newMessageArray.value++;
-            console.log(newMessageArray.value);
           }
         } else {
           latestMessages.value[chatId] = "";
