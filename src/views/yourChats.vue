@@ -57,7 +57,6 @@ import {
   watch,
   defineComponent,
 } from "vue";
-import { Icon } from "@iconify/vue";
 import { getUsers } from "../scripts/getUsers.js";
 import { getAuth } from "firebase/auth";
 import { useAuth } from "../firebase";
@@ -84,7 +83,6 @@ const component = defineComponent({
 });
 
 const { Time, getChatId } = ChatFuntions();
-
 const auth = getAuth();
 const user = ref(auth.currentUser);
 const { firestore } = useAuth();
@@ -92,15 +90,13 @@ const userId = user.value.uid;
 const userPhoto = user.value.photoURL;
 const userName = user.value.displayName;
 const route = useRouter();
-
 const { storedUsers } = getUsers();
-
-let selectedUser = ref({});
 const newMessage = ref("");
 const messages = ref([]);
 const isLoading = ref(false);
 const isSendMessageLoading = ref(false);
 const messageContainer = ref(null);
+let selectedUser = ref({});
 
 const yourChat = (user) => {
   const modal = document.getElementById("openInbox");
