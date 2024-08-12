@@ -1,5 +1,15 @@
 <template>
   <div>
+    <div class="flex gap-2 justify-start items-center">
+      <p class="text-red-500 bg-red-500/10 p-2 rounded-full text-xs font-bold">
+        Stats: In Development
+      </p>
+      <p
+        class="text-orange-500 bg-red-500/10 p-2 rounded-full text-xs font-bold"
+      >
+        Work: Sort by timestamp
+      </p>
+    </div>
     <div class="my-2">
       <span
         class="font-semibold text-sm text-gray-500 bg-gray-500/10 px-3 py-0.5 shadow-sm rounded-full"
