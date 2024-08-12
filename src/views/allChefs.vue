@@ -1,10 +1,5 @@
 <template>
   <div>
-    <div
-      class="text-red-500 p-2 text-center font-semibold text-sm bg-red-500/10 rounded-full my-2"
-    >
-      THIS IS UNDER DEVELOPMENT
-    </div>
     <div class="my-2">
       <span
         class="font-semibold text-sm text-gray-500 bg-gray-500/10 px-3 py-0.5 shadow-sm rounded-full"
