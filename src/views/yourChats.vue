@@ -76,14 +76,14 @@ import {
   doc,
   serverTimestamp,
 } from "firebase/firestore";
-import { FormatTime } from "../scripts/ChatFunctions.js";
+import { ChatFuntions } from "../scripts/ChatFunctions.js";
 
 const component = defineComponent({
   UsersChatHeads,
   ChatModal,
 });
 
-const { Time } = FormatTime();
+const { Time, getChatId } = ChatFuntions();
 
 const auth = getAuth();
 const user = ref(auth.currentUser);
@@ -147,10 +147,6 @@ const sendMessage = async () => {
     console.error("Error sending message: ", error);
   }
   newMessage.value = "";
-};
-
-const getChatId = (userId1, userId2) => {
-  return [userId1, userId2].sort().join("_");
 };
 
 const latestMessages = ref({});

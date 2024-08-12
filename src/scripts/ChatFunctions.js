@@ -1,4 +1,4 @@
-export function FormatTime() {
+export function ChatFuntions() {
   const Time = (timestamp) => {
     if (timestamp) {
       const date = new Date(timestamp.seconds * 1000);
@@ -40,5 +40,9 @@ export function FormatTime() {
     return "";
   };
 
-  return { Time };
+  const getChatId = (userId1, userId2) => {
+    return [userId1, userId2].sort().join("_");
+  };
+
+  return { Time, getChatId };
 }
