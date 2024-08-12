@@ -2,17 +2,29 @@
   <div
     class="border-b pb-2 overflow-scroll no-scrollbar gap-2 w-full border-gray-500/10 rounded-md my-2 flex justify-start items-center"
   >
-    <div class="max-w-12">
-      <div class="avatar online">
-        <div class="w-12 rounded-full">
-          <img src="../assets/ROOM 1.png" />
+    <div v-for="user in filteredUsers" :key="user.id">
+      <div class="max-w-12">
+        <div
+          class="avatar"
+          :class="user.status === 'online' ? 'online' : 'offline'"
+        >
+          <div class="w-12 rounded-full">
+            <img :src="user.userPhotoURL" />
+          </div>
         </div>
-      </div>
 
-      <p class="text-xs text-center truncate">John Michael</p>
+        <p class="text-xs text-center truncate capitalize">
+          {{ user.userName }}
+        </p>
+      </div>
     </div>
   </div>
 </template>
 <script setup>
-//class="user.status === 'online' ? 'online' : 'offline'"
+const props = defineProps({
+  filteredUsers: {
+    type: Object,
+    required: true,
+  },
+});
 </script>
