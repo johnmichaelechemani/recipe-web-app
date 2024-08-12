@@ -1,6 +1,6 @@
 <template>
   <div
-    class="border-b pb-2 border-gray-500/10 rounded-md my-2 flex justify-start items-center"
+    class="border-b pb-2 overflow-scroll no-scrollbar gap-2 w-full border-gray-500/10 rounded-md my-2 flex justify-start items-center"
   >
     <div class="max-w-12">
       <div class="avatar online">
