@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div>
+      <ChatHeads />
+    </div>
     <div v-if="filteredUsers.length !== 0">
       <div v-for="user in filteredUsers" :key="user.id">
         <UsersChatHeads
@@ -76,10 +79,12 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 import { ChatFuntions } from "../scripts/ChatFunctions.js";
+import ChatHeads from "../components/ChatHeads.vue";
 
 const component = defineComponent({
   UsersChatHeads,
   ChatModal,
+  ChatHeads,
 });
 
 const { Time, getChatId } = ChatFuntions();
