@@ -3,8 +3,6 @@ import { getUsers } from "../scripts/getUsers.js";
 import { getAuth } from "firebase/auth";
 import { useAuth } from "../firebase";
 import { useRouter } from "vue-router";
-import UsersChatHeads from "../components/usersChatHeads.vue";
-import ChatModal from "../components/ChatModal.vue";
 import {
   collection,
   addDoc,
