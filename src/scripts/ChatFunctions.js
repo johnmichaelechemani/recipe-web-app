@@ -1,12 +1,4 @@
-import {
-  ref,
-  onUnmounted,
-  computed,
-  nextTick,
-  onMounted,
-  watch,
-  defineComponent,
-} from "vue";
+import { ref, onUnmounted, computed, nextTick, onMounted, watch } from "vue";
 import { getUsers } from "../scripts/getUsers.js";
 import { getAuth } from "firebase/auth";
 import { useAuth } from "../firebase";
