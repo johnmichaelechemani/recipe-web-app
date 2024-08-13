@@ -49,6 +49,13 @@ export function ChatFuntions() {
     loadMessages();
     console.log(messages);
   };
+  const chefsChat = (user) => {
+    const modal = document.getElementById("openChat");
+    modal.showModal();
+    selectedUser.value = user;
+    loadMessages();
+    console.log(messages);
+  };
 
   const sendMessage = async () => {
     if (newMessage.value.trim() === "") return;
@@ -244,6 +251,7 @@ export function ChatFuntions() {
     Time,
     getChatId,
     yourChat,
+    chefsChat,
     sendMessage,
     userId,
     newMessage,
@@ -258,5 +266,6 @@ export function ChatFuntions() {
     filteredUsers,
     latestMessages,
     isSender,
+    storedUsers,
   };
 }
