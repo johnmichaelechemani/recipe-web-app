@@ -12,6 +12,17 @@
     <div class="modal-box">
       <h3 class="font-bold text-xl">Chats</h3>
       <hr class="border border-gray-400/10 my-1" />
+      <div class="my-3 flex justify-start gap-2 items-center">
+        <input
+          type="text"
+          placeholder="Search"
+          class="input input-bordered input-sm w-full rounded-full"
+        />
+       <div class="p-1 rounded-full hover:bg-primary/10 text-orange-500 transition">
+        <Icon icon="lets-icons:search-light" class="text-2xl" />
+       </div>
+      </div>
+
       <div class="flex justify-start items-center gap-2 mt-2 mb-4">
         <router-link to="yourChats">
           <button

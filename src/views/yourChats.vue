@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-96">
     <div>
-      <ChatHeads :filteredUsers="filteredUsers" />
+      <ChatHeads :filteredUsers="filteredUsers" :yourChat="yourChat" />
     </div>
     <div v-if="filteredUsers.length !== 0">
       <div v-for="user in filteredUsers" :key="user.id">

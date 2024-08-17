@@ -3,9 +3,9 @@
     Stats: In Development
   </span> -->
   <div
-    class="border-b pb-2 overflow-scroll no-scrollbar gap-2 w-full border-gray-500/10 rounded-md my-2 flex justify-start items-center"
+    class="border-b pb-2 overflow-scroll no-scrollbar gap-3 w-full border-gray-500/10 rounded-md my-2 flex justify-start items-center"
   >
-    <div v-for="user in filteredUsers" :key="user.id">
+    <div v-for="user in filteredUsers" :key="user.id" @click="yourChat(user)">
       <div class="max-w-12">
         <div
           class="avatar"
@@ -16,8 +16,8 @@
           </div>
         </div>
 
-        <p class="text-xs text-center truncate capitalize">
-          {{ user.userName }}
+        <p class="text-[10px] text-center truncate capitalize">
+          {{ getName(user.userName) }}
         </p>
       </div>
     </div>
@@ -29,5 +29,12 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  yourChat: {
+    type: Function,
+    required: true,
+  },
 });
+const getName = (userName) => {
+  return userName.split(" ")[0];
+};
 </script>
