@@ -18,31 +18,33 @@
           placeholder="Search"
           class="input input-bordered input-sm w-full rounded-full"
         />
-       <div class="p-1 rounded-full hover:bg-primary/10 text-orange-500 transition">
-        <Icon icon="lets-icons:search-light" class="text-2xl" />
-       </div>
+        <div
+          class="p-1 cursor-pointer rounded-full hover:bg-primary/10 text-orange-500 transition"
+        >
+          <Icon icon="lets-icons:search-light" class="text-2xl" />
+        </div>
       </div>
 
       <div class="flex justify-start items-center gap-2 mt-2 mb-4">
         <router-link to="yourChats">
           <button
-            class="rounded-full"
+            class="rounded-full tracking-wide"
             :class="
               $route.path === '/yourChats'
-                ? 'btn btn-sm text-blue-500 shadow'
-                : 'hover:bg-blue-500/10 hover:text-blue-500 transition px-4 py-1.5 font-semibold text-sm'
+                ? 'btn btn-sm bg-blue-400/10 text-blue-500 '
+                : 'hover:bg-blue-500/10 hover:text-blue-400 text-gray-400 transition px-4 py-1.5 font-semibold text-xs'
             "
           >
-            Inbox
+            Home
           </button>
         </router-link>
         <router-link to="chefs">
           <button
-            class="rounded-full"
+            class="rounded-full tracking-wide"
             :class="
               $route.path === '/chefs'
-                ? 'btn btn-sm text-blue-500 shadow'
-                : 'hover:bg-blue-500/10 hover:text-blue-500 transition px-4 py-1.5 font-semibold text-sm'
+                ? 'btn btn-sm text-blue-500 bg-blue-400/10'
+                : 'hover:bg-blue-500/10 hover:text-blue-500 text-gray-400 transition px-4 py-1.5 font-semibold text-xs'
             "
           >
             Chefs
