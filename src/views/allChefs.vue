@@ -12,7 +12,7 @@
     </div> -->
     <div class="my-2">
       <span
-        class="font-semibold text-sm text-gray-500 bg-gray-500/10 px-3 py-0.5 shadow-sm rounded-full"
+        class="font-semibold text-xs text-gray-500 bg-gray-500/10 px-3 py-0.5 shadow-sm rounded-full"
         >All</span
       >
     </div>
