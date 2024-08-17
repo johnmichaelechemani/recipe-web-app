@@ -1,7 +1,7 @@
 <template>
-  <span class="text-red-500 bg-red-500/10 p-2 rounded-full text-xs font-bold">
+  <!-- <span class="text-red-500 bg-red-500/10 p-2 rounded-full text-xs font-bold">
     Stats: In Development
-  </span>
+  </span> -->
   <div
     class="border-b pb-2 overflow-scroll no-scrollbar gap-2 w-full border-gray-500/10 rounded-md my-2 flex justify-start items-center"
   >
