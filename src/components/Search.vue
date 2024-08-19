@@ -6,15 +6,18 @@
       v-model="search"
       class="input input-bordered input-sm w-full rounded-full"
     />
-    <div
+    <button
       @click="handleSearch()"
-      class="p-1 cursor-pointer rounded-full hover:bg-primary/20 transition"
+      class="p-1 rounded-full transition"
+      :disabled="search === ''"
       :class="
-        search === '' ? 'text-gray-500' : 'text-orange-500 shadow bg-primary/10'
+        search === ''
+          ? 'text-gray-500 cursor-not-allowed'
+          : 'text-orange-500 shadow hover:bg-primary/20 bg-primary/10'
       "
     >
       <Icon icon="lets-icons:search-light" class="text-2xl" />
-    </div>
+    </button>
   </div>
 </template>
 <script setup>
