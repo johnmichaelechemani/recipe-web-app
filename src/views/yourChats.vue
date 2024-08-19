@@ -62,7 +62,6 @@ const component = defineComponent({
   ChatModal,
   ChatHeads,
 });
-
 const {
   Time,
   getChatId,
