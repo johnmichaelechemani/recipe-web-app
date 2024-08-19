@@ -8,7 +8,10 @@
     />
     <div
       @click="handleSearch()"
-      class="p-1 cursor-pointer rounded-full hover:bg-primary/10 text-orange-500 transition"
+      class="p-1 cursor-pointer rounded-full hover:bg-primary/20 transition"
+      :class="
+        search === '' ? 'text-gray-500' : 'text-orange-500 shadow bg-primary/10'
+      "
     >
       <Icon icon="lets-icons:search-light" class="text-2xl" />
     </div>
