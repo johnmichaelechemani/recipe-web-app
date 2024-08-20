@@ -3,6 +3,10 @@
     <div>
       <ChatHeads :filteredUsers="filteredUsers" :yourChat="yourChat" />
     </div>
+    <div v-for="user in tempUsers" :key="user.id">
+      {{ user.userName }}
+      {{ search }}
+    </div>
     <div v-if="filteredUsers.length !== 0">
       <div v-for="user in filteredUsers" :key="user.id">
         <UsersChatHeads
@@ -80,5 +84,7 @@ const {
   filteredUsers,
   latestMessages,
   isSender,
+  tempUsers,
+  search,
 } = ChatFuntions();
 </script>

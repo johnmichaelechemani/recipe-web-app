@@ -1,4 +1,13 @@
-import { ref, onUnmounted, computed, nextTick, onMounted, watch } from "vue";
+import {
+  ref,
+  onUnmounted,
+  computed,
+  nextTick,
+  onMounted,
+  watch,
+  watchEffect,
+  reactive,
+} from "vue";
 import { getUsers } from "../scripts/getUsers.js";
 import { getAuth } from "firebase/auth";
 import { useAuth } from "../firebase";
@@ -31,6 +40,10 @@ export function ChatFuntions() {
   const isSendMessageLoading = ref(false);
   const messageContainer = ref(null);
   let selectedUser = ref({});
+
+  const getChatId = (userId1, userId2) => {
+    return [userId1, userId2].sort().join("_");
+  };
 
   const yourChat = (user) => {
     const modal = document.getElementById("openInbox");
@@ -92,14 +105,17 @@ export function ChatFuntions() {
   const timestamp = ref({});
   const newMessageArray = ref(0);
   const search = ref("");
+  const filteredUsers = ref([]);
 
-  const filteredUsers = computed(() => {
-    return storedUsers.value.filter(
-      (user) => latestMessages.value[getChatId(userId, user.id)]
-    );
-  });
+  filteredUsers.value = storedUsers.value.filter((user) =>
+    user.userName.toLowerCase().includes('john'.toLowerCase())
+  );
+
   const handleSearch = () => {
     console.log(search.value);
+    filteredUsers.value = storedUsers.value.filter((user) =>
+      user.userName.toLowerCase().includes(search.value.toLowerCase())
+    );
   };
 
   const setupChatListeners = () => {
@@ -235,10 +251,6 @@ export function ChatFuntions() {
       return `${month} ${day} ${time}`;
     }
     return "";
-  };
-
-  const getChatId = (userId1, userId2) => {
-    return [userId1, userId2].sort().join("_");
   };
 
   return {
