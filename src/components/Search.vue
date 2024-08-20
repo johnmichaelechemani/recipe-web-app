@@ -25,8 +25,5 @@ import { ref } from "vue";
 import { Icon } from "@iconify/vue";
 import { ChatFuntions } from "../scripts/ChatFunctions.js";
 
-const handleSearch = () => {
-  console.log(search.value);
-};
-const { search } = ChatFuntions();
+const { search, handleSearch } = ChatFuntions();
 </script>

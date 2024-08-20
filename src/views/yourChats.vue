@@ -62,5 +62,23 @@ const component = defineComponent({
   ChatModal,
   ChatHeads,
 });
-
+const {
+  Time,
+  getChatId,
+  yourChat,
+  sendMessage,
+  userId,
+  newMessage,
+  messages,
+  isLoading,
+  isSendMessageLoading,
+  filteredMessages,
+  selectedUser,
+  timestamp,
+  userPhoto,
+  userName,
+  filteredUsers,
+  latestMessages,
+  isSender,
+} = ChatFuntions();
 </script>
