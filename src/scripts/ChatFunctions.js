@@ -105,17 +105,19 @@ export function ChatFuntions() {
   const timestamp = ref({});
   const newMessageArray = ref(0);
   const search = ref("");
-  const filteredUsers = ref([]);
 
-  filteredUsers.value = storedUsers.value.filter((user) =>
-    user.userName.toLowerCase().includes('john'.toLowerCase())
-  );
+  const filteredUsers = computed(() => {
+    return storedUsers.value.filter(
+      (user) => latestMessages.value[getChatId(userId, user.id)]
+    );
+  });
 
   const handleSearch = () => {
     console.log(search.value);
-    filteredUsers.value = storedUsers.value.filter((user) =>
+    storedUsers.value = storedUsers.value.filter((user) =>
       user.userName.toLowerCase().includes(search.value.toLowerCase())
     );
+    console.log(storedUsers.value);
   };
 
   const setupChatListeners = () => {
