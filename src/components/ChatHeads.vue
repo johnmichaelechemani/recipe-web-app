@@ -6,12 +6,12 @@
     class="border-b pb-2 overflow-scroll no-scrollbar gap-3 w-full border-gray-500/10 rounded-md my-2 flex justify-start items-center"
   >
     <div v-for="user in filteredUsers" :key="user.id" @click="yourChat(user)">
-      <div class="max-w-12">
+      <div class="max-w-14">
         <div
           class="avatar"
           :class="user.status === 'online' ? 'online' : 'offline'"
         >
-          <div class="w-12 rounded-full">
+          <div class="w-14 rounded-full">
             <img :src="user.userPhotoURL" />
           </div>
         </div>

@@ -92,11 +92,14 @@ export function ChatFuntions() {
   const timestamp = ref({});
   const newMessageArray = ref(0);
 
-  const filteredUsers = computed(() => {
+  const search = ref("");
+  const filteredUsers = () => {
     return storedUsers.value.filter(
       (user) => latestMessages.value[getChatId(userId, user.id)]
     );
-  });
+  };
+
+  // user.userName.toLowerCase().includes(search.value.toLowerCase())
 
   const setupChatListeners = () => {
     // Clear any existing listeners
@@ -257,5 +260,6 @@ export function ChatFuntions() {
     latestMessages,
     isSender,
     storedUsers,
+    search,
   };
 }

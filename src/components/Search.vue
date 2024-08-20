@@ -23,9 +23,10 @@
 <script setup>
 import { ref } from "vue";
 import { Icon } from "@iconify/vue";
+import { ChatFuntions } from "../scripts/ChatFunctions.js";
 
-const search = ref("");
 const handleSearch = () => {
   console.log(search.value);
 };
+const { search } = ChatFuntions();
 </script>
