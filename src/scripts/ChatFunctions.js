@@ -114,10 +114,9 @@ export function ChatFuntions() {
 
   const handleSearch = () => {
     console.log(search.value);
-    storedUsers.value = storedUsers.value.filter((user) =>
+    return storedUsers.value.filter((user) =>
       user.userName.toLowerCase().includes(search.value.toLowerCase())
     );
-    console.log(storedUsers.value);
   };
 
   const setupChatListeners = () => {
