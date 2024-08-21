@@ -104,20 +104,12 @@ export function ChatFuntions() {
   const unsubscribers = ref([]);
   const timestamp = ref({});
   const newMessageArray = ref(0);
-  const search = ref("");
 
   const filteredUsers = computed(() => {
     return storedUsers.value.filter(
       (user) => latestMessages.value[getChatId(userId, user.id)]
     );
   });
-
-  const handleSearch = () => {
-    console.log(search.value);
-    return storedUsers.value.filter((user) =>
-      user.userName.toLowerCase().includes(search.value.toLowerCase())
-    );
-  };
 
   const setupChatListeners = () => {
     // Clear any existing listeners
@@ -274,7 +266,5 @@ export function ChatFuntions() {
     latestMessages,
     isSender,
     storedUsers,
-    search,
-    handleSearch,
   };
 }
