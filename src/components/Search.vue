@@ -28,18 +28,6 @@
           placeholder="Search"
           class="input input-bordered input-md w-full rounded-full"
         />
-        <button
-          @click="searchUsers()"
-          class="p-2 rounded-full transition"
-          :disabled="search === ''"
-          :class="
-            search === ''
-              ? 'text-gray-500 cursor-not-allowed'
-              : 'text-orange-500 shadow hover:bg-primary/20 bg-primary/10'
-          "
-        >
-          <Icon icon="lets-icons:search-light" class="text-3xl" />
-        </button>
       </div>
       <div class="min-h-96">
         <div class="my-2">
