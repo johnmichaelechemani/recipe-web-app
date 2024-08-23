@@ -3,14 +3,13 @@
     class="my-3 flex justify-start gap-2 items-center"
     @click="handleSearch()"
   >
-    <input
-      type="text"
-      readonly
-      placeholder="Search"
-      class="input input-bordered input-sm w-full rounded-full"
-    />
-    <div class="p-1 rounded-full transition text-orange-500 bg-primary/10">
-      <Icon icon="lets-icons:search-light" class="text-2xl" />
+    <div
+      class="text-sm text-gray-400 flex justify-start gap-2 items-center w-full border border-gray-500/40 rounded-full px-2 py-1"
+    >
+      <div class="p-1 rounded-full transition text-orange-500">
+        <Icon icon="lets-icons:search-light" class="text-2xl" />
+      </div>
+      <span>Search...</span>
     </div>
   </div>
   <!-- show modal -->
