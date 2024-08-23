@@ -4,7 +4,7 @@
     <div class="flex justify-center sm:justify-start items-center">
       <div
         v-if="recipe"
-        class="grid grid-cols-3 lg:grid-cols-5 gap-1 sm:gap-3 overflow-hidden py-5 sm:p-2"
+        class="grid grid-cols-3 lg:grid-cols-4 gap-1 sm:gap-3 overflow-hidden py-5 sm:p-2"
       >
         <div
           v-for="item in recipe"

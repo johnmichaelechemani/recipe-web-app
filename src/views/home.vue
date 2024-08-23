@@ -1,6 +1,6 @@
 <template>
   <div v-if="!LoadingWebsite" class="p-2 flex justify-center items-center" v-motion-fade>
-    <div class=" max-w-6xl">
+    <div class=" max-w-6xl min-w-2xl">
       <Header />
 
       <div class="flex justify-end gap-2 items-center my-2">
