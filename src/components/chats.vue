@@ -1,7 +1,10 @@
 <template>
-  <router-link to="yourChats" class="relative">
-    <button class="btn rounded-full shadow" onclick="chatModal.showModal()">
-      <Icon icon="ant-design:message-filled" class="text-xl" />
+  <router-link to="yourChats" class="relative flex justify-center">
+    <button class="" onclick="chatModal.showModal()">
+      <Icon
+        icon="ant-design:message-filled"
+        class="text-3xl hover:text-blue-500 transition"
+      />
     </button>
     <!-- <div class="absolute -top-2 -right-2">
       <span class="badge badge-primary font-semibold">2</span>
