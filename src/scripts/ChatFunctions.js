@@ -99,9 +99,13 @@ export function ChatFuntions() {
   const newMessageArray = ref(0);
 
   const filteredUsers = computed(() => {
-    return storedUsers.value.filter(
-      (user) => latestMessages.value[getChatId(userId, user.id)]
-    );
+    return storedUsers.value
+      .filter((user) => latestMessages.value[getChatId(userId, user.id)])
+      .sort((a, b) => {
+        const chatIdA = getChatId(userId, a.id);
+        const chatIdB = getChatId(userId, b.id);
+        return timestamp.value[chatIdB] - timestamp.value[chatIdA];
+      });
   });
 
   const setupChatListeners = () => {

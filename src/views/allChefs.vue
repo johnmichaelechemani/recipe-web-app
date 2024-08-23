@@ -16,7 +16,7 @@
         >All</span
       >
     </div>
-    <div v-for="user in storedUsers" :key="user.id">
+    <div v-for="user in filteredUsers" :key="user.id">
       <UsersChatHeads
         :user="user"
         :yourChat="() => yourChat('openChat', user)"
@@ -48,7 +48,7 @@
 </template>
 
 <script setup>
-import { defineComponent } from "vue";
+import { defineComponent, computed } from "vue";
 import UsersChatHeads from "../components/usersChatHeads.vue";
 import ChatModal from "../components/ChatModal.vue";
 import { ChatFuntions } from "../scripts/ChatFunctions.js";
@@ -57,6 +57,16 @@ const component = defineComponent({
   UsersChatHeads,
   ChatModal,
 });
+
+const filteredUsers = computed(() => {
+    return storedUsers.value
+      .sort((a, b) => {
+        const chatIdA = getChatId(userId, a.id);
+        const chatIdB = getChatId(userId, b.id);
+        return timestamp.value[chatIdB] - timestamp.value[chatIdA];
+      });
+  });
+  
 
 const {
   Time,

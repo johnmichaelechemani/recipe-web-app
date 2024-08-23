@@ -96,7 +96,11 @@ const handleSearch = () => {
 };
 const filteredUsers = computed(() => {
   if (search.value === "") {
-    return storedUsers.value;
+    return storedUsers.value.sort((a, b) => {
+      const chatIdA = getChatId(userId, a.id);
+      const chatIdB = getChatId(userId, b.id);
+      return timestamp.value[chatIdB] - timestamp.value[chatIdA];
+    });
   } else {
     return storedUsers.value.filter((user) =>
       user.userName.toLowerCase().includes(search.value.toLowerCase())
