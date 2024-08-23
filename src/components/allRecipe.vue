@@ -11,12 +11,9 @@
             <div
               tabindex="0"
               role="button"
-              class="btn rounded-full btn-sm px-1.5"
+              class="btn rounded-full bg-transparent btn-sm px-1.5 hover:text-blue-500"
             >
-              <Icon
-                icon="mingcute:filter-3-fill"
-                class="text-xl text-blue-500"
-              />
+              <Icon icon="mingcute:filter-3-fill" class="text-xl" />
             </div>
           </div>
 
@@ -29,7 +26,7 @@
             >
               A-Z
             </div>
-           <hr class="border border-gray-500/10 my-2">
+            <hr class="border border-gray-500/10 my-2" />
             <div
               class="text-sm font-semibold px-4 py-1 hover:bg-gray-500/20 rounded-full"
             >
