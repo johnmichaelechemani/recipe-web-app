@@ -45,22 +45,8 @@ export function ChatFuntions() {
     return [userId1, userId2].sort().join("_");
   };
 
-  const yourChat = (user) => {
-    const modal = document.getElementById("openInbox");
-    modal.showModal();
-    selectedUser.value = user;
-    loadMessages();
-    console.log(messages);
-  };
-  const chefsChat = (user) => {
-    const modal = document.getElementById("openChat");
-    modal.showModal();
-    selectedUser.value = user;
-    loadMessages();
-    console.log(messages);
-  };
-  const searchChat = (user) => {
-    const modal = document.getElementById("searchChat");
+  const yourChat = (modalId, user) => {
+    const modal = document.getElementById(modalId);
     modal.showModal();
     selectedUser.value = user;
     loadMessages();
@@ -257,7 +243,6 @@ export function ChatFuntions() {
     Time,
     getChatId,
     yourChat,
-    chefsChat,
     sendMessage,
     userId,
     newMessage,
@@ -273,6 +258,5 @@ export function ChatFuntions() {
     latestMessages,
     isSender,
     storedUsers,
-    searchChat,
   };
 }

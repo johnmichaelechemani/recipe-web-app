@@ -19,7 +19,7 @@
     <div v-for="user in storedUsers" :key="user.id">
       <UsersChatHeads
         :user="user"
-        :yourChat="chefsChat"
+        :yourChat="() => yourChat('openChat', user)"
         :formatTime="Time"
         :latestMessages="latestMessages"
         :getChatId="getChatId"
@@ -61,7 +61,7 @@ const component = defineComponent({
 const {
   Time,
   getChatId,
-  chefsChat,
+  yourChat,
   sendMessage,
   userId,
   newMessage,

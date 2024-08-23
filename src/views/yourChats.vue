@@ -1,7 +1,11 @@
 <template>
   <div class="min-h-96">
     <div>
-      <ChatHeads :filteredUsers="filteredUsers" :yourChat="yourChat" />
+      <ChatHeads
+        :filteredUsers="filteredUsers"
+        :yourChat="yourChat"
+        modalId="openInbox"
+      />
     </div>
     <div v-for="user in tempUsers" :key="user.id">
       {{ user.userName }}
@@ -11,7 +15,7 @@
       <div v-for="user in filteredUsers" :key="user.id">
         <UsersChatHeads
           :user="user"
-          :yourChat="yourChat"
+          :yourChat="() => yourChat('openInbox', user)"
           :formatTime="Time"
           :latestMessages="latestMessages"
           :getChatId="getChatId"

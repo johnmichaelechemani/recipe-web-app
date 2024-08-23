@@ -44,7 +44,7 @@
           >
             <UsersChatHeads
               :user="user"
-              :yourChat="searchChat"
+              :yourChat="() => yourChat('searchChat', user)"
               :formatTime="Time"
               :latestMessages="latestMessages"
               :getChatId="getChatId"
@@ -108,7 +108,7 @@ const filteredUsers = computed(() => {
 const {
   Time,
   getChatId,
-  searchChat,
+  yourChat,
   sendMessage,
   userId,
   newMessage,

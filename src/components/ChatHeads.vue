@@ -5,7 +5,11 @@
   <div
     class="border-b pb-2 overflow-scroll no-scrollbar gap-3 w-full border-gray-500/10 rounded-md my-2 flex justify-start items-center"
   >
-    <div v-for="user in filteredUsers" :key="user.id" @click="yourChat(user)">
+    <div
+      v-for="user in filteredUsers"
+      :key="user.id"
+      @click="yourChat(modalId, user)"
+    >
       <div class="max-w-14">
         <div
           class="avatar"
@@ -31,6 +35,10 @@ const props = defineProps({
   },
   yourChat: {
     type: Function,
+    required: true,
+  },
+  modalId: {
+    type: String,
     required: true,
   },
 });
