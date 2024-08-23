@@ -24,8 +24,17 @@
             tabindex="0"
             class="dropdown-content border border-gray-500/20 menu bg-base-100 rounded-box z-[1] w-40 p-2 shadow"
           >
-            <li><a>A-Z</a></li>
-            <li><a>Ratings</a></li>
+            <div
+              class="text-sm font-semibold px-4 py-1 hover:bg-gray-500/20 rounded-full"
+            >
+              A-Z
+            </div>
+           <hr class="border border-gray-500/10 my-2">
+            <div
+              class="text-sm font-semibold px-4 py-1 hover:bg-gray-500/20 rounded-full"
+            >
+              Ratings
+            </div>
           </ul>
         </div>
       </div>
