@@ -1,6 +1,10 @@
 <template>
-  <div class="py-2">
-    <h1 class="font-semibold py-2">Your Recipes</h1>
+  <div class="border rounded-2xl border-gray-400/50 p-2 my-3">
+    <div class="my-2">
+      <span class="font-semibold text-sm py-1 px-4 bg-gray-500/10 rounded-full"
+        >Your Recipes</span
+      >
+    </div>
     <div class="flex justify-center sm:justify-start items-center">
       <div
         v-if="recipe"
@@ -63,7 +67,10 @@
                 class="object-cover object-center h-full w-full rounded-md"
               />
             </div>
-            <div v-else class="pt-2 h-24 sm:h-32 md:h-40 flex justify-center items-center">
+            <div
+              v-else
+              class="pt-2 h-24 sm:h-32 md:h-40 flex justify-center items-center"
+            >
               <Icon icon="emojione-v1:pot-of-food" class="text-4xl" />
             </div>
           </figure>

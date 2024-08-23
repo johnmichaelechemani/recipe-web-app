@@ -1,6 +1,10 @@
 <template>
-  <div class="border rounded-md border-gray-400/50 p-2 my-3">
-    <h1 class="font-semibold py-2 text-blue-500">All Recipes</h1>
+  <div class="border rounded-2xl border-gray-400/50 p-2 my-3">
+    <div class="my-2">
+      <span class="font-semibold text-blue-500 text-sm py-1 px-4 bg-blue-500/10 rounded-full"
+        >All Recipes</span
+      >
+    </div>
     <div v-if="filteredRecipes.length === 0 && !loading" class="w-full">
       <span
         class="text-sm px-4 py-1 w-full rounded-full bg-error/10 font-medium text-error"
