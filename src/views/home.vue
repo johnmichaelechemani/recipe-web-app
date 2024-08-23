@@ -1,6 +1,10 @@
 <template>
-  <div v-if="!LoadingWebsite" class="p-2 flex justify-center items-center" v-motion-fade>
-    <div class=" max-w-6xl min-w-2xl">
+  <div
+    v-if="!LoadingWebsite"
+    class="p-2 flex justify-center items-center"
+    v-motion-fade
+  >
+    <div class="max-w-6xl min-w-2xl">
       <Header />
 
       <div class="flex justify-end gap-2 items-center my-2">
@@ -8,14 +12,14 @@
           type="search"
           v-model="search"
           placeholder="Search..."
-          class="input input-bordered sm:w-52 md:w-96 w-full"
+          class="input rounded-full input-bordered sm:w-52 md:w-96 w-full"
         />
         <button
           :disabled="search.length === 0"
-          class="btn btn-primary"
+          class="btn btn-primary rounded-full"
           @click="filter"
         >
-          <Icon icon="bi:search" class="text-xl" />
+          <Icon icon="bi:search" class="text-lg" />
         </button>
       </div>
       <div class="flex justify-start items-center gap-2 mt-5">
