@@ -59,6 +59,13 @@ export function ChatFuntions() {
     loadMessages();
     console.log(messages);
   };
+  const searchChat = (user) => {
+    const modal = document.getElementById("searchChat");
+    modal.showModal();
+    selectedUser.value = user;
+    loadMessages();
+    console.log(messages);
+  };
 
   const sendMessage = async () => {
     if (newMessage.value.trim() === "") return;
@@ -266,5 +273,6 @@ export function ChatFuntions() {
     latestMessages,
     isSender,
     storedUsers,
+    searchChat,
   };
 }

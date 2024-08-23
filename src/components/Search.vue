@@ -44,7 +44,7 @@
           >
             <UsersChatHeads
               :user="user"
-              :yourChat="chefsChat"
+              :yourChat="searchChat"
               :formatTime="Time"
               :latestMessages="latestMessages"
               :getChatId="getChatId"
@@ -57,7 +57,7 @@
             User not found
           </div>
         </div>
-        <dialog id="openChat" class="modal modal-bottom sm:modal-middle">
+        <dialog id="searchChat" class="modal modal-bottom sm:modal-middle">
           <ChatModal
             :userId="userId"
             :messages="messages"
@@ -108,7 +108,7 @@ const filteredUsers = computed(() => {
 const {
   Time,
   getChatId,
-  chefsChat,
+  searchChat,
   sendMessage,
   userId,
   newMessage,
