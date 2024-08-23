@@ -1,10 +1,36 @@
 <template>
   <div class="border rounded-2xl border-gray-400/50 p-2 my-3">
-    <div class="my-2">
-      <span class="font-semibold text-blue-500 text-sm py-1 px-4 bg-blue-500/10 rounded-full"
+    <div class="my-2 flex justify-between items-start">
+      <span
+        class="font-semibold text-blue-500 text-sm py-1 px-4 bg-blue-500/10 rounded-full"
         >All Recipes</span
       >
+      <div class="">
+        <div class="dropdown dropdown-bottom dropdown-end">
+          <div class="tooltip tooltip-primary" data-tip="Filter">
+            <div
+              tabindex="0"
+              role="button"
+              class="btn rounded-full btn-sm px-1.5"
+            >
+              <Icon
+                icon="mingcute:filter-3-fill"
+                class="text-xl text-blue-500"
+              />
+            </div>
+          </div>
+
+          <ul
+            tabindex="0"
+            class="dropdown-content border border-gray-500/20 menu bg-base-100 rounded-box z-[1] w-40 p-2 shadow"
+          >
+            <li><a>A-Z</a></li>
+            <li><a>Ratings</a></li>
+          </ul>
+        </div>
+      </div>
     </div>
+
     <div v-if="filteredRecipes.length === 0 && !loading" class="w-full">
       <span
         class="text-sm px-4 py-1 w-full rounded-full bg-error/10 font-medium text-error"
@@ -54,7 +80,10 @@
                 class="rounded-md object-cover object-center h-full w-full"
               />
             </div>
-            <div v-else class="pt-2 h-24 sm:h-32 md:h-40 flex justify-center items-center">
+            <div
+              v-else
+              class="pt-2 h-24 sm:h-32 md:h-40 flex justify-center items-center"
+            >
               <Icon icon="emojione-v1:pot-of-food" class="text-4xl" />
             </div>
           </figure>
