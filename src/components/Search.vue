@@ -32,7 +32,12 @@
         <div class="my-2">
           <span
             class="font-semibold text-xs text-gray-500 bg-gray-500/10 px-3 py-0.5 shadow-sm rounded-full"
-            >Users</span
+            >Users
+            <span
+              class="pl-1 text-blue-500"
+              :class="filteredUsers.length === 0 ? 'text-red-500' : ''"
+              >{{ filteredUsers.length }}</span
+            ></span
           >
         </div>
         <div>
@@ -52,8 +57,10 @@
               :timestamp="timestamp"
             />
           </div>
-          <div v-else class="text-sm font-medium text-red-500">
-            User not found
+          <div v-else class="">
+            <span class="font-medium text-sm text-red-400">
+              {{ search }} not found</span
+            >
           </div>
         </div>
         <dialog id="searchChat" class="modal modal-bottom sm:modal-middle">
