@@ -5,9 +5,17 @@
         >Your Recipes</span
       >
     </div>
+    <div v-if="recipe.length === 0 && !loading">
+      <div class="my-2">
+        <span
+          class="font-semibold text-xs text-red-400  px-3 py-0.5 rounded-full"
+          >You don't have recipe yet.</span
+        >
+      </div>
+    </div>
     <div class="flex justify-center sm:justify-start items-center">
       <div
-        v-if="recipe"
+        v-if="recipe.length !== 0"
         class="grid grid-cols-3 lg:grid-cols-4 gap-1 sm:gap-3 overflow-hidden py-5 sm:p-2"
       >
         <div
@@ -89,13 +97,7 @@
           <Loading />
         </div>
       </div>
-      <div v-if="recipe.length === 0 && !loading">
-        <div
-          class="font-semibold text-sm px-4 py-2 w-full bg-blue-300/10 rounded-full shadow"
-        >
-          You don't have recipe yet.
-        </div>
-      </div>
+
       <!-- modal for edit -->
       <dialog id="my_modal_edit" class="modal">
         <div class="modal-box">
