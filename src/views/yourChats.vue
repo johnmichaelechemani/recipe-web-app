@@ -37,7 +37,14 @@
           </div>
         </div>
       </div>
-      <div v-if="filteredUsers.length === 0 && !isLoading">No conversation</div>
+      <div v-if="filteredUsers.length === 0 && !isLoading">
+        <div class="my-2">
+          <span
+            class="font-semibold text-xs text-red-400 bg-red-500/10 px-3 py-0.5 shadow-sm rounded-full"
+            >No conversation</span
+          >
+        </div>
+      </div>
     </div>
 
     <dialog id="openInbox" class="modal modal-bottom sm:modal-middle">
