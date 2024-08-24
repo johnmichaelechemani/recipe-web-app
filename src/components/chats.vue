@@ -1,11 +1,19 @@
 <template>
   <router-link to="yourChats" class="relative flex justify-center">
-    <button class="" onclick="chatModal.showModal()">
-      <Icon
-        icon="ant-design:message-filled"
-        class="text-3xl hover:text-blue-500 transition"
-      />
-    </button>
+    <div class="indicator">
+      <span
+        v-if="newMessageArray !== 0"
+        class="indicator-item badge badge-primary text-xs font-semibold"
+        >{{ newMessageArray }}</span
+      >
+      <button class="" onclick="chatModal.showModal()">
+        <Icon
+          icon="ant-design:message-filled"
+          class="text-3xl hover:text-blue-500 transition"
+        />
+      </button>
+    </div>
+
     <!-- <div class="absolute -top-2 -right-2">
       <span class="badge badge-primary font-semibold">2</span>
     </div> -->
@@ -55,4 +63,6 @@
 <script setup>
 import { Icon } from "@iconify/vue";
 import Search from "./Search.vue";
+import { ChatFuntions } from "../scripts/ChatFunctions.js";
+const { newMessageArray } = ChatFuntions();
 </script>

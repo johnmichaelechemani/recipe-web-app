@@ -23,6 +23,7 @@ import {
   setDoc,
   doc,
   serverTimestamp,
+  count,
 } from "firebase/firestore";
 
 export function ChatFuntions() {
@@ -113,6 +114,9 @@ export function ChatFuntions() {
     unsubscribers.value.forEach((unsub) => unsub());
     unsubscribers.value = [];
 
+    // Set to track unique user IDs with new messages
+    const uniqueNewUserIds = new Set();
+
     storedUsers.value.forEach((user) => {
       const chatId = getChatId(userId, user.id);
       const chatDocRef = doc(firestore, "chats", chatId);
@@ -121,20 +125,36 @@ export function ChatFuntions() {
         chatDocRef,
         (doc) => {
           if (doc.exists()) {
-            latestMessages.value[chatId] = doc.data().lastMessage || "";
-            isSender.value[chatId] = doc.data().sender || "";
-            timestamp.value[chatId] = doc.data().timestamp || "";
+            const data = doc.data();
+            const lastMessage = data.lastMessage || "";
+            const sender = data.sender || "";
+            const messageTimestamp = data.timestamp || "";
 
-            if (
-              latestMessages.value[chatId] &&
-              isSender.value[chatId] !== userId
-            ) {
-              newMessageArray.value++;
+            latestMessages.value[chatId] = lastMessage;
+            isSender.value[chatId] = sender;
+            timestamp.value[chatId] = messageTimestamp;
+
+            if (lastMessage && sender !== userId) {
+              if (!uniqueNewUserIds.has(sender)) {
+                uniqueNewUserIds.add(sender);
+                newMessageArray.value = uniqueNewUserIds.size;
+              }
+            } else {
+              if (uniqueNewUserIds.has(sender)) {
+                uniqueNewUserIds.delete(sender);
+                newMessageArray.value = uniqueNewUserIds.size;
+              }
             }
           } else {
             latestMessages.value[chatId] = "";
             isSender.value[chatId] = "";
             timestamp.value[chatId] = "";
+
+            const sender = isSender.value[chatId];
+            if (uniqueNewUserIds.has(sender)) {
+              uniqueNewUserIds.delete(sender);
+              newMessageArray.value = uniqueNewUserIds.size;
+            }
           }
         },
         (error) => {
@@ -149,6 +169,7 @@ export function ChatFuntions() {
   onMounted(() => {
     setupChatListeners();
   });
+
   onUnmounted(() => {
     unsubscribers.value.forEach((unsub) => unsub());
   });
@@ -262,5 +283,6 @@ export function ChatFuntions() {
     latestMessages,
     isSender,
     storedUsers,
+    newMessageArray,
   };
 }
