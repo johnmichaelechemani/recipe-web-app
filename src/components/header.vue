@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-between items-center">
+  <div class="flex justify-between items-center border-b border-gray-400/20">
     <div class="flex justify-start items-center gap-1 p-2">
       <div>
         <img
@@ -13,9 +13,10 @@
         </div>
       </div>
 
-      <h1 class="font-medium text-xs sm:text-sm capitalize">
+      <h1 class="font-medium text-xs sm:text-sm capitalize hidden sm:block">
         {{ user.displayName }}
       </h1>
+      <div class="h-3 border-r-2 border-gray-400/50 ml-2"></div>
 
       <div class="dropdown">
         <div tabindex="0" role="button" class="p-2">

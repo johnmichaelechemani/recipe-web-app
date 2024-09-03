@@ -61,7 +61,7 @@ export default {
       setTimeout(() => {
         LoadingWebsite.value = false;
         console.log("loading");
-      }, 1000);
+      }, 500);
       LoadingWebsite.value = true;
     });
 
