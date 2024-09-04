@@ -263,8 +263,8 @@
         </div>
 
         <div class="flex justify-center gap-1">
-          <span class="text-lg font-semibold mt-1" v-if="muteRateBnt"
-            >Thank's for rating!</span
+          <span class="text-sm font-semibold mt-1" v-if="muteRateBnt"
+            >Thank's for rating! 😊</span
           >
           <span class="text-lg font-semibold mt-1" v-else
             >Rate this recipe</span
@@ -273,7 +273,7 @@
 
         <div class="flex justify-center items-center gap-2">
           <div
-            :class="muteRateBnt ? ' text-neutral' : 'text-yellow-500 '"
+            :class="muteRateBnt ? ' hidden' : 'text-yellow-500 '"
             class="text-xl px-4 py-2 rounded-full flex gap-1"
           >
             <div v-for="star in 5" :key="star">
