@@ -8,7 +8,7 @@
     <div v-if="recipe.length === 0 && !loading">
       <div class="my-2">
         <span
-          class="font-semibold text-xs text-red-400  px-3 py-0.5 rounded-full"
+          class="font-semibold text-xs text-red-400 px-3 py-0.5 rounded-full"
           >You don't have recipe yet.</span
         >
       </div>
@@ -16,7 +16,7 @@
     <div class="flex justify-center sm:justify-start items-center">
       <div
         v-if="recipe.length !== 0"
-        class="grid grid-cols-3 lg:grid-cols-4 gap-1 sm:gap-3 overflow-hidden py-5 sm:p-2"
+        class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-1 sm:gap-3 overflow-hidden py-5 sm:p-2"
       >
         <div
           v-for="item in recipe"
@@ -100,7 +100,7 @@
 
       <!-- modal for edit -->
       <dialog id="my_modal_edit" class="modal">
-        <div class="modal-box">
+        <div class="modal-box no-scrollbar">
           <h3 class="font-bold text-4xl">Edit Recipe</h3>
           <div class="py-2">
             <label class="block text-sm font-medium text-primary">Title</label>
@@ -267,7 +267,7 @@
       </dialog>
       <!-- modal for delete confirmation -->
       <dialog id="my_modal_delete" class="modal">
-        <div class="modal-box">
+        <div class="modal-box no-scrollbar">
           <h3 class="font-bold text-lg">
             Are you sure you want to delete this recipe?
           </h3>
@@ -288,7 +288,7 @@
 
       <!-- show modal -->
       <dialog id="my_modal_2" class="modal" ref="recipeModal">
-        <div class="modal-box">
+        <div class="modal-box no-scrollbar">
           <form method="dialog" class="absolute top-0 right-0 p-2 z-10">
             <button>
               <Icon icon="iconamoon:close-duotone" class="text-2xl" />

@@ -137,7 +137,7 @@
 
     <!-- modal -->
     <dialog id="my_modal_4" class="modal" ref="recipeModal">
-      <div class="modal-box">
+      <div class="modal-box no-scrollbar">
         <form method="dialog" class="absolute top-0 right-0 p-2 z-10">
           <button @click="closeModal">
             <Icon icon="iconamoon:close-duotone" class="text-2xl" />
