@@ -383,9 +383,9 @@ export default {
     };
 
     const sortRatings = () => {
-      recipe.value = recipe.value
-        .slice()
-        .sort((a, b) => b.averageRating - a.averageRating);
+      recipe.value = recipe.value.sort(
+        (a, b) => b.averageRating - a.averageRating
+      );
     };
 
     // const storedUsers = JSON.parse(localStorage.getItem("users"));
