@@ -104,11 +104,11 @@
               {{ item.descriptions }}
             </p>
             <p
-              class="sm:text-xs py-0.5 text-[10px] font-medium px-2 rounded-full text-blue-500 truncate bg-blue-500/20"
+              class="sm:text-xs py-0.5 text-[10px] font-medium px-2 rounded-full text-blue-500 truncate bg-blue-500/10"
             >
               {{ item.userName }}
             </p>
-            <div class="py-2">
+            <div class="pt-2">
               <span
                 v-if="item.averageRating"
                 class="gap-1 text-sm font-medium flex justify-start items-center"
