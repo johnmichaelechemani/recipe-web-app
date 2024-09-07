@@ -78,9 +78,14 @@
           />
 
           <div class="flex justify-between items-center m-3 h-8">
-            <button class="transition">
-              <Icon icon="fluent:image-20-regular" class="text-2xl" />
-            </button>
+            <div class="flex justify-center items-center gap-1">
+              <button class="transition">
+                <Icon icon="tabler:photo" class="text-2xl" />
+              </button>
+              <button class="transition">
+                <Icon icon="tabler:file" class="text-2xl" />
+              </button>
+            </div>
 
             <Transition>
               <button
