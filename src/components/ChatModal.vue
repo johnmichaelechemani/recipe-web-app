@@ -160,10 +160,10 @@ const props = defineProps({
     required: true,
   },
 });
-const messageContainer = ref(null);
-const autoExpand = ref(null);
 const emit = defineEmits(["update:modelValue"]);
 
+const messageContainer = ref(null);
+const autoExpand = ref(null);
 const autoSpand = () => {
   const el = autoExpand.value;
   if (el) {
