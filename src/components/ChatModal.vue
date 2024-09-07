@@ -74,7 +74,7 @@
             :value="modelValue"
             @input="$emit('update:modelValue', $event.target.value)"
             placeholder="Enter a message"
-            class="w-full p-2 placeholder:text-sm rounded-md no-scrollbar bg-transparent outline-none"
+            class="w-full p-3 resize-none placeholder:text-sm rounded-2xl no-scrollbar bg-transparent outline-none"
           />
 
           <div class="flex justify-between items-center m-3 h-8">
@@ -150,7 +150,7 @@ const messageContainer = ref(null);
 <style>
 .v-enter-active,
 .v-leave-active {
-  transition: opacity 0.5s ease;
+  transition: opacity 0.4s ease;
 }
 
 .v-enter-from,
