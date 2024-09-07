@@ -83,12 +83,14 @@
           <div class="flex justify-between items-center m-3 h-5">
             <div class="flex justify-center items-center gap-1">
               <button
-                class="transition p-1 rounded-full bg-gray-400/20 hover:text-success shadow"
+                disabled
+                class="transition cursor-not-allowed p-1 rounded-full bg-gray-400/20 hover:text-success shadow"
               >
                 <Icon icon="tabler:photo" class="text-xl" />
               </button>
               <button
-                class="transition p-1 rounded-full bg-gray-400/20 hover:text-secondary shadow"
+                disabled
+                class="transition cursor-not-allowed p-1 rounded-full bg-gray-400/20 hover:text-secondary shadow"
               >
                 <Icon icon="tabler:file" class="text-xl" />
               </button>
