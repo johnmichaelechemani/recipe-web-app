@@ -80,10 +80,10 @@
           <div class="flex justify-between items-center m-3 h-8">
             <div class="flex justify-center items-center gap-1">
               <button class="transition">
-                <Icon icon="tabler:photo" class="text-2xl" />
+                <Icon icon="tabler:photo" class="text-xl" />
               </button>
               <button class="transition">
-                <Icon icon="tabler:file" class="text-2xl" />
+                <Icon icon="tabler:file" class="text-xl" />
               </button>
             </div>
 
