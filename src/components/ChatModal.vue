@@ -74,10 +74,10 @@
             :value="modelValue"
             @input="$emit('update:modelValue', $event.target.value)"
             placeholder="Enter a message"
-            class="w-full p-3 resize-none placeholder:text-sm rounded-2xl no-scrollbar bg-transparent outline-none"
+            class="w-full px-3 pt-3 resize-none placeholder:text-sm rounded-2xl no-scrollbar bg-transparent outline-none"
           />
 
-          <div class="flex justify-between items-center m-3 h-8">
+          <div class="flex justify-between items-center m-3 h-5">
             <div class="flex justify-center items-center gap-1">
               <button class="transition">
                 <Icon icon="tabler:photo" class="text-xl" />
@@ -94,6 +94,9 @@
               >
                 <Icon icon="bxs:send" class="text-xl text-gray-100" />
               </button>
+              <!-- <button v-else class="rounded-full p-1.5 bg-red-500">
+                <Icon icon="bxs:send" class="text-xl text-gray-100" />
+              </button> -->
             </Transition>
           </div>
         </div>
