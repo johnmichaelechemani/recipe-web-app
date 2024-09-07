@@ -81,14 +81,15 @@
             <button class="transition">
               <Icon icon="fluent:image-20-regular" class="text-2xl" />
             </button>
+
             <Transition>
               <button
                 v-if="!isSendMessageLoading && modelValue"
                 class="rounded-full p-1.5 bg-blue-500"
-                :class="isSendMessageLoading ? 'bg-gray-500/50' : ''"
               >
-                <Icon icon="bxs:send" class="text-xl text-gray-100" /></button
-            ></Transition>
+                <Icon icon="bxs:send" class="text-xl text-gray-100" />
+              </button>
+            </Transition>
           </div>
         </div>
       </div>
