@@ -63,34 +63,41 @@
     </div>
 
     <form @submit.prevent="sendMessage">
-      <div class="my-1 flex justify-start items-center gap-2">
-        <input
-          type="text"
-          :disabled="isSendMessageLoading"
-          required
-          :value="modelValue"
-          @input="$emit('update:modelValue', $event.target.value)"
-          placeholder="Enter a message.."
-          class="input input-bordered w-full placeholder:text-sm rounded-full"
-        />
-        <span
-          v-if="isSendMessageLoading"
-          class="loading loading-ring loading-lg"
-        ></span>
-        <button
-          v-if="!isSendMessageLoading"
-          class="rounded-full btn transition"
-          :class="modelValue === '' ? 'hidden' : ''"
-        >
-          <Icon icon="bxs:send" class="text-xl text-blue-500" />
-        </button>
+      <div
+        class="my-1 flex justify-start items-center gap-2 bg-gray-400/50 rounded-2xl"
+      >
+        <div class="w-full">
+          <textarea
+            type="text"
+            :disabled="isSendMessageLoading"
+            required
+            :value="modelValue"
+            @input="$emit('update:modelValue', $event.target.value)"
+            placeholder="Enter a message"
+            class="w-full p-2 placeholder:text-sm rounded-md no-scrollbar bg-transparent outline-none"
+          />
+
+          <div class="flex justify-between items-center m-3 h-8">
+            <button class="transition">
+              <Icon icon="fluent:image-20-regular" class="text-2xl" />
+            </button>
+            <Transition>
+              <button
+                v-if="!isSendMessageLoading && modelValue"
+                class="rounded-full p-1.5 bg-blue-500"
+                :class="isSendMessageLoading ? 'bg-gray-500/50' : ''"
+              >
+                <Icon icon="bxs:send" class="text-xl text-gray-100" /></button
+            ></Transition>
+          </div>
+        </div>
       </div>
     </form>
   </div>
 </template>
 <script setup>
 import { Icon } from "@iconify/vue";
-import { ref, computed } from "vue";
+import { ref, computed, watch, onMounted, Transition } from "vue";
 import MessageLoading from "../components/messageLoading.vue";
 const props = defineProps({
   userId: {
@@ -139,3 +146,14 @@ const props = defineProps({
 });
 const messageContainer = ref(null);
 </script>
+<style>
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+</style>
