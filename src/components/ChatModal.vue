@@ -70,6 +70,8 @@
           <textarea
             type="text"
             :disabled="isSendMessageLoading"
+            cols="1"
+            rows="1"
             required
             ref="autoExpand"
             :value="modelValue"
