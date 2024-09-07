@@ -64,25 +64,30 @@
 
     <form @submit.prevent="sendMessage">
       <div
-        class="my-1 flex justify-start items-center gap-2 bg-gray-400/50 rounded-2xl"
+        class="my-1 flex justify-start items-center gap-2 bg-gray-400/20 shadow rounded-2xl"
       >
         <div class="w-full">
           <textarea
             type="text"
             :disabled="isSendMessageLoading"
             required
+            ref="autoExpand"
             :value="modelValue"
-            @input="$emit('update:modelValue', $event.target.value)"
+            @input="onInput"
             placeholder="Enter a message"
-            class="w-full px-3 pt-3 resize-none placeholder:text-sm rounded-2xl no-scrollbar bg-transparent outline-none"
+            class="w-full px-3 pt-3 placeholder:text-sm resize-none rounded-2xl no-scrollbar bg-transparent outline-none"
           />
 
           <div class="flex justify-between items-center m-3 h-5">
             <div class="flex justify-center items-center gap-1">
-              <button class="transition">
+              <button
+                class="transition p-1 rounded-full bg-gray-400/20 hover:text-success shadow"
+              >
                 <Icon icon="tabler:photo" class="text-xl" />
               </button>
-              <button class="transition">
+              <button
+                class="transition p-1 rounded-full bg-gray-400/20 hover:text-secondary shadow"
+              >
                 <Icon icon="tabler:file" class="text-xl" />
               </button>
             </div>
@@ -154,6 +159,23 @@ const props = defineProps({
   },
 });
 const messageContainer = ref(null);
+const autoExpand = ref(null);
+const emit = defineEmits(["update:modelValue"]);
+
+const autoSpand = () => {
+  const el = autoExpand.value;
+  if (el) {
+    el.style.height = "auto";
+    el.style.height = `${el.scrollHeight}px`;
+  }
+};
+const onInput = (event) => {
+  emit("update:modelValue", event.target.value);
+  autoSpand();
+};
+watch(props.modelValue, () => {
+  autoSpand();
+});
 </script>
 <style>
 .v-enter-active,
