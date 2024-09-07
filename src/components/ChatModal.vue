@@ -161,14 +161,24 @@ const props = defineProps({
   },
 });
 const emit = defineEmits(["update:modelValue"]);
-
+const maxRows = 10;
+const lineHeight = 24;
 const messageContainer = ref(null);
 const autoExpand = ref(null);
+
 const autoSpand = () => {
   const el = autoExpand.value;
   if (el) {
     el.style.height = "auto";
-    el.style.height = `${el.scrollHeight}px`;
+    const scrollHeight = el.scrollHeight;
+    const maxHeight = maxRows * lineHeight;
+
+    if (scrollHeight > maxHeight) {
+      el.style.height = `${maxHeight}px`;
+      el.style.overflowY = "auto";
+    } else {
+      el.style.height = `${scrollHeight}px`;
+    }
   }
 };
 const onInput = (event) => {
