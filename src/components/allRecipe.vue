@@ -83,6 +83,7 @@
           <figure>
             <div v-if="item.imageURL" class="w-full h-24 sm:h-32 md:h-40">
               <img
+                loading="lazy"
                 :src="item.imageURL"
                 alt="recipe"
                 class="rounded-md object-cover object-center h-full w-full"

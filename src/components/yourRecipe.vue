@@ -72,6 +72,7 @@
               <img
                 :src="item.imageURL"
                 alt="recipe"
+                loading="lazy"
                 class="object-cover object-center h-full w-full rounded-md"
               />
             </div>

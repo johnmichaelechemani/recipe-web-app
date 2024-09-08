@@ -103,9 +103,6 @@
               >
                 <Icon icon="bxs:send" class="text-xl text-gray-100" />
               </button>
-              <!-- <button v-else class="rounded-full p-1.5 bg-red-500">
-                <Icon icon="bxs:send" class="text-xl text-gray-100" />
-              </button> -->
             </Transition>
           </div>
         </div>
