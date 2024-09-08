@@ -57,7 +57,7 @@
           </div>
 
           <div class="chat-footer opacity-50 font-semibold text-xs">
-            Delivered
+            {{ isSendMessageLoading ? "Sending..." : "Delivered" }}
           </div>
         </div>
       </div>
