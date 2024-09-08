@@ -62,7 +62,7 @@
       </div>
     </div>
 
-    <form @submit.prevent="sendMessage">
+    <form>
       <div
         class="my-1 flex justify-start items-center gap-2 bg-gray-400/20 shadow rounded-2xl"
       >
@@ -96,14 +96,25 @@
               </button>
             </div>
 
-            <Transition>
-              <button
+            <div
+              class="rounded-full p-1.5 flex shadow justify-center transition items-center"
+              :class="
+                modelValue !== ''
+                  ? 'bg-blue-500 hover:bg-blue-500/90 '
+                  : 'bg-primary/10 hover:bg-primary/20'
+              "
+            >
+              <botton
                 v-if="!isSendMessageLoading && modelValue"
-                class="rounded-full p-1.5 bg-blue-500"
+                @click.prevent="sendMessage"
+                v-motion-fade
               >
-                <Icon icon="bxs:send" class="text-xl text-gray-100" />
+                <Icon icon="bxs:send" class="text-xl text-gray-200" />
+              </botton>
+              <button v-motion-fade v-else>
+                <Icon icon="ic:round-mic" class="text-xl text-primary" />
               </button>
-            </Transition>
+            </div>
           </div>
         </div>
       </div>
