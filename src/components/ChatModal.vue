@@ -55,6 +55,10 @@
           >
             {{ m.message }}
           </div>
+
+          <div class="chat-footer opacity-50 font-semibold text-xs">
+            Delivered
+          </div>
         </div>
       </div>
       <div v-if="isLoading">
@@ -111,7 +115,7 @@
               >
                 <Icon icon="bxs:send" class="text-xl text-gray-200" />
               </botton>
-              <button v-motion-fade v-else>
+              <button v-motion-fade v-else class="cursor-not-allowed" disabled>
                 <Icon icon="ic:round-mic" class="text-xl text-primary" />
               </button>
             </div>
