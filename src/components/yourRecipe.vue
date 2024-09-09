@@ -291,7 +291,7 @@
       <dialog id="my_modal_2" class="modal" ref="recipeModal">
         <div class="modal-box no-scrollbar">
           <form method="dialog" class="absolute top-0 right-0 p-2 z-10">
-            <button>
+            <button @click="closeModal('my_modal_2')">
               <Icon icon="iconamoon:close-duotone" class="text-2xl" />
             </button>
           </form>
@@ -307,42 +307,21 @@
           <hr class="border border-gray-500/10" />
           <div class="py-4">
             <p class="text-xs text-primary">Ingredients:</p>
-            <ul>
-              <li
-                v-for="(ingredient, index) in selectedRecipe.allIngredients"
-                :key="ingredient.id"
-                class="capitalize"
-              >
-                <div class="flex justify-start items-center gap-4 my-1">
-                  <span class="text-xs">{{ index + 1 }}</span>
-                  <div
-                    class="text-xs px-2 py-1 bg-gray-400/10 font-medium rounded-md"
-                  >
-                    {{ ingredient }}
-                  </div>
-                </div>
-              </li>
-            </ul>
+            <ItemLists
+              :selectedItem="selectedRecipe.allIngredients"
+              :itemDesables="ingredientsDisables"
+              :handleClick="clickIngredients"
+            />
           </div>
           <hr class="border border-gray-500/10" />
 
           <div class="py-4">
             <p class="text-xs text-primary">Instructions:</p>
-            <ol>
-              <li
-                v-for="(instruction, index) in selectedRecipe.allInstructions"
-                :key="instruction.id"
-              >
-                <div class="flex justify-start items-center gap-4 my-1">
-                  <span class="text-xs">{{ index + 1 }}</span>
-                  <div
-                    class="text-xs px-2 py-1 bg-gray-400/10 font-medium rounded-md"
-                  >
-                    {{ instruction }}
-                  </div>
-                </div>
-              </li>
-            </ol>
+            <ItemLists
+              :selectedItem="selectedRecipe.allInstructions"
+              :itemDesables="instructionsDisables"
+              :handleClick="clickInstructions"
+            />
           </div>
         </div>
       </dialog>
@@ -353,7 +332,9 @@
 import Loading from "../components/loading.vue";
 import { ref, watch, onUnmounted } from "vue";
 import { getAuth } from "firebase/auth";
+import { getAllRecipe } from "../firebase";
 import { Icon } from "@iconify/vue";
+import ItemLists from "../components/ItemLists.vue";
 import {
   query,
   collection,
@@ -373,12 +354,14 @@ import {
   uploadBytes,
   getDownloadURL,
 } from "firebase/storage";
+
 export default {
   components: {
     Loading,
     Icon,
+    ItemLists,
   },
-  setup() {
+  setup(props, index) {
     const loading = ref(true);
     const isSaveloading = ref(false);
 
@@ -390,6 +373,13 @@ export default {
 
     const recipe = ref([]);
     const selectedRecipe = ref({});
+
+    const {
+      clickInstructions,
+      instructionsDisables,
+      clickIngredients,
+      ingredientsDisables,
+    } = getAllRecipe(props, index);
 
     const recipeCollection = collection(firestore, "recipe");
     const recipeQuery = query(
@@ -572,6 +562,8 @@ export default {
 
     // Call clearImageSelection when the edit modal is closed
     const closeModal = (modalId) => {
+      instructionsDisables.value = [];
+      ingredientsDisables.value = [];
       const modal = document.getElementById(modalId);
       modal.close();
       clearImageSelection();
@@ -604,6 +596,11 @@ export default {
       imageName,
       imageURL,
       clearImageSelection,
+      clickInstructions,
+      instructionsDisables,
+      clickIngredients,
+      ingredientsDisables,
+      closeModal,
     };
   },
 };

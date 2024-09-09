@@ -191,69 +191,21 @@
 
         <div class="py-4">
           <p class="text-xs text-primary">Ingredients:</p>
-          <ul>
-            <li
-              v-for="(ingredient, index) in selectedAllRecipe.allIngredients"
-              :key="ingredient.id"
-              class="capitalize"
-            >
-              <div class="flex justify-start items-center gap-4 my-1">
-                <div>
-                  <Icon
-                    v-if="ingredientsDisables.some((item) => item === index)"
-                    icon="lets-icons:check-fill"
-                    class="text-green-500 text-sm"
-                  />
-                  <span v-else class="text-xs">{{ index + 1 }}</span>
-                </div>
-
-                <div
-                  class="text-xs flex justify-start items-center gap-2 px-2 py-1 bg-gray-400/10 font-medium cursor-pointer rounded-md"
-                  @click="clickIngredients(index)"
-                  :class="
-                    ingredientsDisables.some((item) => item === index)
-                      ? 'line-through'
-                      : ''
-                  "
-                >
-                  {{ ingredient }}
-                </div>
-              </div>
-            </li>
-          </ul>
+          <ItemLists
+            :selectedItem="selectedAllRecipe.allIngredients"
+            :itemDesables="ingredientsDisables"
+            :handleClick="clickIngredients"
+          />
         </div>
         <hr class="border border-gray-500/10" />
         <div class="py-4">
           <p class="text-xs text-primary">Instructions:</p>
-          <ol>
-            <li
-              v-for="(instruction, index) in selectedAllRecipe.allInstructions"
-              :key="instruction.id"
-            >
-              <div class="flex justify-start items-center gap-4 my-1">
-                <div>
-                  <Icon
-                    v-if="instructionsDisables.some((item) => item === index)"
-                    icon="lets-icons:check-fill"
-                    class="text-green-500 text-sm"
-                  />
-                  <span v-else class="text-xs">{{ index + 1 }}</span>
-                </div>
 
-                <div
-                  class="text-xs px-2 py-1 bg-gray-400/10 flex justify-start items-center gap-2 font-medium cursor-pointer rounded-md"
-                  @click="clickInstructions(index)"
-                  :class="
-                    instructionsDisables.some((item) => item === index)
-                      ? 'line-through'
-                      : ''
-                  "
-                >
-                  {{ instruction }}
-                </div>
-              </div>
-            </li>
-          </ol>
+          <ItemLists
+            :selectedItem="selectedAllRecipe.allInstructions"
+            :itemDesables="instructionsDisables"
+            :handleClick="clickInstructions"
+          />
         </div>
         <hr class="border border-gray-500/10 my-2" />
         <div v-if="ratingsInText" class="flex justify-center items-center">
@@ -318,7 +270,7 @@ import Loading from "../components/loading.vue";
 import { Icon } from "@iconify/vue";
 import { getAllRecipe, useAuth } from "../firebase";
 import { ref, watch, onUnmounted, computed, reactive } from "vue";
-
+import ItemLists from "./ItemLists.vue";
 export default {
   props: {
     searchQuery: {
@@ -329,6 +281,7 @@ export default {
   components: {
     Loading,
     Icon,
+    ItemLists,
   },
   setup(props, index) {
     const {
