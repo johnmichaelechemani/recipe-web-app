@@ -69,8 +69,8 @@
     <form>
       <div
         @click="showTextbox"
-        ref="textboxContainer"
-        class="my-1 flex justify-start items-center gap-2 bg-gray-400/20 shadow rounded-full"
+        :class="isShowTextbox ? 'rounded-2xl' : 'rounded-full'"
+        class="my-1 flex justify-start items-center gap-2 bg-gray-400/20 shadow"
       >
         <div class="w-full">
           <textarea
@@ -84,7 +84,8 @@
             :value="modelValue"
             @input="onInput"
             placeholder="Enter a message"
-            class="w-full px-3 pt-3 hidden placeholder:text-sm resize-none rounded-2xl no-scrollbar bg-transparent outline-none"
+            :class="isShowTextbox ? '' : 'hidden'"
+            class="w-full px-3 pt-3 placeholder:text-sm resize-none rounded-2xl no-scrollbar bg-transparent outline-none"
           />
 
           <div class="flex justify-between items-center m-3 h-5">
@@ -101,6 +102,11 @@
               >
                 <Icon icon="tabler:file" class="text-xl" />
               </button>
+              <span
+                v-if="!isShowTextbox"
+                class="text-xs font-medium opacity-60 pl-2"
+                >Send a message</span
+              >
             </div>
 
             <div
@@ -182,7 +188,6 @@ const maxRows = 10;
 const lineHeight = 24;
 const messageContainer = ref(null);
 const autoExpand = ref(null);
-const textboxContainer = ref(null);
 
 const autoSpand = () => {
   const el = autoExpand.value;
@@ -206,14 +211,11 @@ const onInput = (event) => {
 watch(props.modelValue, () => {
   autoSpand();
 });
+const isShowTextbox = ref(false);
 const showTextbox = () => {
-  const el = autoExpand.value;
-  const container = textboxContainer.value;
-  if ((el, container)) {
-    el.classList.remove("hidden");
-    container.classList.remove("rounded-full");
-    container.classList.add("rounded-2xl");
-  }
+  isShowTextbox.value = true;
+
+  console.log(isShowTextbox.value);
 };
 </script>
 <style>
