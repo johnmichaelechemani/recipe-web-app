@@ -23,6 +23,7 @@
       <div class="my-3 flex justify-start gap-2 text-sm items-center">
         <input
           type="search"
+          autofocus
           v-model="search"
           placeholder="Search"
           class="input input-bordered input-md w-full rounded-full"

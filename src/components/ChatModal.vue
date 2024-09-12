@@ -68,7 +68,9 @@
 
     <form>
       <div
-        class="my-1 flex justify-start items-center gap-2 bg-gray-400/20 shadow rounded-2xl"
+        @click="showTextbox"
+        ref="textboxContainer"
+        class="my-1 flex justify-start items-center gap-2 bg-gray-400/20 shadow rounded-full"
       >
         <div class="w-full">
           <textarea
@@ -77,11 +79,12 @@
             cols="1"
             rows="1"
             required
+            autofocus
             ref="autoExpand"
             :value="modelValue"
             @input="onInput"
             placeholder="Enter a message"
-            class="w-full px-3 pt-3 placeholder:text-sm resize-none rounded-2xl no-scrollbar bg-transparent outline-none"
+            class="w-full px-3 pt-3 hidden placeholder:text-sm resize-none rounded-2xl no-scrollbar bg-transparent outline-none"
           />
 
           <div class="flex justify-between items-center m-3 h-5">
@@ -179,6 +182,7 @@ const maxRows = 10;
 const lineHeight = 24;
 const messageContainer = ref(null);
 const autoExpand = ref(null);
+const textboxContainer = ref(null);
 
 const autoSpand = () => {
   const el = autoExpand.value;
@@ -202,6 +206,15 @@ const onInput = (event) => {
 watch(props.modelValue, () => {
   autoSpand();
 });
+const showTextbox = () => {
+  const el = autoExpand.value;
+  const container = textboxContainer.value;
+  if ((el, container)) {
+    el.classList.remove("hidden");
+    container.classList.remove("rounded-full");
+    container.classList.add("rounded-2xl");
+  }
+};
 </script>
 <style>
 .v-enter-active,
