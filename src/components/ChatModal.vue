@@ -66,7 +66,7 @@
       </div>
     </div>
 
-    <form>
+    <form ref="messageBoxContainer">
       <div
         @click="showTextbox"
         :class="isShowTextbox ? 'rounded-2xl' : 'rounded-full'"
@@ -188,9 +188,12 @@ const maxRows = 10;
 const lineHeight = 24;
 const messageContainer = ref(null);
 const autoExpand = ref(null);
+const isShowTextbox = ref(false);
+const messageBoxContainer = ref(null);
+const messBoxCont = messageBoxContainer.value;
+const el = autoExpand.value;
 
 const autoSpand = () => {
-  const el = autoExpand.value;
   if (el) {
     el.style.height = "auto";
     const scrollHeight = el.scrollHeight;
@@ -211,11 +214,8 @@ const onInput = (event) => {
 watch(props.modelValue, () => {
   autoSpand();
 });
-const isShowTextbox = ref(false);
 const showTextbox = () => {
   isShowTextbox.value = true;
-
-  console.log(isShowTextbox.value);
 };
 </script>
 <style>
