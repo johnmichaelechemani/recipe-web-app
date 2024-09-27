@@ -55,7 +55,7 @@
           v-for="item in filteredRecipes"
           :key="item.id"
           @click="showRecipeAllModal(item)"
-          class="card sm:w-52 w-26 bg-base-100 shadow-sm border border-gray-500/10 relative rounded-md"
+          class="card sm:w-52 w-26 bg-base-100 shadow-sm relative rounded-md"
         >
           <div
             class="rounded-full absolute -top-1 -left-1 shadow-xl border border-secondary"
@@ -96,7 +96,7 @@
               <Icon icon="emojione-v1:pot-of-food" class="text-4xl" />
             </div>
           </figure>
-          <div class="px-1 py-2">
+          <div class="py-2">
             <h2 class="card-title text-sm sm:text-lg truncate">
               {{ item.title }}
             </h2>
