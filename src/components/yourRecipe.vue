@@ -22,7 +22,7 @@
           v-for="item in recipe"
           :key="item.id"
           @click="showRecipeModal(item)"
-          class="card sm:w-52 w-26 bg-base-100 shadow border border-gray-200/10 relative rounded-md"
+          class="card sm:w-52 w-26 bg-base-100   relative rounded-md"
         >
           <div
             class="dropdown dropdown-end absolute z-50 top-0 right-0 text-gray-800 shadow"
@@ -83,7 +83,7 @@
               <Icon icon="emojione-v1:pot-of-food" class="text-4xl" />
             </div>
           </figure>
-          <div class="card-body p-3">
+          <div class="py-3">
             <h2 class="card-title truncate">{{ item.title }}</h2>
             <p class="text-xs truncate">
               {{ item.descriptions }}

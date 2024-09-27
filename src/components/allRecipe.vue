@@ -55,7 +55,7 @@
           v-for="item in filteredRecipes"
           :key="item.id"
           @click="showRecipeAllModal(item)"
-          class="card sm:w-52 w-26 bg-base-100 shadow-sm relative rounded-md"
+          class="card sm:w-52 w-26 bg-base-100 relative rounded-md"
         >
           <div
             class="rounded-full absolute -top-1 -left-1 shadow-xl border border-secondary"
@@ -80,8 +80,8 @@
             </div>
           </div>
 
-          <figure>
-            <div v-if="item.imageURL" class="w-full h-24 sm:h-32 md:h-40">
+          <figure class="bg-blue-500/10 rounded-md">
+            <div v-if="item.imageURL" class="w-full h-24 sm:h-32 md:h-40 ">
               <img
                 loading="lazy"
                 :src="item.imageURL"
