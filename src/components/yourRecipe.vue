@@ -64,7 +64,7 @@
             </ul>
           </div>
 
-          <figure>
+          <figure class="bg-blue-500/10 rounded-md">
             <div
               v-if="item.imageURL"
               class="w-full bg-primary/10 h-24 sm:h-30 md:h-40"
