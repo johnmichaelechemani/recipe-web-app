@@ -55,7 +55,7 @@
           v-for="item in filteredRecipes"
           :key="item.id"
           @click="showRecipeAllModal(item)"
-          class="card sm:w-52 w-26 bg-base-100 shadow-sm border border-gray-500/20 relative rounded-md"
+          class="card sm:w-52 w-26 bg-base-100 shadow-sm border border-gray-500/10 relative rounded-md"
         >
           <div
             class="rounded-full absolute -top-1 -left-1 shadow-xl border border-secondary"
@@ -118,15 +118,6 @@
                   item.averageRating.toFixed(1)
                 }}
               </span>
-              <span
-                v-else
-                class="gap-1 text-sm font-medium flex justify-start items-center"
-              >
-                <Icon
-                  icon="ic:round-star"
-                  class="text-xl text-yellow-500"
-                />?</span
-              >
             </div>
           </div>
         </div>
