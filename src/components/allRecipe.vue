@@ -81,7 +81,7 @@
           </div>
 
           <figure class="bg-blue-500/10 rounded-md">
-            <div v-if="item.imageURL" class="w-full h-24 sm:h-32 md:h-40 ">
+            <div v-if="item.imageURL" class="w-full h-24 sm:h-32 md:h-40">
               <img
                 loading="lazy"
                 :src="item.imageURL"

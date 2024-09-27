@@ -22,7 +22,7 @@
           v-for="item in recipe"
           :key="item.id"
           @click="showRecipeModal(item)"
-          class="card sm:w-52 w-26 bg-base-100   relative rounded-md"
+          class="card sm:w-52 w-26 bg-base-100 relative rounded-md"
         >
           <div
             class="dropdown dropdown-end absolute z-50 top-0 right-0 text-gray-800 shadow"
