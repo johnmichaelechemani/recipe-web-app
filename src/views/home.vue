@@ -14,13 +14,6 @@
           placeholder="Search..."
           class="input rounded-full input-bordered sm:w-52 md:w-96 w-full"
         />
-        <button
-          :disabled="search.length === 0"
-          class="btn btn-primary rounded-full"
-          @click="filter"
-        >
-          <Icon icon="bi:search" class="text-lg" />
-        </button>
       </div>
       <div class="flex justify-start items-center gap-2 mt-5">
         <AddRecipe />
@@ -64,11 +57,7 @@ export default {
       }, 500);
       LoadingWebsite.value = true;
     });
-
-    const filter = () => {
-      console.log(search.value);
-    };
-    return { search, filter, LoadingWebsite };
+    return { search, LoadingWebsite };
   },
 };
 </script>
