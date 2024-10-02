@@ -6,7 +6,7 @@
         <!-- head -->
         <thead>
           <tr>
-            <th v-for="(value, key) in recipe[0]" :key="key">
+            <th v-for="key in recipe[0]" :key="key">
               {{ key }}
             </th>
             <th colspan="2">Action</th>
@@ -18,6 +18,7 @@
 
           <tr class="bg-base-200">
             <td>{{ item.id }}</td>
+            <td>{{ item.email }}</td>
             <td>{{ item.Name }}</td>
             <td>{{ item.Address }}</td>
             <td>{{ item.Number }}</td>
