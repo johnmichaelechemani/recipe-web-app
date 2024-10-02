@@ -88,7 +88,7 @@
             <p class="text-xs truncate">
               {{ item.descriptions }}
             </p>
-            <p class="text-[10px] font-medium">
+            <p class="text-[10px] text-gray-500 font-medium">
               {{ formatHour(item.createdAt) }}
             </p>
           </div>
@@ -411,7 +411,7 @@ export default {
       const hours = date.getHours() % 12 || 12;
       const minutes = ("0" + date.getMinutes()).slice(-2);
       const period = date.getHours() < 12 ? "am" : "pm";
-      return `${day} ${month} ${year} (${hours}:${minutes} ${period})`;
+      return `${day} ${month} ${year} - ${hours}:${minutes} ${period}`;
     };
 
     let editId = ref("");
