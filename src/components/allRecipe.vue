@@ -104,11 +104,11 @@
             <p class="text-xs truncate">
               {{ item.descriptions }}
             </p>
-            <p
+            <span
               class="sm:text-xs py-0.5 text-[10px] font-medium px-2 rounded-full text-blue-500 truncate bg-blue-500/10"
             >
               {{ item.userName }}
-            </p>
+            </span>
             <div class="pt-2">
               <span
                 v-if="item.averageRating"
