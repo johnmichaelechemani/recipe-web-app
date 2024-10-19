@@ -71,67 +71,82 @@
       </div>
     </div>
 
-    <form
-      ref="messageBoxContainer"
-      class="fixed bottom-0 z-50 inset-x-0 backdrop-blur-2xl"
-    >
-      <div
-        class="my-1 mx-1 flex justify-start items-center rounded-2xl gap-2 bg-gray-400/20 backdrop-blur-2xl shadow"
-      >
-        <div class="w-full rounded-2xl border border-gray-500/20 shadow">
-          <textarea
-            type="text"
-            :disabled="isSendMessageLoading"
-            cols="1"
-            rows="1"
-            required
-            autofocus
-            ref="autoExpand"
-            :value="modelValue"
-            @input="onInput"
-            placeholder="Enter a message"
-            class="w-full px-3 pt-3 placeholder:text-sm placeholder:text-gray-500 resize-none rounded-2xl no-scrollbar bg-transparent outline-none"
-          />
+    <div class="fixed bottom-0 z-50 inset-x-0">
+      <div class="ml-1 flex justify-start items-center gap-2 text-xs">
+        <span
+          class="backdrop-blur-2xl flex bg-gray-400/20 justify-start items-center gap-2 px-2 py-1 border border-gray-500/20 rounded-xl"
+          ><Icon icon="fluent:attach-16-regular" width="20" height="20" />
+          <span>JohnMichael.png</span></span
+        >
+        <span
+        class="backdrop-blur-2xl bg-gray-400/20 border p-0.5 hover:text-red-500 transition border-gray-500/20 rounded-full"
+          ><Icon icon="iconamoon:close-light" width="20" height="20"
+        /></span>
+      </div>
+      <form ref="messageBoxContainer">
+        <div
+          class="my-1 mx-1 flex justify-start items-center rounded-2xl gap-2 bg-gray-400/20 backdrop-blur-2xl shadow"
+        >
+          <div class="w-full rounded-2xl border border-gray-500/20 shadow">
+            <textarea
+              type="text"
+              :disabled="isSendMessageLoading"
+              cols="1"
+              rows="1"
+              required
+              autofocus
+              ref="autoExpand"
+              :value="modelValue"
+              @input="onInput"
+              placeholder="Enter a message"
+              class="w-full px-3 pt-3 placeholder:text-sm placeholder:text-gray-500 resize-none rounded-2xl no-scrollbar bg-transparent outline-none"
+            />
 
-          <div class="flex justify-between items-center m-3 h-5">
-            <div class="flex justify-center items-center gap-1">
-              <button
-                disabled
-                class="transition cursor-not-allowed p-1 rounded-full bg-gray-400/20 hover:text-success shadow"
-              >
-                <Icon icon="tabler:photo" class="text-xl" />
-              </button>
-              <button
-                disabled
-                class="transition cursor-not-allowed p-1 rounded-full bg-gray-400/20 hover:text-secondary shadow"
-              >
-                <Icon icon="tabler:file" class="text-xl" />
-              </button>
-            </div>
+            <div class="flex justify-between items-center m-3 h-5">
+              <div class="flex justify-center items-center gap-1">
+                <button
+                  disabled
+                  class="transition cursor-not-allowed p-1 rounded-full bg-gray-400/20 hover:text-success shadow"
+                >
+                  <Icon icon="tabler:photo" class="text-xl" />
+                </button>
+                <button
+                  disabled
+                  class="transition cursor-not-allowed p-1 rounded-full bg-gray-400/20 hover:text-secondary shadow"
+                >
+                  <Icon icon="tabler:file" class="text-xl" />
+                </button>
+              </div>
 
-            <div
-              class="rounded-full p-1.5 flex shadow justify-center transition items-center"
-              :class="
-                modelValue !== ''
-                  ? 'bg-blue-500 hover:bg-blue-500/90 '
-                  : 'bg-primary/10 hover:bg-primary/20'
-              "
-            >
-              <button
-                v-if="!isSendMessageLoading && modelValue"
-                @click.prevent="sendMessage"
-                v-motion-fade
+              <div
+                class="rounded-full p-1.5 flex shadow justify-center transition items-center"
+                :class="
+                  modelValue !== ''
+                    ? 'bg-blue-500 hover:bg-blue-500/90 '
+                    : 'bg-primary/10 hover:bg-primary/20'
+                "
               >
-                <Icon icon="bxs:send" class="text-xl text-gray-200" />
-              </button>
-              <button v-motion-fade v-else class="cursor-not-allowed" disabled>
-                <Icon icon="ic:round-mic" class="text-xl text-primary" />
-              </button>
+                <button
+                  v-if="!isSendMessageLoading && modelValue"
+                  @click.prevent="sendMessage"
+                  v-motion-fade
+                >
+                  <Icon icon="bxs:send" class="text-xl text-gray-200" />
+                </button>
+                <button
+                  v-motion-fade
+                  v-else
+                  class="cursor-not-allowed"
+                  disabled
+                >
+                  <Icon icon="ic:round-mic" class="text-xl text-primary" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 </template>
 <script setup>
@@ -222,7 +237,7 @@ watch(
     if (newValue === "") {
       const el = autoExpand.value;
       if (el) {
-        el.style.height = 'auto';
+        el.style.height = "auto";
         el.style.overflowY = "hidden";
       }
     } else {
