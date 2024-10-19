@@ -68,9 +68,8 @@
 
     <form ref="messageBoxContainer">
       <div
-        @click="showTextbox"
-        :class="isShowTextbox ? 'rounded-2xl' : 'rounded-full'"
-        class="my-1 flex justify-start items-center gap-2 bg-gray-400/20 shadow"
+       
+        class="my-1 flex justify-start items-center rounded-2xl gap-2 bg-gray-400/20 shadow"
       >
         <div class="w-full">
           <textarea
@@ -84,7 +83,7 @@
             :value="modelValue"
             @input="onInput"
             placeholder="Enter a message"
-            :class="isShowTextbox ? '' : 'hidden'"
+           
             class="w-full px-3 pt-3 placeholder:text-sm resize-none rounded-2xl no-scrollbar bg-transparent outline-none"
           />
 
@@ -102,11 +101,7 @@
               >
                 <Icon icon="tabler:file" class="text-xl" />
               </button>
-              <span
-                v-if="!isShowTextbox"
-                class="text-xs font-medium opacity-60 pl-2"
-                >Send a message</span
-              >
+              
             </div>
 
             <div
@@ -117,13 +112,13 @@
                   : 'bg-primary/10 hover:bg-primary/20'
               "
             >
-              <botton
+              <button
                 v-if="!isSendMessageLoading && modelValue"
                 @click.prevent="sendMessage"
                 v-motion-fade
               >
                 <Icon icon="bxs:send" class="text-xl text-gray-200" />
-              </botton>
+              </button>
               <button v-motion-fade v-else class="cursor-not-allowed" disabled>
                 <Icon icon="ic:round-mic" class="text-xl text-primary" />
               </button>
@@ -136,7 +131,7 @@
 </template>
 <script setup>
 import { Icon } from "@iconify/vue";
-import { ref, computed, watch, onMounted, Transition } from "vue";
+import { ref, computed, watch, onMounted, Transition, nextTick } from "vue";
 import MessageLoading from "../components/messageLoading.vue";
 const props = defineProps({
   userId: {
@@ -188,9 +183,7 @@ const maxRows = 10;
 const lineHeight = 24;
 const messageContainer = ref(null);
 const autoExpand = ref(null);
-const isShowTextbox = ref(false);
 const messageBoxContainer = ref(null);
-const messBoxCont = messageBoxContainer.value;
 const el = autoExpand.value;
 
 const autoSpand = () => {
@@ -214,9 +207,24 @@ const onInput = (event) => {
 watch(props.modelValue, () => {
   autoSpand();
 });
-const showTextbox = () => {
-  isShowTextbox.value = true;
-};
+
+onMounted(() => {
+  if (messageContainer.value) {
+    messageContainer.value.scrollTop = messageContainer.value.scrollHeight;
+  }
+});
+
+watch(
+  () => props.filteredMessages,
+  () => {
+    nextTick(() => {
+      if (messageContainer.value) {
+        messageContainer.value.scrollTop = messageContainer.value.scrollHeight;
+      }
+    });
+  },
+  { deep: true }
+);
 </script>
 <style>
 .v-enter-active,
