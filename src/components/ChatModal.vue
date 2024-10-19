@@ -18,7 +18,7 @@
       </div>
     </div>
     <hr class="my-1 border border-gray-400/20" />
-    <div class="h-[370px] mb-[80px] rounded-md overflow-y-scroll" ref="messageContainer">
+    <div class="h-[366px] mb-[86px] rounded-md overflow-y-scroll" ref="messageContainer">
       <div
         v-if="filteredMessages.length === 0 && !isLoading"
         class="my-2 flex justify-center items-center text-sm"
@@ -68,9 +68,9 @@
 
     <form ref="messageBoxContainer" class="fixed bottom-0 z-50 inset-x-0 ">
       <div
-        class="my-1 flex justify-start items-center rounded-2xl gap-2 bg-gray-400/20 shadow"
+        class="my-1 mx-1 flex justify-start items-center rounded-2xl gap-2 bg-gray-400/20 shadow"
       >
-        <div class="w-full">
+        <div class="w-full rounded-2xl border border-gray-500/20 shadow">
           <textarea
             type="text"
             :disabled="isSendMessageLoading"
