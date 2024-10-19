@@ -85,7 +85,7 @@
             :value="modelValue"
             @input="onInput"
             placeholder="Enter a message"
-            class="w-full px-3 pt-3 placeholder:text-sm resize-none rounded-2xl no-scrollbar bg-transparent outline-none"
+            class="w-full px-3 pt-3 placeholder:text-sm placeholder:text-gray-500 resize-none rounded-2xl no-scrollbar bg-transparent outline-none"
           />
 
           <div class="flex justify-between items-center m-3 h-5">
