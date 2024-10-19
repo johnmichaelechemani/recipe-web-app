@@ -1,5 +1,5 @@
 <template>
-  <div class="border rounded-2xl border-gray-400/50 p-2 my-3">
+  <div class="border rounded-2xl border-gray-400/20 shadow p-2 my-3">
     <div class="my-2">
       <span class="font-semibold text-sm py-1 px-4 bg-gray-500/10 rounded-full"
         >Your Recipes</span
