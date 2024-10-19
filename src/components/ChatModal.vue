@@ -77,7 +77,11 @@
         class="ml-1 flex justify-start items-end gap-1 text-xs"
       >
         <div v-if="isImage">
-          <img :src="imageURL" alt="" class="size-14 rounded-xl" />
+          <img
+            :src="imageURL"
+            alt=""
+            class="size-14 rounded-xl backdrop-blur-2xl bg-gray-400/20 border border-gray-500/20"
+          />
         </div>
         <div class="flex justify-start items-center gap-1">
           <span
@@ -147,13 +151,13 @@
               <div
                 class="rounded-full p-1.5 flex shadow justify-center transition items-center"
                 :class="
-                  modelValue !== ''
+                  modelValue || selectedFile !== null
                     ? 'bg-blue-500 hover:bg-blue-500/90 '
                     : 'bg-primary/10 hover:bg-primary/20'
                 "
               >
                 <button
-                  v-if="!isSendMessageLoading && modelValue"
+                  v-if="(!isSendMessageLoading && modelValue) || selectedFile"
                   @click.prevent="sendMessage"
                   v-motion-fade
                 >
