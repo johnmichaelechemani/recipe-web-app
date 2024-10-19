@@ -40,7 +40,7 @@ export function ChatFuntions() {
   const isLoading = ref(false);
   const messageContainer = ref(null);
   let selectedUser = ref({});
-  let isSendMessageLoading = ref(true);
+  let isSendMessageLoading = ref(false);
 
   const getChatId = (userId1, userId2) => {
     return [userId1, userId2].sort().join("_");
@@ -56,6 +56,7 @@ export function ChatFuntions() {
 
   const sendMessage = async () => {
     if (newMessage.value.trim() === "") return;
+    isSendMessageLoading.value = true;
     try {
       const chatId = getChatId(userId, selectedUser.value.userId);
 

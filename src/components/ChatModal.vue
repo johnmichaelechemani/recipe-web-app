@@ -60,7 +60,9 @@
           </div>
 
           <div class="chat-footer opacity-50 font-semibold text-xs">
-            {{ isSendMessageLoading ? "Sending... bugs, hehehe" : "Delivered" }}
+            {{
+              m.isSendMessageLoading ? "Sending... bugs, hehehe" : "Delivered"
+            }}
           </div>
         </div>
       </div>
