@@ -193,22 +193,22 @@ const messageBoxContainer = ref(null);
 const autoSpand = () => {
   const el = autoExpand.value;
   if (el) {
-    const currentScrollPosition = el.scrollTop; // Save the current scroll position
-    const currentHeight = el.scrollHeight; // Store the current content height
+    const currentScrollPosition = el.scrollTop;
+    const currentHeight = el.scrollHeight;
 
-    el.style.height = "auto"; // Reset height to auto first
-    const newHeight = el.scrollHeight; // Get the new scrollHeight based on the content
-    const maxHeight = maxRows * lineHeight; // Define max height
+    el.style.height = "auto";
+    const newHeight = el.scrollHeight;
+    const maxHeight = maxRows * lineHeight;
 
     if (newHeight > maxHeight) {
-      el.style.height = `${maxHeight}px`; // Set max height if content exceeds it
-      el.style.overflowY = "auto"; // Enable scroll when height exceeds max
+      el.style.height = `${maxHeight}px`;
+      el.style.overflowY = "auto";
     } else {
-      el.style.height = `${newHeight}px`; // Set height based on content
+      el.style.height = `${newHeight}px`;
     }
 
     const newScrollTop = currentScrollPosition + (newHeight - currentHeight);
-    el.scrollTop = newScrollTop; // Adjust the scroll position to simulate expansion from the top
+    el.scrollTop = newScrollTop;
   }
 };
 
@@ -216,9 +216,20 @@ const onInput = (event) => {
   emit("update:modelValue", event.target.value);
   autoSpand();
 };
-watch(props.modelValue, () => {
-  autoSpand();
-});
+watch(
+  () => props.modelValue,
+  (newValue) => {
+    if (newValue === "") {
+      const el = autoExpand.value;
+      if (el) {
+        el.style.height = 'auto';
+        el.style.overflowY = "hidden";
+      }
+    } else {
+      autoSpand();
+    }
+  }
+);
 
 onMounted(() => {
   autoSpand();
@@ -237,6 +248,7 @@ watch(
     });
   },
   { deep: true },
+
   props.modelValue,
   () => {
     autoSpand();
