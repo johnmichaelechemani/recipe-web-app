@@ -38,9 +38,9 @@ export function ChatFuntions() {
   const newMessage = ref("");
   const messages = ref([]);
   const isLoading = ref(false);
-  const isSendMessageLoading = ref(false);
   const messageContainer = ref(null);
   let selectedUser = ref({});
+  let isSendMessageLoading = ref(true);
 
   const getChatId = (userId1, userId2) => {
     return [userId1, userId2].sort().join("_");
@@ -56,7 +56,6 @@ export function ChatFuntions() {
 
   const sendMessage = async () => {
     if (newMessage.value.trim() === "") return;
-    isSendMessageLoading.value = true;
     try {
       const chatId = getChatId(userId, selectedUser.value.userId);
 
@@ -81,11 +80,9 @@ export function ChatFuntions() {
         senderId: userId,
         recipientId: selectedUser.value.userId,
         message: newMessage.value,
+        isSendMessageLoading: false,
         timestamp: serverTimestamp(),
       });
-
-      // set loading to false
-
       isSendMessageLoading.value = false;
     } catch (error) {
       console.error("Error sending message: ", error);

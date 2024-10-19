@@ -69,7 +69,10 @@
       </div>
     </div>
 
-    <form ref="messageBoxContainer" class="fixed bottom-0 z-50 inset-x-0 backdrop-blur-2xl">
+    <form
+      ref="messageBoxContainer"
+      class="fixed bottom-0 z-50 inset-x-0 backdrop-blur-2xl"
+    >
       <div
         class="my-1 mx-1 flex justify-start items-center rounded-2xl gap-2 bg-gray-400/20 backdrop-blur-2xl shadow"
       >
