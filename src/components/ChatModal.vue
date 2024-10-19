@@ -72,16 +72,26 @@
     </div>
 
     <div class="fixed bottom-0 z-50 inset-x-0">
-      <div class="ml-1 flex justify-start items-center gap-2 text-xs">
-        <span
-          class="backdrop-blur-2xl flex bg-gray-400/20 justify-start items-center gap-2 px-2 py-1 border border-gray-500/20 rounded-xl"
-          ><Icon icon="fluent:attach-16-regular" width="20" height="20" />
-          <span>JohnMichael.png</span></span
-        >
-        <span
-        class="backdrop-blur-2xl bg-gray-400/20 border p-0.5 hover:text-red-500 transition border-gray-500/20 rounded-full"
-          ><Icon icon="iconamoon:close-light" width="20" height="20"
-        /></span>
+      <div
+        v-if="fileName"
+        class="ml-1 flex justify-start items-end gap-1 text-xs"
+      >
+        <div v-if="isImage">
+          <img :src="imageURL" alt="" class="size-14 rounded-xl" />
+        </div>
+        <div class="flex justify-start items-center gap-1">
+          <span
+            class="backdrop-blur-2xl flex bg-gray-400/20 justify-start items-center gap-2 px-2 py-1 border border-gray-500/20 rounded-xl"
+            ><Icon icon="fluent:attach-16-regular" width="20" height="20" />
+            <span>{{ fileName }}</span></span
+          >
+          <button
+            @click="closeAttachements(selectedFile, fileName)"
+            class="backdrop-blur-2xl bg-gray-400/20 border p-0.5 hover:text-red-500 transition border-gray-500/20 rounded-full"
+          >
+            <Icon icon="iconamoon:close-light" width="20" height="20" />
+          </button>
+        </div>
       </div>
       <form ref="messageBoxContainer">
         <div
@@ -105,14 +115,30 @@
             <div class="flex justify-between items-center m-3 h-5">
               <div class="flex justify-center items-center gap-1">
                 <button
-                  disabled
-                  class="transition cursor-not-allowed p-1 rounded-full bg-gray-400/20 hover:text-success shadow"
+                  @click.prevent="triggerImageInput"
+                  class="transition p-1 rounded-full bg-gray-400/20 hover:text-success shadow"
                 >
                   <Icon icon="tabler:photo" class="text-xl" />
                 </button>
+                <input
+                  type="file"
+                  ref="imageInput"
+                  accept="image/*"
+                  @change="handleFileChange"
+                  class="hidden"
+                />
+
+                <input
+                  type="file"
+                  ref="fileInput"
+                  accept=".pdf, .doc, .docx"
+                  @change="handleFileChange"
+                  class="hidden"
+                />
+
                 <button
-                  disabled
-                  class="transition cursor-not-allowed p-1 rounded-full bg-gray-400/20 hover:text-secondary shadow"
+                  @click.prevent="triggerFileInput"
+                  class="transition p-1 rounded-full bg-gray-400/20 hover:text-secondary shadow"
                 >
                   <Icon icon="tabler:file" class="text-xl" />
                 </button>
@@ -269,6 +295,44 @@ watch(
     autoSpand();
   }
 );
+const imageInput = ref(null);
+
+const fileInput = ref(null);
+const fileName = ref("");
+const selectedFile = ref(null);
+const imageURL = ref(null);
+const isImage = ref(false);
+
+const triggerImageInput = () => {
+  if (imageInput.value) {
+    imageInput.value.click();
+    isImage.value = true;
+  }
+};
+
+const triggerFileInput = () => {
+  isImage.value = false;
+  if (fileInput.value) {
+    fileInput.value.click();
+  }
+};
+const handleFileChange = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    selectedFile.value = file;
+    imageURL.value = URL.createObjectURL(file);
+    fileName.value = selectedFile.value.name;
+    console.log(selectedFile.value);
+  }
+};
+const closeAttachements = () => {
+  if (selectedFile.value) {
+    fileName.value = "";
+    imageURL.value = null;
+    selectedFile.value = null;
+    console.log(selectedFile.value);
+  }
+};
 </script>
 <style>
 .v-enter-active,
