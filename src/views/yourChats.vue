@@ -47,7 +47,7 @@
       </div>
     </div>
 
-    <dialog id="openInbox" class="modal modal-bottom sm:modal-middle">
+    <dialog id="openInbox" class="modal modal-bottom sm:modal-middle ">
       <ChatModal
         :userId="userId"
         :messages="messages"

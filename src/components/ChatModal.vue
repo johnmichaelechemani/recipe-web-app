@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-box relative pb-4 pt-2 px-2">
+  <div class="modal-box relative p-2 no-scrollbar">
     <div class="modal-action absolute z-10 -top-4 right-2">
       <form method="dialog">
         <button class="btn btn-xs px-0.5 rounded-full">
@@ -18,7 +18,7 @@
       </div>
     </div>
     <hr class="my-1 border border-gray-400/20" />
-    <div class="h-80 rounded-md overflow-y-scroll" ref="messageContainer">
+    <div class="h-[370px] mb-[80px] rounded-md overflow-y-scroll" ref="messageContainer">
       <div
         v-if="filteredMessages.length === 0 && !isLoading"
         class="my-2 flex justify-center items-center text-sm"
@@ -66,9 +66,8 @@
       </div>
     </div>
 
-    <form ref="messageBoxContainer">
+    <form ref="messageBoxContainer" class="fixed bottom-0 z-50 inset-x-0 ">
       <div
-       
         class="my-1 flex justify-start items-center rounded-2xl gap-2 bg-gray-400/20 shadow"
       >
         <div class="w-full">
@@ -83,7 +82,6 @@
             :value="modelValue"
             @input="onInput"
             placeholder="Enter a message"
-           
             class="w-full px-3 pt-3 placeholder:text-sm resize-none rounded-2xl no-scrollbar bg-transparent outline-none"
           />
 
@@ -101,7 +99,6 @@
               >
                 <Icon icon="tabler:file" class="text-xl" />
               </button>
-              
             </div>
 
             <div
@@ -184,22 +181,29 @@ const lineHeight = 24;
 const messageContainer = ref(null);
 const autoExpand = ref(null);
 const messageBoxContainer = ref(null);
-const el = autoExpand.value;
 
 const autoSpand = () => {
+  const el = autoExpand.value;
   if (el) {
-    el.style.height = "auto";
-    const scrollHeight = el.scrollHeight;
-    const maxHeight = maxRows * lineHeight;
+    const currentScrollPosition = el.scrollTop; // Save the current scroll position
+    const currentHeight = el.scrollHeight; // Store the current content height
 
-    if (scrollHeight > maxHeight) {
-      el.style.height = `${maxHeight}px`;
-      el.style.overflowY = "auto";
+    el.style.height = "auto"; // Reset height to auto first
+    const newHeight = el.scrollHeight; // Get the new scrollHeight based on the content
+    const maxHeight = maxRows * lineHeight; // Define max height
+
+    if (newHeight > maxHeight) {
+      el.style.height = `${maxHeight}px`; // Set max height if content exceeds it
+      el.style.overflowY = "auto"; // Enable scroll when height exceeds max
     } else {
-      el.style.height = `${scrollHeight}px`;
+      el.style.height = `${newHeight}px`; // Set height based on content
     }
+
+    const newScrollTop = currentScrollPosition + (newHeight - currentHeight);
+    el.scrollTop = newScrollTop; // Adjust the scroll position to simulate expansion from the top
   }
 };
+
 const onInput = (event) => {
   emit("update:modelValue", event.target.value);
   autoSpand();
@@ -209,6 +213,7 @@ watch(props.modelValue, () => {
 });
 
 onMounted(() => {
+  autoSpand();
   if (messageContainer.value) {
     messageContainer.value.scrollTop = messageContainer.value.scrollHeight;
   }
@@ -223,7 +228,11 @@ watch(
       }
     });
   },
-  { deep: true }
+  { deep: true },
+  props.modelValue,
+  () => {
+    autoSpand();
+  }
 );
 </script>
 <style>

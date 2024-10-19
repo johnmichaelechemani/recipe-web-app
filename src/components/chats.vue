@@ -19,8 +19,8 @@
     </div> -->
   </router-link>
 
-  <dialog id="chatModal" class="modal">
-    <div class="modal-box">
+  <dialog id="chatModal" class="modal ">
+    <div class="modal-box no-scrollbar">
       <h3 class="font-bold text-xl">Chats</h3>
       <hr class="border border-gray-400/10 my-1" />
       <Search />
