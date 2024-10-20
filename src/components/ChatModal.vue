@@ -52,6 +52,7 @@
             }}</time>
           </div>
 
+          <!-- massage with no image, file layout -->
           <div
             v-if="m.message && m.imageUrl === null && m.fileUrl === null"
             class="chat-bubble text-sm"
@@ -59,6 +60,8 @@
           >
             {{ m.message }}
           </div>
+
+          <!-- image with message layout -->
           <div v-if="m.message && m.imageUrl" class="">
             <div
               class="rounded-t-2xl py-2 px-4 text-sm"
@@ -74,6 +77,7 @@
               class="h-auto w-52 object-cover border border-gray-500/20 rounded-b-2xl"
             />
           </div>
+          <!-- image with no message layout -->
           <div v-if="m.imageUrl && m.message === ''" class="">
             <img
               :src="m.imageUrl"
@@ -82,6 +86,8 @@
               class="h-auto w-52 object-cover border border-gray-500/20 rounded-2xl"
             />
           </div>
+
+          <!-- file with no message layout -->
           <div
             v-if="m.fileUrl && m.message === ''"
             class="text-sm rounded-2xl backdrop-blur-2xl bg-gray-500/20 font-medium border border-gray-500/20 px-4 py-3"
@@ -97,6 +103,7 @@
             >
           </div>
 
+          <!-- file with message layout -->
           <div v-if="m.message && m.fileUrl" class="">
             <div
               class="rounded-t-2xl py-2 px-4 text-sm"
