@@ -61,7 +61,7 @@
           </div>
           <div
             v-if="m.fileUrl"
-            class="text-xs rounded-xl backdrop-blur-2xl bg-gray-500/20 font-medium border border-gray-500/20 px-4 py-2"
+            class="text-sm rounded-2xl backdrop-blur-2xl bg-gray-500/20 font-medium border border-gray-500/20 px-4 py-3"
           >
             <a :href="m.fileUrl" download class=" flex justify-start items-center gap-1">
               <Icon icon="simple-icons:googledocs" width="16" height="16" />{{
@@ -73,7 +73,7 @@
             <img
               :src="m.imageUrl"
               alt=""
-              class="h-52 w-auto object-cover border border-gray-500/20 rounded-2xl"
+              class="h-auto w-52 object-cover border border-gray-500/20 rounded-2xl"
             />
           </div>
 
