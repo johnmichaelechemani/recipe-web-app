@@ -53,14 +53,35 @@
           </div>
 
           <div
-            v-if="m.message"
+            v-if="m.message && m.imageUrl === null && m.fileUrl === null"
             class="chat-bubble text-sm"
             :class="userId === m.senderId ? 'chat-bubble-primary' : ''"
           >
             {{ m.message }}
           </div>
+          <div v-if="m.message && m.imageUrl" class="">
+            <div
+              class="rounded-t-2xl py-2 px-4 text-sm"
+              :class="userId === m.senderId ? 'chat-bubble-primary' : ''"
+            >
+              {{ m.message }}
+            </div>
+            <img
+              v-if="m.imageUrl"
+              :src="m.imageUrl"
+              alt=""
+              class="h-auto w-52 object-cover border border-gray-500/20 rounded-b-2xl"
+            />
+          </div>
+          <div v-if="m.imageUrl && m.message === ''" class="">
+            <img
+              :src="m.imageUrl"
+              alt=""
+              class="h-auto w-52 object-cover border border-gray-500/20 rounded-2xl"
+            />
+          </div>
           <div
-            v-if="m.fileUrl"
+            v-if="m.fileUrl && m.message === ''"
             class="text-sm rounded-2xl backdrop-blur-2xl bg-gray-500/20 font-medium border border-gray-500/20 px-4 py-3"
           >
             <a
@@ -73,12 +94,27 @@
               }}</a
             >
           </div>
-          <div v-if="m.imageUrl" class="">
-            <img
-              :src="m.imageUrl"
-              alt=""
-              class="h-auto w-52 object-cover border border-gray-500/20 rounded-2xl"
-            />
+
+          <div v-if="m.message && m.fileUrl" class="">
+            <div
+              class="rounded-t-2xl py-2 px-4 text-sm"
+              :class="userId === m.senderId ? 'chat-bubble-primary' : ''"
+            >
+              {{ m.message }}
+            </div>
+            <div
+              class="text-sm rounded-b-2xl backdrop-blur-2xl bg-gray-500/20 font-medium border border-gray-500/20 px-4 py-3"
+            >
+              <a
+                :href="m.fileUrl"
+                download
+                class="flex justify-start items-center gap-1"
+              >
+                <Icon icon="simple-icons:googledocs" width="16" height="16" />{{
+                  m.fileName
+                }}</a
+              >
+            </div>
           </div>
 
           <div class="chat-footer opacity-50 font-semibold text-xs">
