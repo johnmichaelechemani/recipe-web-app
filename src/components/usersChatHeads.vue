@@ -31,7 +31,7 @@
           >
             You:
           </span>
-          {{ latestMessages[getChatId(userId, user.id)] }}
+          {{ latestMessages[getChatId(userId, user.id)].substring(0, 20) }}
         </span>
         <span class="text-[10px]">{{
           formatTime(timestamp[getChatId(userId, user.id)])

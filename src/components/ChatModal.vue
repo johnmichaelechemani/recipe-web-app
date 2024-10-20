@@ -62,7 +62,7 @@
           </div>
 
           <!-- image with message layout -->
-          <div v-if="m.message && m.imageUrl" class="">
+          <div v-if="m.message && m.imageUrl" class="w-52">
             <div
               class="rounded-t-2xl py-2 px-4 text-sm"
               :class="userId === m.senderId ? 'chat-bubble-primary' : ''"
@@ -104,7 +104,7 @@
           </div>
 
           <!-- file with message layout -->
-          <div v-if="m.message && m.fileUrl" class="">
+          <div v-if="m.message && m.fileUrl"  class="w-52">
             <div
               class="rounded-t-2xl py-2 px-4 text-sm"
               :class="userId === m.senderId ? 'chat-bubble-primary' : ''"
