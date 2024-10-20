@@ -59,11 +59,14 @@
           >
             {{ m.message }}
           </div>
-          <div v-if="m.fileUrl">
+          <div
+            v-if="m.fileUrl"
+            class="text-xs rounded-full backdrop-blur-2xl bg-primary/20 font-medium border border-gray-500/20 px-3 py-1"
+          >
             <a :href="m.fileUrl" download="">{{ m.fileName }}</a>
           </div>
-          <div v-if="m.fileUrl">
-            <img :src="m.fileUrl" alt="" class="size-20 object-cover" />
+          <div v-if="m.imageUrl">
+            <img :src="m.imageUrl" alt="" class="size-20 object-cover" />
           </div>
 
           <div class="chat-footer opacity-50 font-semibold text-xs">
@@ -97,7 +100,7 @@
             <span>{{ fileName }}</span></span
           >
           <button
-            @click="closeAttachements(selectedFile, fileName)"
+            @click="closeAttachements(selectedFile, fileName, selectedImage)"
             class="backdrop-blur-2xl bg-gray-400/20 border p-0.5 hover:text-red-500 transition border-gray-500/20 rounded-full"
           >
             <Icon icon="iconamoon:close-light" width="20" height="20" />
@@ -135,7 +138,7 @@
                   type="file"
                   ref="imageInput"
                   accept="image/*"
-                  @change="handleFileChange"
+                  @change="handleImageChange"
                   class="hidden"
                 />
 
@@ -158,13 +161,17 @@
               <div
                 class="rounded-full p-1.5 flex shadow justify-center transition items-center"
                 :class="
-                  modelValue || selectedFile !== null
+                  modelValue || selectedFile || selectedImage !== null
                     ? 'bg-blue-500 hover:bg-blue-500/90 '
                     : 'bg-primary/10 hover:bg-primary/20'
                 "
               >
                 <button
-                  v-if="(!isSendMessageLoading && modelValue) || selectedFile"
+                  v-if="
+                    (!isSendMessageLoading && modelValue) ||
+                    selectedFile ||
+                    selectedImage
+                  "
                   @click.prevent="sendMessage"
                   v-motion-fade
                 >
@@ -236,6 +243,10 @@ const props = defineProps({
     required: true,
   },
   selectedFile: {
+    type: Object,
+    default: null,
+  },
+  selectedImage: {
     type: Object,
     default: null,
   },
@@ -316,6 +327,7 @@ const imageInput = ref(null);
 const fileInput = ref(null);
 const fileName = ref("");
 const selectedFile = ref(null);
+const selectedImage = ref(null);
 const imageURL = ref(null);
 const isImage = ref(false);
 
@@ -337,16 +349,26 @@ const handleFileChange = (event) => {
   if (file) {
     selectedFile.value = file;
     emit("update:selectedFile", selectedFile.value);
-
-    imageURL.value = URL.createObjectURL(file);
     fileName.value = selectedFile.value.name;
     console.log(selectedFile.value);
   }
 };
+const handleImageChange = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    selectedImage.value = file;
+    emit("update:selectedImage", selectedImage.value);
+
+    imageURL.value = URL.createObjectURL(file);
+    fileName.value = selectedImage.value.name;
+    console.log(selectedImage.value);
+  }
+};
 const closeAttachements = () => {
-  if (selectedFile.value) {
+  if (selectedFile.value || selectedImage.value) {
     fileName.value = "";
     imageURL.value = null;
+    selectedImage.value = null;
     selectedFile.value = null;
     emit("update:selectedFile", null);
     console.log(selectedFile.value);

@@ -61,12 +61,19 @@ export function ChatFuntions() {
     console.log(messages);
   };
   const file = ref(null);
+  const imageFile = ref(null);
   const handleFileUpdate = (newFile) => {
     file.value = newFile;
   };
 
+  const handleImageUpdate = (newFile) => {
+    imageFile.value = newFile;
+  };
+
   const sendMessage = async () => {
-    if (newMessage.value.trim() === "" && !file.value) return; // Ensure there's either a message or a file to send
+    if (newMessage.value.trim() === "" && !file.value && !imageFile.value)
+      return;
+
     isSendMessageLoading.value = true;
 
     try {
@@ -74,15 +81,22 @@ export function ChatFuntions() {
 
       // Step 1: Upload file (if it exists) to Firebase Storage
       let fileUrl = null;
+      let fileImageUrl = null;
       if (file.value) {
-        const filePath = `chats/${chatId}/${Date.now()}_${file.value.name}`; // Unique file path in Firebase Storage
+        const filePath = `chats/${chatId}/${Date.now()}_${file.value.name}`; // Unique file path for the file
         const fileRef = storageRef(storage, filePath);
-
-        // Upload the file to Firebase Storage
         const uploadResult = await uploadBytes(fileRef, file.value);
+        fileUrl = await getDownloadURL(uploadResult.ref); // Get the download URL of the uploaded file
+      }
 
-        // Get the download URL of the uploaded file
-        fileUrl = await getDownloadURL(uploadResult.ref);
+      // Upload the image (if it exists)
+      if (imageFile.value) {
+        const imagePath = `chats/${chatId}/${Date.now()}_${
+          imageFile.value.name
+        }`; // Unique file path for the image
+        const imageRef = storageRef(storage, imagePath);
+        const uploadImageResult = await uploadBytes(imageRef, imageFile.value);
+        fileImageUrl = await getDownloadURL(uploadImageResult.ref); // Get the download URL of the uploaded image
       }
 
       // Step 2: Create chat room document (if it doesn't exist) or update the room
@@ -93,7 +107,9 @@ export function ChatFuntions() {
             [userId]: true,
             [selectedUser.value.userId]: true,
           },
-          lastMessage: newMessage.value || (fileUrl ? "File attachment" : ""),
+          lastMessage:
+            newMessage.value ||
+            (fileUrl || fileImageUrl ? "File attachment" : ""),
           sender: userId,
           timestamp: serverTimestamp(),
         },
@@ -105,15 +121,18 @@ export function ChatFuntions() {
         senderId: userId,
         recipientId: selectedUser.value.userId,
         message: newMessage.value,
-        fileUrl: fileUrl, // Include the file URL (if there is one)
-        fileName: file.value ? file.value.name : null, // Optionally include the file name
+        imageUrl: fileImageUrl,
+        imageName: imageFile.value ? imageFile.value.name : null,
+        fileUrl: fileUrl,
+        fileName: file.value ? file.value.name : null,
         isSendMessageLoading: false,
         timestamp: serverTimestamp(),
       });
 
       // Reset message and file
       newMessage.value = "";
-      file.value = null; // Clear the file after sending
+      file.value = null;
+      imageFile.value = null;
       isSendMessageLoading.value = false;
     } catch (error) {
       console.error("Error sending message: ", error);
@@ -313,6 +332,8 @@ export function ChatFuntions() {
     storedUsers,
     newMessageArray,
     file,
+    imageFile,
+    handleImageUpdate,
     handleFileUpdate,
   };
 }

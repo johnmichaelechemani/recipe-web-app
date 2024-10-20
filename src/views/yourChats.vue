@@ -53,7 +53,9 @@
         :messages="messages"
         :selectedUser="selectedUser"
         :selectedFile="file"
+        :selectedImage="imageFile"
         @update:selectedFile="handleFileUpdate"
+        @update:selectedImage="handleImageUpdate"
         :userPhoto="userPhoto"
         :userName="userName"
         :isSendMessageLoading="isSendMessageLoading"
@@ -100,6 +102,8 @@ const {
   tempUsers,
   search,
   file,
+  imageFile,
   handleFileUpdate,
+  handleImageUpdate,
 } = ChatFuntions();
 </script>
