@@ -69,6 +69,7 @@
             <img
               v-if="m.imageUrl"
               :src="m.imageUrl"
+              loading="lazy"
               alt=""
               class="h-auto w-52 object-cover border border-gray-500/20 rounded-b-2xl"
             />
@@ -76,6 +77,7 @@
           <div v-if="m.imageUrl && m.message === ''" class="">
             <img
               :src="m.imageUrl"
+              loading="lazy"
               alt=""
               class="h-auto w-52 object-cover border border-gray-500/20 rounded-2xl"
             />
@@ -137,6 +139,7 @@
         <div v-if="isImage">
           <img
             :src="imageURL"
+            loading="lazy"
             alt=""
             class="size-14 rounded-xl backdrop-blur-2xl object-cover bg-gray-400/20 border border-gray-500/20"
           />
