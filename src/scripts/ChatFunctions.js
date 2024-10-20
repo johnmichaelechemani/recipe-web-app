@@ -74,10 +74,10 @@ export function ChatFuntions() {
     if (newMessage.value.trim() === "" && !file.value && !imageFile.value)
       return;
 
-    isSendMessageLoading.value = true;
-
     try {
       const chatId = getChatId(userId, selectedUser.value.userId);
+      isSendMessageLoading.value = true;
+      console.log(isSendMessageLoading.value);
 
       let fileUrl = null;
       let fileImageUrl = null;
@@ -133,6 +133,11 @@ export function ChatFuntions() {
     } catch (error) {
       console.error("Error sending message: ", error);
       isSendMessageLoading.value = false;
+      console.log(isSendMessageLoading.value);
+    } finally {
+      isSendMessageLoading.value = false;
+
+      console.log(isSendMessageLoading.value);
     }
   };
 

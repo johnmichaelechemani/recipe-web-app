@@ -63,7 +63,11 @@
             v-if="m.fileUrl"
             class="text-sm rounded-2xl backdrop-blur-2xl bg-gray-500/20 font-medium border border-gray-500/20 px-4 py-3"
           >
-            <a :href="m.fileUrl" download class=" flex justify-start items-center gap-1">
+            <a
+              :href="m.fileUrl"
+              download
+              class="flex justify-start items-center gap-1"
+            >
               <Icon icon="simple-icons:googledocs" width="16" height="16" />{{
                 m.fileName
               }}</a
@@ -91,7 +95,7 @@
 
     <div class="fixed bottom-0 z-50 inset-x-0">
       <div
-        v-if="fileName"
+        v-if="fileName && !isSendMessageLoading"
         class="ml-1 flex justify-start items-end gap-1 text-xs"
       >
         <div v-if="isImage">
@@ -266,6 +270,13 @@ const messageContainer = ref(null);
 const autoExpand = ref(null);
 const messageBoxContainer = ref(null);
 
+const imageInput = ref(null);
+const fileInput = ref(null);
+const fileName = ref("");
+const selectedFile = ref(null);
+const selectedImage = ref(null);
+const imageURL = ref(null);
+const isImage = ref(false);
 const autoSpand = () => {
   const el = autoExpand.value;
   if (el) {
@@ -308,6 +319,7 @@ watch(
 );
 
 onMounted(() => {
+  console.log(props.isSendMessageLoading);
   autoSpand();
   if (messageContainer.value) {
     messageContainer.value.scrollTop = messageContainer.value.scrollHeight;
@@ -330,14 +342,6 @@ watch(
     autoSpand();
   }
 );
-const imageInput = ref(null);
-
-const fileInput = ref(null);
-const fileName = ref("");
-const selectedFile = ref(null);
-const selectedImage = ref(null);
-const imageURL = ref(null);
-const isImage = ref(false);
 
 const triggerImageInput = () => {
   if (imageInput.value) {
@@ -378,8 +382,6 @@ const closeAttachements = () => {
     imageURL.value = null;
     selectedImage.value = null;
     selectedFile.value = null;
-    emit("update:selectedFile", null);
-    console.log(selectedFile.value);
   }
 };
 </script>
