@@ -25,11 +25,18 @@ import {
   serverTimestamp,
   count,
 } from "firebase/firestore";
+import {
+  getStorage,
+  ref as storageRef,
+  uploadBytes,
+  getDownloadURL,
+} from "firebase/storage";
 
 export function ChatFuntions() {
   const auth = getAuth();
   const user = ref(auth.currentUser);
   const { firestore } = useAuth();
+  const storage = getStorage();
   const userId = user.value.uid;
   const userPhoto = user.value.photoURL;
   const userName = user.value.displayName;
@@ -53,14 +60,32 @@ export function ChatFuntions() {
     loadMessages();
     console.log(messages);
   };
+  const file = ref(null);
+  const handleFileUpdate = (newFile) => {
+    file.value = newFile;
+  };
 
   const sendMessage = async () => {
-    if (newMessage.value.trim() === "") return;
+    if (newMessage.value.trim() === "" && !file.value) return; // Ensure there's either a message or a file to send
     isSendMessageLoading.value = true;
+
     try {
       const chatId = getChatId(userId, selectedUser.value.userId);
 
-      // create room
+      // Step 1: Upload file (if it exists) to Firebase Storage
+      let fileUrl = null;
+      if (file.value) {
+        const filePath = `chats/${chatId}/${Date.now()}_${file.value.name}`; // Unique file path in Firebase Storage
+        const fileRef = storageRef(storage, filePath);
+
+        // Upload the file to Firebase Storage
+        const uploadResult = await uploadBytes(fileRef, file.value);
+
+        // Get the download URL of the uploaded file
+        fileUrl = await getDownloadURL(uploadResult.ref);
+      }
+
+      // Step 2: Create chat room document (if it doesn't exist) or update the room
       await setDoc(
         doc(firestore, `chats/${chatId}`),
         {
@@ -68,27 +93,32 @@ export function ChatFuntions() {
             [userId]: true,
             [selectedUser.value.userId]: true,
           },
-          lastMessage: newMessage.value,
+          lastMessage: newMessage.value || (fileUrl ? "File attachment" : ""),
           sender: userId,
           timestamp: serverTimestamp(),
         },
         { merge: true }
       );
 
-      // then add the message
-
+      // Step 3: Add the message to the messages collection
       await addDoc(collection(firestore, `chats/${chatId}/messages`), {
         senderId: userId,
         recipientId: selectedUser.value.userId,
         message: newMessage.value,
+        fileUrl: fileUrl, // Include the file URL (if there is one)
+        fileName: file.value ? file.value.name : null, // Optionally include the file name
         isSendMessageLoading: false,
         timestamp: serverTimestamp(),
       });
+
+      // Reset message and file
+      newMessage.value = "";
+      file.value = null; // Clear the file after sending
       isSendMessageLoading.value = false;
     } catch (error) {
       console.error("Error sending message: ", error);
+      isSendMessageLoading.value = false;
     }
-    newMessage.value = "";
   };
 
   const latestMessages = ref({});
@@ -282,5 +312,7 @@ export function ChatFuntions() {
     isSender,
     storedUsers,
     newMessageArray,
+    file,
+    handleFileUpdate,
   };
 }

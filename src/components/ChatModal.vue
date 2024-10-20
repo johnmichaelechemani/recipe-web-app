@@ -53,10 +53,17 @@
           </div>
 
           <div
+            v-if="m.message"
             class="chat-bubble text-sm"
             :class="userId === m.senderId ? 'chat-bubble-primary' : ''"
           >
             {{ m.message }}
+          </div>
+          <div v-if="m.fileUrl">
+            <a :href="m.fileUrl" download="">{{ m.fileName }}</a>
+          </div>
+          <div v-if="m.fileUrl">
+            <img :src="m.fileUrl" alt="" class="size-20 object-cover" />
           </div>
 
           <div class="chat-footer opacity-50 font-semibold text-xs">
@@ -80,7 +87,7 @@
           <img
             :src="imageURL"
             alt=""
-            class="size-14 rounded-xl backdrop-blur-2xl bg-gray-400/20 border border-gray-500/20"
+            class="size-14 rounded-xl backdrop-blur-2xl object-cover bg-gray-400/20 border border-gray-500/20"
           />
         </div>
         <div class="flex justify-start items-center gap-1">
@@ -182,6 +189,7 @@
 <script setup>
 import { Icon } from "@iconify/vue";
 import { ref, computed, watch, onMounted, Transition, nextTick } from "vue";
+
 import MessageLoading from "../components/messageLoading.vue";
 const props = defineProps({
   userId: {
@@ -226,6 +234,10 @@ const props = defineProps({
   modelValue: {
     type: String,
     required: true,
+  },
+  selectedFile: {
+    type: Object,
+    default: null,
   },
 });
 const emit = defineEmits(["update:modelValue"]);
@@ -324,6 +336,8 @@ const handleFileChange = (event) => {
   const file = event.target.files[0];
   if (file) {
     selectedFile.value = file;
+    emit("update:selectedFile", selectedFile.value);
+
     imageURL.value = URL.createObjectURL(file);
     fileName.value = selectedFile.value.name;
     console.log(selectedFile.value);
@@ -334,6 +348,7 @@ const closeAttachements = () => {
     fileName.value = "";
     imageURL.value = null;
     selectedFile.value = null;
+    emit("update:selectedFile", null);
     console.log(selectedFile.value);
   }
 };

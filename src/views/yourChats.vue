@@ -47,11 +47,13 @@
       </div>
     </div>
 
-    <dialog id="openInbox" class="modal modal-bottom sm:modal-middle ">
+    <dialog id="openInbox" class="modal modal-bottom sm:modal-middle">
       <ChatModal
         :userId="userId"
         :messages="messages"
         :selectedUser="selectedUser"
+        :selectedFile="file"
+        @update:selectedFile="handleFileUpdate"
         :userPhoto="userPhoto"
         :userName="userName"
         :isSendMessageLoading="isSendMessageLoading"
@@ -97,5 +99,7 @@ const {
   isSender,
   tempUsers,
   search,
+  file,
+  handleFileUpdate,
 } = ChatFuntions();
 </script>
