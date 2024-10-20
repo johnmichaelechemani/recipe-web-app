@@ -95,7 +95,7 @@
 
     <div class="fixed bottom-0 z-50 inset-x-0">
       <div
-        v-if="fileName && !isSendMessageLoading"
+        v-if="props.selectedFile || props.selectedImage"
         class="ml-1 flex justify-start items-end gap-1 text-xs"
       >
         <div v-if="isImage">
@@ -184,6 +184,7 @@
                     selectedFile ||
                     selectedImage
                   "
+                  :disabled="isSendMessageLoading"
                   @click.prevent="sendMessage"
                   v-motion-fade
                 >
@@ -233,7 +234,7 @@ const props = defineProps({
   },
   isSendMessageLoading: {
     type: Boolean,
-    default: false,
+    default: null,
   },
   isLoading: {
     type: Boolean,
@@ -317,9 +318,7 @@ watch(
     }
   }
 );
-
 onMounted(() => {
-  console.log(props.isSendMessageLoading);
   autoSpand();
   if (messageContainer.value) {
     messageContainer.value.scrollTop = messageContainer.value.scrollHeight;

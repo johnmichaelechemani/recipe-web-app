@@ -129,15 +129,10 @@ export function ChatFuntions() {
       newMessage.value = "";
       file.value = null;
       imageFile.value = null;
-      isSendMessageLoading.value = false;
     } catch (error) {
       console.error("Error sending message: ", error);
-      isSendMessageLoading.value = false;
-      console.log(isSendMessageLoading.value);
     } finally {
       isSendMessageLoading.value = false;
-
-      console.log(isSendMessageLoading.value);
     }
   };
 
