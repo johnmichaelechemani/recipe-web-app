@@ -95,7 +95,7 @@
 
     <div class="fixed bottom-0 z-50 inset-x-0">
       <div
-        v-if="props.selectedFile || props.selectedImage"
+        v-if="props.selectedFile || props.selectedImage !== null"
         class="ml-1 flex justify-start items-end gap-1 text-xs"
       >
         <div v-if="isImage">
@@ -112,7 +112,7 @@
             <span>{{ fileName }}</span></span
           >
           <button
-            @click="closeAttachements(selectedFile, fileName, selectedImage)"
+            @click="closeAttachements()"
             class="backdrop-blur-2xl bg-gray-400/20 border p-0.5 hover:text-red-500 transition border-gray-500/20 rounded-full"
           >
             <Icon icon="iconamoon:close-light" width="20" height="20" />
@@ -139,7 +139,7 @@
             />
 
             <div class="flex justify-between items-center m-3 h-5">
-              <div class="flex justify-center items-center gap-1">
+              <div class="flex justify-center items-center gap-2">
                 <button
                   @click.prevent="triggerImageInput"
                   class="transition p-1 rounded-full bg-gray-400/20 hover:text-success shadow"
@@ -234,7 +234,7 @@ const props = defineProps({
   },
   isSendMessageLoading: {
     type: Boolean,
-    default: null,
+    default: false,
   },
   isLoading: {
     type: Boolean,
@@ -381,7 +381,10 @@ const closeAttachements = () => {
     imageURL.value = null;
     selectedImage.value = null;
     selectedFile.value = null;
+    emit("update:selectedFile", null);
+    emit("update:selectedImage", null);
   }
+  console.log(selectedFile.value, selectedImage.value);
 };
 </script>
 <style>

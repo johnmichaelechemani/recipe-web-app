@@ -69,6 +69,10 @@
             :userId="userId"
             :messages="messages"
             :selectedUser="selectedUser"
+            :selectedFile="file"
+            :selectedImage="imageFile"
+            @update:selectedFile="handleFileUpdate"
+            @update:selectedImage="handleImageUpdate"
             :userPhoto="userPhoto"
             :userName="userName"
             :isSendMessageLoading="isSendMessageLoading"
@@ -134,5 +138,9 @@ const {
   latestMessages,
   isSender,
   storedUsers,
+  file,
+  imageFile,
+  handleFileUpdate,
+  handleImageUpdate,
 } = ChatFuntions();
 </script>

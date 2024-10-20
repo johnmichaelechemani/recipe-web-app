@@ -34,6 +34,10 @@
         :userId="userId"
         :messages="messages"
         :selectedUser="selectedUser"
+        :selectedFile="file"
+        :selectedImage="imageFile"
+        @update:selectedFile="handleFileUpdate"
+        @update:selectedImage="handleImageUpdate"
         :userPhoto="userPhoto"
         :userName="userName"
         :isSendMessageLoading="isSendMessageLoading"
@@ -59,14 +63,12 @@ const component = defineComponent({
 });
 
 const filteredUsers = computed(() => {
-    return storedUsers.value
-      .sort((a, b) => {
-        const chatIdA = getChatId(userId, a.id);
-        const chatIdB = getChatId(userId, b.id);
-        return timestamp.value[chatIdB] - timestamp.value[chatIdA];
-      });
+  return storedUsers.value.sort((a, b) => {
+    const chatIdA = getChatId(userId, a.id);
+    const chatIdB = getChatId(userId, b.id);
+    return timestamp.value[chatIdB] - timestamp.value[chatIdA];
   });
-  
+});
 
 const {
   Time,
@@ -86,5 +88,9 @@ const {
   latestMessages,
   isSender,
   storedUsers,
+  file,
+  imageFile,
+  handleFileUpdate,
+  handleImageUpdate,
 } = ChatFuntions();
 </script>
