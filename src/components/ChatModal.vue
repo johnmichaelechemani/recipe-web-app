@@ -61,12 +61,20 @@
           </div>
           <div
             v-if="m.fileUrl"
-            class="text-xs rounded-full backdrop-blur-2xl bg-primary/20 font-medium border border-gray-500/20 px-3 py-1"
+            class="text-xs rounded-xl backdrop-blur-2xl bg-gray-500/20 font-medium border border-gray-500/20 px-4 py-2"
           >
-            <a :href="m.fileUrl" download="">{{ m.fileName }}</a>
+            <a :href="m.fileUrl" download class=" flex justify-start items-center gap-1">
+              <Icon icon="simple-icons:googledocs" width="16" height="16" />{{
+                m.fileName
+              }}</a
+            >
           </div>
-          <div v-if="m.imageUrl">
-            <img :src="m.imageUrl" alt="" class="size-20 object-cover" />
+          <div v-if="m.imageUrl" class="">
+            <img
+              :src="m.imageUrl"
+              alt=""
+              class="h-52 w-auto object-cover border border-gray-500/20 rounded-2xl"
+            />
           </div>
 
           <div class="chat-footer opacity-50 font-semibold text-xs">

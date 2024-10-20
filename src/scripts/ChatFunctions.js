@@ -79,27 +79,23 @@ export function ChatFuntions() {
     try {
       const chatId = getChatId(userId, selectedUser.value.userId);
 
-      // Step 1: Upload file (if it exists) to Firebase Storage
       let fileUrl = null;
       let fileImageUrl = null;
       if (file.value) {
-        const filePath = `chats/${chatId}/${Date.now()}_${file.value.name}`; // Unique file path for the file
+        const filePath = `chats/${chatId}/${Date.now()}_${file.value.name}`;
         const fileRef = storageRef(storage, filePath);
         const uploadResult = await uploadBytes(fileRef, file.value);
-        fileUrl = await getDownloadURL(uploadResult.ref); // Get the download URL of the uploaded file
+        fileUrl = await getDownloadURL(uploadResult.ref);
       }
 
-      // Upload the image (if it exists)
       if (imageFile.value) {
         const imagePath = `chats/${chatId}/${Date.now()}_${
           imageFile.value.name
-        }`; // Unique file path for the image
+        }`;
         const imageRef = storageRef(storage, imagePath);
         const uploadImageResult = await uploadBytes(imageRef, imageFile.value);
-        fileImageUrl = await getDownloadURL(uploadImageResult.ref); // Get the download URL of the uploaded image
+        fileImageUrl = await getDownloadURL(uploadImageResult.ref);
       }
-
-      // Step 2: Create chat room document (if it doesn't exist) or update the room
       await setDoc(
         doc(firestore, `chats/${chatId}`),
         {
