@@ -104,7 +104,7 @@
           </div>
 
           <!-- file with message layout -->
-          <div v-if="m.message && m.fileUrl"  class="w-52">
+          <div v-if="m.message && m.fileUrl" class="w-52">
             <div
               class="rounded-t-2xl py-2 px-4 text-sm"
               :class="userId === m.senderId ? 'chat-bubble-primary' : ''"
@@ -139,6 +139,19 @@
     </div>
 
     <div class="fixed bottom-0 z-50 inset-x-0">
+      <transition>
+        <div
+          v-if="isSendMessageLoading"
+          class="flex justify-center items-center"
+        >
+          <span
+            class="backdrop-blur-2xl flex justify-center items-center gap-2 bg-gray-400/20 border px-4 text-sm font-medium py-1 transition border-gray-500/20 rounded-full"
+          >
+            <span class="loading loading-dots loading-xs"></span>
+            <span>Sending..</span></span
+          >
+        </div>
+      </transition>
       <transition>
         <div
           v-if="props.selectedFile || props.selectedImage !== null"
@@ -233,6 +246,7 @@
                     selectedFile ||
                     selectedImage
                   "
+                  :class="isSendMessageLoading ? 'cursor-not-allowed' : ''"
                   :disabled="isSendMessageLoading"
                   @click.prevent="sendMessage"
                   v-motion-fade
