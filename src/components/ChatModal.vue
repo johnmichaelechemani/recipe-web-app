@@ -132,32 +132,35 @@
     </div>
 
     <div class="fixed bottom-0 z-50 inset-x-0">
-      <div
-        v-if="props.selectedFile || props.selectedImage !== null"
-        class="ml-1 flex justify-start items-end gap-1 text-xs"
-      >
-        <div v-if="isImage">
-          <img
-            :src="imageURL"
-            loading="lazy"
-            alt=""
-            class="size-14 rounded-xl backdrop-blur-2xl object-cover bg-gray-400/20 border border-gray-500/20"
-          />
+      <transition>
+        <div
+          v-if="props.selectedFile || props.selectedImage !== null"
+          class="ml-1 flex justify-start items-end gap-1 text-xs"
+        >
+          <div v-if="isImage">
+            <img
+              :src="imageURL"
+              loading="lazy"
+              alt=""
+              class="size-14 rounded-xl backdrop-blur-2xl object-cover bg-gray-400/20 border border-gray-500/20"
+            />
+          </div>
+          <div class="flex justify-start items-center gap-1">
+            <span
+              class="backdrop-blur-2xl flex bg-gray-400/20 justify-start items-center gap-2 px-2 py-1 border border-gray-500/20 rounded-xl"
+              ><Icon icon="fluent:attach-16-regular" width="20" height="20" />
+              <span>{{ fileName }}</span></span
+            >
+            <button
+              @click="closeAttachements()"
+              class="backdrop-blur-2xl bg-gray-400/20 border p-0.5 hover:text-red-500 transition border-gray-500/20 rounded-full"
+            >
+              <Icon icon="iconamoon:close-light" width="20" height="20" />
+            </button>
+          </div>
         </div>
-        <div class="flex justify-start items-center gap-1">
-          <span
-            class="backdrop-blur-2xl flex bg-gray-400/20 justify-start items-center gap-2 px-2 py-1 border border-gray-500/20 rounded-xl"
-            ><Icon icon="fluent:attach-16-regular" width="20" height="20" />
-            <span>{{ fileName }}</span></span
-          >
-          <button
-            @click="closeAttachements()"
-            class="backdrop-blur-2xl bg-gray-400/20 border p-0.5 hover:text-red-500 transition border-gray-500/20 rounded-full"
-          >
-            <Icon icon="iconamoon:close-light" width="20" height="20" />
-          </button>
-        </div>
-      </div>
+      </transition>
+
       <form ref="messageBoxContainer">
         <div
           class="my-1 mx-1 flex justify-start items-center rounded-2xl gap-2 bg-gray-400/20 backdrop-blur-2xl shadow"
