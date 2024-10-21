@@ -54,7 +54,7 @@
           <!-- massage with no image, file layout -->
           <div
             v-if="m.message && m.imageUrl === null && m.fileUrl === null"
-            class="rounded-2xl py-2 px-4 text-sm"
+            class="rounded-2xl py-2 px-4 text-sm max-w-52"
             :class="
               userId === m.senderId ? 'chat-bubble-primary' : 'chat-bubble'
             "
@@ -95,12 +95,12 @@
           <!-- file with no message layout -->
           <div
             v-if="m.fileUrl && m.message === ''"
-            class="text-sm rounded-2xl backdrop-blur-2xl bg-gray-500/20 font-medium border border-gray-500/20 px-4 py-3"
+            class="text-sm rounded-2xl backdrop-blur-2xl max-w-52 bg-gray-500/20 font-medium border border-gray-500/20 px-4 py-3"
           >
             <a
               :href="m.fileUrl"
               download
-              class="flex justify-start items-center gap-1"
+              class="flex justify-start items-center gap-2"
             >
               <Icon icon="simple-icons:googledocs" width="16" height="16" />{{
                 m.fileName
@@ -117,7 +117,7 @@
                   ? 'chat-bubble-primary'
                   : 'border border-gray-500/20'
               "
-            >
+            >  
               {{ m.message }}
             </div>
             <div
@@ -126,7 +126,7 @@
               <a
                 :href="m.fileUrl"
                 download
-                class="flex justify-start items-center gap-1"
+                class="flex justify-start items-center gap-2"
               >
                 <Icon icon="simple-icons:googledocs" width="16" height="16" />{{
                   m.fileName
