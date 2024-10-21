@@ -162,14 +162,15 @@
         </div>
       </transition>
       <transition>
-        <div class="flex justify-center items-center gap-2">
+        <div v-if="isRecording" class="flex justify-center items-center gap-2">
           <span
-            class="backdrop-blur-2xl flex justify-center items-center gap-2 bg-green-400/10 border px-4 text-sm font-medium py-1 transition border-green-500/20 rounded-full"
+            class="backdrop-blur-2xl flex justify-center items-center gap-2 bg-green-400/10 border px-2 text-sm font-medium py-1 transition border-green-500/20 rounded-full"
           >
             <span class="loading loading-ring text-green-500 loading-md"></span>
             <span>Recording..</span></span
           >
           <button
+            @click="stopRecording()"
             class="backdrop-blur-2xl flex justify-center items-center gap-1 bg-red-400/10 border py-1 px-2 text-sm font-medium transition border-red-500/20 rounded-full"
           >
             <Icon
@@ -367,9 +368,14 @@ const selectedImage = ref(null);
 const imageURL = ref(null);
 const isImage = ref(false);
 const voiceMessage = ref("voice");
+const isRecording = ref(false);
 
 const sendVoice = () => {
+  isRecording.value = true;
   console.log(voiceMessage.value);
+};
+const stopRecording = () => {
+  isRecording.value = false;
 };
 const autoSpand = () => {
   const el = autoExpand.value;
