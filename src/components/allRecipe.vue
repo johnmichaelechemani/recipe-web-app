@@ -129,7 +129,7 @@
 
     <!-- modal -->
     <dialog id="my_modal_4" class="modal" ref="recipeModal">
-      <div class="modal-box no-scrollbar">
+      <div class="modal-box px-2 py-4 no-scrollbar">
         <form method="dialog" class="absolute top-0 right-0 p-2 z-10">
           <button @click="closeModal">
             <Icon icon="iconamoon:close-duotone" class="text-2xl" />
@@ -170,35 +170,37 @@
             <Icon icon="ic:outline-star-border" class="text-xl" />
           </div>
         </div>
+        <div class="border border-gray-400/10 rounded-2xl shadow">
+          <div class="max-h-72 overflow-y-auto no-scrollbar mx-2 my-1">
+            <div class="py-4">
+              <p class="text-xs text-primary">Discriptions:</p>
+              <p class="capitalize font-medium text-sm">
+                {{ selectedAllRecipe.descriptions }}
+              </p>
+            </div>
+            <hr class="border border-gray-500/10" />
 
-        <hr class="border border-gray-500/10" />
-        <div class="py-4">
-          <p class="text-xs text-primary">Discriptions:</p>
-          <p class="capitalize font-medium text-sm">
-            {{ selectedAllRecipe.descriptions }}
-          </p>
-        </div>
-        <hr class="border border-gray-500/10" />
+            <div class="py-4">
+              <p class="text-xs text-primary">Ingredients:</p>
+              <ItemLists
+                :selectedItem="selectedAllRecipe.allIngredients"
+                :itemDesables="ingredientsDisables"
+                :handleClick="clickIngredients"
+              />
+            </div>
+            <hr class="border border-gray-500/10" />
+            <div class="py-4">
+              <p class="text-xs text-primary">Instructions:</p>
 
-        <div class="py-4">
-          <p class="text-xs text-primary">Ingredients:</p>
-          <ItemLists
-            :selectedItem="selectedAllRecipe.allIngredients"
-            :itemDesables="ingredientsDisables"
-            :handleClick="clickIngredients"
-          />
+              <ItemLists
+                :selectedItem="selectedAllRecipe.allInstructions"
+                :itemDesables="instructionsDisables"
+                :handleClick="clickInstructions"
+              />
+            </div>
+          </div>
         </div>
-        <hr class="border border-gray-500/10" />
-        <div class="py-4">
-          <p class="text-xs text-primary">Instructions:</p>
 
-          <ItemLists
-            :selectedItem="selectedAllRecipe.allInstructions"
-            :itemDesables="instructionsDisables"
-            :handleClick="clickInstructions"
-          />
-        </div>
-        <hr class="border border-gray-500/10 my-2" />
         <div v-if="ratingsInText" class="flex justify-center items-center">
           <span
             class="text-xs tracking-wide bg-blue-500/10 shadow text-blue-500 px-2 py-1 font-semibold rounded-full"
@@ -207,7 +209,7 @@
         </div>
 
         <div class="flex justify-center gap-1">
-          <span class="text-sm font-semibold mt-1" v-if="muteRateBnt"
+          <span class="text-sm font-semibold my-2" v-if="muteRateBnt"
             >Thank's for rating! 😊</span
           >
           <span class="text-lg font-semibold mt-1" v-else
@@ -237,9 +239,8 @@
             </div>
           </div>
         </div>
-        <div class="flex justify-center items-center my-2">
+        <div class="flex justify-center items-center my-2" v-if="ratingsInText">
           <button
-            v-if="ratingsInText"
             :disabled="ratings === 0"
             class="btn px-6 shadow rounded-full btn-primary flex justify-center items-center"
             @click="sendRatings"

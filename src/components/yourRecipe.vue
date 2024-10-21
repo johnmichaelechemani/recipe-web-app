@@ -111,6 +111,7 @@
               class="input input-bordered w-full"
             />
           </div>
+
           <div class="py-2">
             <label class="block text-sm font-medium text-primary"
               >Description</label
@@ -289,7 +290,7 @@
 
       <!-- show modal -->
       <dialog id="my_modal_2" class="modal" ref="recipeModal">
-        <div class="modal-box no-scrollbar">
+        <div class="modal-box px-2 py-4 no-scrollbar">
           <form method="dialog" class="absolute top-0 right-0 p-2 z-10">
             <button @click="closeModal('my_modal_2')">
               <Icon icon="iconamoon:close-duotone" class="text-2xl" />
@@ -298,30 +299,34 @@
           <h3 class="font-bold text-4xl capitalize">
             {{ selectedRecipe.title }}
           </h3>
-          <div class="py-4">
-            <p class="text-xs text-primary">Discriptions:</p>
-            <p class="capitalize font-medium text-sm">
-              {{ selectedRecipe.descriptions }}
-            </p>
-          </div>
-          <hr class="border border-gray-500/10" />
-          <div class="py-4">
-            <p class="text-xs text-primary">Ingredients:</p>
-            <ItemLists
-              :selectedItem="selectedRecipe.allIngredients"
-              :itemDesables="ingredientsDisables"
-              :handleClick="clickIngredients"
-            />
-          </div>
-          <hr class="border border-gray-500/10" />
+          <div class="border border-gray-400/10 rounded-2xl shadow">
+            <div class="max-h-72 overflow-y-auto no-scrollbar mx-2 my-1">
+              <div class="py-4">
+                <p class="text-xs text-primary">Discriptions:</p>
+                <p class="capitalize font-medium text-sm">
+                  {{ selectedRecipe.descriptions }}
+                </p>
+              </div>
+              <hr class="border border-gray-500/10" />
+              <div class="py-4">
+                <p class="text-xs text-primary">Ingredients:</p>
+                <ItemLists
+                  :selectedItem="selectedRecipe.allIngredients"
+                  :itemDesables="ingredientsDisables"
+                  :handleClick="clickIngredients"
+                />
+              </div>
+              <hr class="border border-gray-500/10" />
 
-          <div class="py-4">
-            <p class="text-xs text-primary">Instructions:</p>
-            <ItemLists
-              :selectedItem="selectedRecipe.allInstructions"
-              :itemDesables="instructionsDisables"
-              :handleClick="clickInstructions"
-            />
+              <div class="py-4">
+                <p class="text-xs text-primary">Instructions:</p>
+                <ItemLists
+                  :selectedItem="selectedRecipe.allInstructions"
+                  :itemDesables="instructionsDisables"
+                  :handleClick="clickInstructions"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </dialog>
