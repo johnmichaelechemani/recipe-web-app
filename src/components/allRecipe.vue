@@ -135,7 +135,7 @@
             <Icon icon="iconamoon:close-duotone" class="text-2xl" />
           </button>
         </form>
-        <h3 class="font-bold text-4xl capitalize">
+        <h3 class="font-bold text-3xl capitalize">
           {{ selectedAllRecipe.title }}
         </h3>
         <div>

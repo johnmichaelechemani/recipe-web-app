@@ -296,7 +296,7 @@
               <Icon icon="iconamoon:close-duotone" class="text-2xl" />
             </button>
           </form>
-          <h3 class="font-bold text-4xl capitalize">
+          <h3 class="font-bold text-3xl capitalize">
             {{ selectedRecipe.title }}
           </h3>
           <div class="border border-gray-400/10 rounded-2xl shadow">
