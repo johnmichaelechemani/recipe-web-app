@@ -169,7 +169,7 @@
             <span class="loading loading-ring text-green-500 loading-md"></span>
             <span>Recording..</span></span
           >
-          <span
+          <button
             class="backdrop-blur-2xl flex justify-center items-center gap-1 bg-red-400/10 border py-1 px-2 text-sm font-medium transition border-red-500/20 rounded-full"
           >
             <Icon
@@ -179,7 +179,7 @@
               class="text-red-500"
             />
             Stop
-          </span>
+          </button>
         </div>
       </transition>
       <transition>
