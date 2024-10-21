@@ -283,12 +283,7 @@
                 >
                   <Icon icon="bxs:send" class="text-xl text-gray-200" />
                 </button>
-                <button
-                  v-motion-fade
-                  v-else
-                  class="cursor-not-allowed"
-                  disabled
-                >
+                <button v-motion-fade v-else @click.prevent="sendVoice">
                   <Icon icon="ic:round-mic" class="text-xl text-primary" />
                 </button>
               </div>
@@ -371,6 +366,11 @@ const selectedFile = ref(null);
 const selectedImage = ref(null);
 const imageURL = ref(null);
 const isImage = ref(false);
+const voiceMessage = ref("voice");
+
+const sendVoice = () => {
+  console.log(voiceMessage.value);
+};
 const autoSpand = () => {
   const el = autoExpand.value;
   if (el) {
