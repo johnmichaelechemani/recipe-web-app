@@ -76,7 +76,7 @@
             </div>
             <div class="">
               <div
-                v-if="isLoading"
+                v-if="isImageLoading"
                 class="w-52 h-32 bg-gray-500/20 border border-gray-500/20 rounded-2xl"
               ></div>
 
@@ -94,7 +94,7 @@
           <!-- image with no message layout -->
           <div v-if="m.imageUrl && m.message === ''" class="">
             <div
-              v-if="isLoading"
+              v-if="isImageLoading"
               class="w-52 h-32 bg-gray-500/20 border border-gray-500/20 rounded-2xl"
             ></div>
 
@@ -405,15 +405,15 @@ const isImage = ref(false);
 const isRecording = ref(false);
 const recordingError = ref("");
 let recognition;
-const isLoading = ref(true); // Track loading state
+const isImageLoading = ref(true); // Track loading state
 
 const onLoad = () => {
   console.log("loading is done!");
-  isLoading.value = false; // Image has loaded, hide the loading indicator
+  isImageLoading.value = false; // Image has loaded, hide the loading indicator
 };
 
 const onError = () => {
-  isLoading.value = false; // Handle error case (stop showing loading)
+  isImageLoading.value = false; // Handle error case (stop showing loading)
 };
 
 const startRecording = () => {
