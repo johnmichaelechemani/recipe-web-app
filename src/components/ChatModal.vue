@@ -284,7 +284,11 @@
                 >
                   <Icon icon="bxs:send" class="text-xl text-gray-200" />
                 </button>
-                <button v-motion-fade v-else @click.prevent="sendVoice">
+                <button
+                  v-motion-fade
+                  v-else
+                  @click.prevent.stop="startRecording"
+                >
                   <Icon icon="ic:round-mic" class="text-xl text-primary" />
                 </button>
               </div>
@@ -367,15 +371,45 @@ const selectedFile = ref(null);
 const selectedImage = ref(null);
 const imageURL = ref(null);
 const isImage = ref(false);
-const voiceMessage = ref("voice");
 const isRecording = ref(false);
+let recognition;
 
-const sendVoice = () => {
-  isRecording.value = true;
-  console.log(voiceMessage.value);
+const startRecording = () => {
+  if (!("webkitSpeechRecognition" in window)) {
+    console.error("Speech recognition is not supported in this browser.");
+    return;
+  }
+
+  recognition = new webkitSpeechRecognition();
+  recognition.continuous = true;
+  recognition.interimResults = false;
+  recognition.lang = "en-US";
+
+  recognition.onstart = () => {
+    isRecording.value = true;
+  };
+
+  recognition.onresult = (event) => {
+    const transcript = event.results[event.results.length - 1][0].transcript;
+    emit("update:modelValue", transcript);
+  };
+
+  recognition.onerror = (event) => {
+    console.error("Speech recognition error:", event);
+  };
+
+  recognition.onend = () => {
+    isRecording.value = false;
+  };
+
+  recognition.start();
 };
+
 const stopRecording = () => {
-  isRecording.value = false;
+  if (recognition) {
+    recognition.stop();
+    isRecording.value = false;
+  }
 };
 const autoSpand = () => {
   const el = autoExpand.value;
