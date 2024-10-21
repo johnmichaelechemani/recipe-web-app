@@ -74,21 +74,37 @@
             >
               {{ m.message }}
             </div>
-            <img
-              v-if="m.imageUrl"
-              :src="m.imageUrl"
-              loading="lazy"
-              alt=""
-              class="h-auto w-52 object-cover border border-gray-500/20 rounded-b-2xl"
-            />
+            <div class="">
+              <div
+                v-if="isLoading"
+                class="w-52 h-32 bg-gray-500/20 border border-gray-500/20 rounded-2xl"
+              ></div>
+
+              <img
+                v-if="m.imageUrl"
+                :src="m.imageUrl"
+                loading="lazy"
+                alt=""
+                class="h-auto w-52 object-cover border bg-gray-500/20 border-gray-500/20 rounded-b-2xl"
+                @load="onLoad"
+                @error="onError"
+              />
+            </div>
           </div>
           <!-- image with no message layout -->
           <div v-if="m.imageUrl && m.message === ''" class="">
+            <div
+              v-if="isLoading"
+              class="w-52 h-32 bg-gray-500/20 border border-gray-500/20 rounded-2xl"
+            ></div>
+
             <img
               :src="m.imageUrl"
               loading="lazy"
               alt=""
-              class="h-auto w-52 object-cover border border-gray-500/20 rounded-2xl"
+              @load="onLoad"
+              @error="onError"
+              class="h-auto w-52 object-cover bg-gray-500/20 border border-gray-500/20 rounded-2xl"
             />
           </div>
 
@@ -389,6 +405,16 @@ const isImage = ref(false);
 const isRecording = ref(false);
 const recordingError = ref("");
 let recognition;
+const isLoading = ref(true); // Track loading state
+
+const onLoad = () => {
+  console.log("loading is done!");
+  isLoading.value = false; // Image has loaded, hide the loading indicator
+};
+
+const onError = () => {
+  isLoading.value = false; // Handle error case (stop showing loading)
+};
 
 const startRecording = () => {
   if (!("webkitSpeechRecognition" in window)) {
