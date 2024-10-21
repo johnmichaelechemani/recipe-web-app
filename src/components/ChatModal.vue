@@ -39,24 +39,25 @@
           :class="m.senderId === userId ? 'chat-end' : 'chat-start'"
         >
           <div class="chat-image avatar">
-            <div class="w-10 rounded-full">
-              <img v-if="userId === m.senderId" :src="userPhoto" />
-              <img v-else :src="selectedUser.userPhotoURL" />
+            <div class="w-10 rounded-full" v-if="userId !== m.senderId">
+              <img :src="selectedUser.userPhotoURL" />
             </div>
           </div>
 
           <div class="chat-header text-xs font-medium">
-            {{ m.senderId === userId ? userName : selectedUser.userName }}
-            <time class="text-[10px] opacity-50">{{
-              formatTime(m.timestamp)
-            }}</time>
+            {{ m.senderId === userId ? "You" : selectedUser.userName }}
+            <time class="text-[10px] opacity-50">
+              {{ formatTime(m.timestamp) }}</time
+            >
           </div>
 
           <!-- massage with no image, file layout -->
           <div
             v-if="m.message && m.imageUrl === null && m.fileUrl === null"
-            class="chat-bubble text-sm"
-            :class="userId === m.senderId ? 'chat-bubble-primary' : ''"
+            class="rounded-2xl py-2 px-4 text-sm"
+            :class="
+              userId === m.senderId ? 'chat-bubble-primary' : 'chat-bubble'
+            "
           >
             {{ m.message }}
           </div>
@@ -65,7 +66,11 @@
           <div v-if="m.message && m.imageUrl" class="w-52">
             <div
               class="rounded-t-2xl py-2 px-4 text-sm"
-              :class="userId === m.senderId ? 'chat-bubble-primary' : ''"
+              :class="
+                userId === m.senderId
+                  ? 'chat-bubble-primary'
+                  : 'border border-gray-500/20'
+              "
             >
               {{ m.message }}
             </div>
@@ -104,10 +109,14 @@
           </div>
 
           <!-- file with message layout -->
-          <div v-if="m.message && m.fileUrl" class="w-52">
+          <div v-if="m.message && m.fileUrl" class="max-w-52">
             <div
               class="rounded-t-2xl py-2 px-4 text-sm"
-              :class="userId === m.senderId ? 'chat-bubble-primary' : ''"
+              :class="
+                userId === m.senderId
+                  ? 'chat-bubble-primary'
+                  : 'border border-gray-500/20'
+              "
             >
               {{ m.message }}
             </div>
