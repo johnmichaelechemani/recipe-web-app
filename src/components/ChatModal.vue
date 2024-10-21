@@ -184,6 +184,21 @@
         </div>
       </transition>
       <transition>
+        <span
+          v-if="recordingError"
+          class="backdrop-blur-2xl flex justify-start items-center gap-1 bg-red-400/10 border py-1 px-2 text-sm font-medium transition border-red-500/20 rounded-full"
+        >
+          <Icon
+            icon="material-symbols:error"
+            class="text-red-500"
+            width="20"
+            height="20"
+          />
+
+          {{ recordingError }}
+        </span>
+      </transition>
+      <transition>
         <div
           v-if="props.selectedFile || props.selectedImage !== null"
           class="ml-1 flex justify-start items-end gap-1 text-xs"
@@ -372,10 +387,13 @@ const selectedImage = ref(null);
 const imageURL = ref(null);
 const isImage = ref(false);
 const isRecording = ref(false);
+const recordingError = ref("");
 let recognition;
 
 const startRecording = () => {
   if (!("webkitSpeechRecognition" in window)) {
+    recordingError.value =
+      "Speech recognition is not supported in this browser.";
     console.error("Speech recognition is not supported in this browser.");
     return;
   }
