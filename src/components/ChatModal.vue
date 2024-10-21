@@ -117,7 +117,7 @@
                   ? 'chat-bubble-primary'
                   : 'border border-gray-500/20'
               "
-            >  
+            >
               {{ m.message }}
             </div>
             <div
@@ -159,6 +159,27 @@
             <span class="loading loading-dots loading-xs"></span>
             <span>Sending..</span></span
           >
+        </div>
+      </transition>
+      <transition>
+        <div class="flex justify-center items-center gap-2">
+          <span
+            class="backdrop-blur-2xl flex justify-center items-center gap-2 bg-green-400/10 border px-4 text-sm font-medium py-1 transition border-green-500/20 rounded-full"
+          >
+            <span class="loading loading-ring text-green-500 loading-md"></span>
+            <span>Recording..</span></span
+          >
+          <span
+            class="backdrop-blur-2xl flex justify-center items-center gap-1 bg-red-400/10 border py-1 px-2 text-sm font-medium transition border-red-500/20 rounded-full"
+          >
+            <Icon
+              icon="mynaui:stop-solid"
+              width="20"
+              height="20"
+              class="text-red-500"
+            />
+            Stop
+          </span>
         </div>
       </transition>
       <transition>
