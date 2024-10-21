@@ -97,8 +97,8 @@
             </div>
           </figure>
           <div class="py-2">
-            <div class="card-title text-sm sm:text-lg">
-              <h1 class="trucate">{{ item.title }}</h1>
+            <div class="card-title text-sm sm:text-lg truncate">
+              <h1 class="truncate">{{ item.title }}</h1>
             </div>
 
             <p class="text-xs truncate">
