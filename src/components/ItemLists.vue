@@ -1,14 +1,14 @@
 <template>
   <ul>
     <li v-for="(item, index) in selectedItem" :key="item.id">
-      <div class="flex justify-start items-center gap-4 my-1">
+      <div class="flex justify-start items-center gap-1 my-1">
         <div>
           <Icon
             v-if="itemDesables.some((item) => item === index)"
             icon="lets-icons:check-fill"
             class="text-green-500 text-sm"
           />
-          <span v-else class="text-xs">{{ index + 1 }}</span>
+          <div v-else class="text-xs w-5">{{ index + 1 }}</div>
         </div>
 
         <div
