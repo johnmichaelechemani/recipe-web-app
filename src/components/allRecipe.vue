@@ -97,18 +97,18 @@
             </div>
           </figure>
           <div class="py-2">
-            <h2 class="card-title text-sm sm:text-lg truncate">
-              {{ item.title }}
-            </h2>
+            <div class="card-title text-sm sm:text-lg">
+              <h1 class="trucate">{{ item.title }}</h1>
+            </div>
 
             <p class="text-xs truncate">
               {{ item.descriptions }}
             </p>
-            <span
+            <div
               class="sm:text-xs py-0.5 text-[10px] font-medium px-2 rounded-full text-blue-500 truncate bg-blue-500/10"
             >
               {{ item.userName }}
-            </span>
+            </div>
             <div class="pt-2">
               <span
                 v-if="item.averageRating"
