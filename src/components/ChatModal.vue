@@ -39,7 +39,7 @@
           :class="m.senderId === userId ? 'chat-end' : 'chat-start'"
         >
           <div class="chat-image avatar">
-            <div class="w-10 rounded-full" v-if="userId !== m.senderId">
+            <div class="size-5 rounded-full" v-if="userId !== m.senderId">
               <img :src="selectedUser.userPhotoURL" />
             </div>
           </div>
