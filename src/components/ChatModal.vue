@@ -152,9 +152,7 @@
           </div>
 
           <div class="chat-footer opacity-50 font-semibold text-xs">
-            {{
-              m.isSendMessageLoading ? "Sending..." : "Delivered"
-            }}
+            {{ m.isSendMessageLoading ? "Sending..." : "Delivered" }}
           </div>
         </div>
       </div>
@@ -231,7 +229,7 @@
             <span
               class="backdrop-blur-2xl flex bg-gray-400/20 justify-start items-center gap-2 px-2 py-1 border border-gray-500/20 rounded-xl"
               ><Icon icon="fluent:attach-16-regular" width="20" height="20" />
-              <span>{{ fileName }}</span></span
+              <span class="truncate max-w-52">{{ fileName }}</span></span
             >
             <button
               @click="closeAttachements()"
