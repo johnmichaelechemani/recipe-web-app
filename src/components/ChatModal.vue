@@ -12,6 +12,7 @@
         <div class="w-10 rounded-full">
           <img
             :src="selectedUser.userPhotoURL"
+            loading="lazy"
             class="bg-gray-500/20 border border-gray-500/20 rounded-full"
           />
         </div>
