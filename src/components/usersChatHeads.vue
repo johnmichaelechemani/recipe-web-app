@@ -8,7 +8,17 @@
       :class="user.status === 'online' ? 'online' : 'offline'"
     >
       <div class="w-10 rounded-full">
-        <img :src="user.userPhotoURL" />
+        <div
+          v-if="isImageLoading"
+          class="size-10 bg-gray-500/20 border border-gray-500/20 rounded-full"
+        ></div>
+        <img
+          :src="user.userPhotoURL"
+          loading="lazy"
+          class="bg-gray-500/20 border border-gray-500/20 rounded-full"
+          @load="onLoad"
+          @error="onError"
+        />
       </div>
     </div>
     <div class="">
@@ -42,6 +52,7 @@
   </div>
 </template>
 <script setup>
+import { ref } from "vue";
 const props = defineProps({
   yourChat: {
     type: Function,
@@ -76,4 +87,14 @@ const props = defineProps({
     required: true,
   },
 });
+const isImageLoading = ref(true); // Track loading state
+
+const onLoad = () => {
+  console.log("loading is done!");
+  isImageLoading.value = false; // Image has loaded, hide the loading indicator
+};
+
+const onError = () => {
+  isImageLoading.value = false; // Handle error case (stop showing loading)
+};
 </script>

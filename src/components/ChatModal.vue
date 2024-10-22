@@ -10,7 +10,10 @@
     <div class="flex justify-start items-center gap-2">
       <div class="avatar">
         <div class="w-10 rounded-full">
-          <img :src="selectedUser.userPhotoURL" />
+          <img
+            :src="selectedUser.userPhotoURL"
+            class="bg-gray-500/20 border border-gray-500/20 rounded-full"
+          />
         </div>
       </div>
       <div>
