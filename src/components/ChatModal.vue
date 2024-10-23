@@ -58,7 +58,7 @@
           <!-- massage with no image, file layout -->
           <div
             v-if="m.message && m.imageUrl === null && m.fileUrl === null"
-            class="rounded-2xl py-2 px-4 text-sm max-w-52"
+            class="rounded-2xl whitespace-pre-line py-2 px-4 text-sm max-w-52"
             :class="
               userId === m.senderId ? 'chat-bubble-primary' : 'chat-bubble'
             "
@@ -69,7 +69,7 @@
           <!-- image with message layout -->
           <div v-if="m.message && m.imageUrl" class="w-52">
             <div
-              class="rounded-t-2xl py-2 px-4 text-sm"
+              class="rounded-t-2xl whitespace-pre-line py-2 px-4 text-sm"
               :class="
                 userId === m.senderId
                   ? 'chat-bubble-primary'
@@ -131,7 +131,7 @@
           <!-- file with message layout -->
           <div v-if="m.message && m.fileUrl" class="max-w-52">
             <div
-              class="rounded-t-2xl py-2 px-4 text-sm"
+              class="rounded-t-2xl whitespace-pre-line py-2 px-4 text-sm"
               :class="
                 userId === m.senderId
                   ? 'chat-bubble-primary'
