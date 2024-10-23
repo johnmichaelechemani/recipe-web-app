@@ -156,7 +156,12 @@
           </div>
 
           <div class="chat-footer opacity-50 font-semibold text-xs">
-            {{ m.isSendMessageLoading ? "Sending..." : "Delivered" }}
+            {{ m.isSendMessageLoading ? "Sending..." : "" }}
+            <Icon
+              v-if="!m.isSendMessageLoading"
+              :class="userId !== m.senderId ? 'hidden' : ''"
+              icon="material-symbols-light:check-circle"
+            />
           </div>
         </div>
       </div>
