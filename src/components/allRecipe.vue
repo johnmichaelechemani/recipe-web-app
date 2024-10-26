@@ -49,7 +49,7 @@
     <div class="flex justify-center sm:justify-start items-center">
       <div
         v-if="filteredRecipes"
-        class="grid grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3 overflow-hidden py-5 px-2 sm:p-2"
+        class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-3 overflow-hidden py-5 px-2 sm:p-2"
       >
         <div
           v-for="item in filteredRecipes"

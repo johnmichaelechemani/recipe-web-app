@@ -22,17 +22,20 @@ const router = createRouter({
           path: "/messages",
           name: "messages",
           component: () => import("../views/message.vue"),
+          children: [
+            {
+              path: "/chefs",
+              name: "chefs",
+              component: () => import("../views/allChefs.vue"),
+            },
+            {
+              path: "/messages",
+              name: "yourChats",
+              component: () => import("../views/yourChats.vue"),
+            },
+          ]
         },
-        {
-          path: "/chefs",
-          name: "chefs",
-          component: () => import("../views/allChefs.vue"),
-        },
-        {
-          path: "/yourChats",
-          name: "yourChats",
-          component: () => import("../views/yourChats.vue"),
-        },
+       
       ],
     },
     

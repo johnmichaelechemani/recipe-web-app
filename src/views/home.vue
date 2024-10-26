@@ -1,9 +1,9 @@
 <template>
-  <div class="p-2 flex justify-center items-center" v-motion-fade>
-    <div class="max-w-6xl min-w-2xl">
-      <Header />
-      
-
+  <div class="fixed inset-x-0 z-50 top-0 backdrop-blur-2xl" v-motion-fade>
+    <Header />
+  </div>
+  <div class="flex justify-start items-center" v-motion-fade>
+    <div class="m-2">
       <router-view />
     </div>
   </div>

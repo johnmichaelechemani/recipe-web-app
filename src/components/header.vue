@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-between items-center border-b border-gray-400/20">
-    <div class="flex justify-start items-center gap-1 p-2">
+    <div class="flex justify-start items-center gap-1 py-2 px-5">
       <div>
         <img
           class="h-8 w-8 rounded-full"
@@ -35,7 +35,7 @@
       </div>
     </div>
 
-    <div>
+    <div class="pr-5">
       <label class="flex cursor-pointer gap-1 sm:gap-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
