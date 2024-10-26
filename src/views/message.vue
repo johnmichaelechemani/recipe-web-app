@@ -8,8 +8,8 @@ import Search from "../components/Search.vue";
     v-motion-fade
   >
     <div class="w-full">
-      <div class="flex">
-        <div class="">
+      <div class="grid grid-cols-12">
+        <div class="col-span-3">
           <div class="py-2 flex justify-start items-center gap-1">
             <router-link
               to="/recipes"
@@ -56,25 +56,8 @@ import Search from "../components/Search.vue";
             </div>
           </div>
         </div>
-        <div
-          class="border-l relative w-full border-gray-500/20 min-w-52 h-screen"
-        >
-          <div class="p-2 relative">
-            <div
-              class="absolute w-full backdrop-blur-2xl border-b border-red-500 inset-x-0 top-0"
-            >
-              <div class="flex justify-start gap-2 p-2 items-center">
-                <div class="size-10 rounded-full bg-gray-400/50"></div>
-                <h1 class="text-lg font-semibold">Name</h1>
-              </div>
-            </div>
-            <div class="pt-12">
-              Select a Message
 
-              <router-view name="messageBox" />
-            </div>
-          </div>
-        </div>
+        <router-view name="messageBox" />
       </div>
     </div>
   </div>
