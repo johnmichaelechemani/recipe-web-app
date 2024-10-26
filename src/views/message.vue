@@ -4,7 +4,7 @@ import Search from "../components/Search.vue";
 </script>
 <template>
   <div
-    class="flex fixed inset-0 h-screen overflow-hidden pt-24 justify-center items-center"
+    class="flex fixed inset-0 h-screen pt-24 justify-center items-center"
     v-motion-fade
   >
     <div class="w-full">

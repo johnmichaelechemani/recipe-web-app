@@ -1,4 +1,11 @@
 <template>
+  <div class="my-4">
+    <router-link
+      :to="{ path: `/messages/inbox/messageBox/${getChatId(userId, user.id)}` }"
+      class="px-4 py-2 border"
+      >User</router-link
+    >
+  </div>
   <div
     @click="yourChat(user)"
     class="flex justify-start items-center gap-2 cursor-pointer hover:bg-gray-500/20 transition p-1 rounded-md"
@@ -78,6 +85,7 @@ const props = defineProps({
     type: [String, Number],
     required: true,
   },
+
   isSender: {
     type: Object,
     required: true,

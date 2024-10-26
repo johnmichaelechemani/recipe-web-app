@@ -15,7 +15,7 @@
       <div v-for="user in filteredUsers" :key="user.id">
         <UsersChatHeads
           :user="user"
-          :yourChat="() => yourChat('openInbox', user)"
+          :yourChat="() => yourChat(user)"
           :formatTime="Time"
           :latestMessages="latestMessages"
           :getChatId="getChatId"

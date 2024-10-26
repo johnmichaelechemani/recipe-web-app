@@ -1,9 +1,186 @@
 <template>
-  <div>test: {{ selectedUserFromMessageBox }}, {{ userId }}</div>
+  <div class="overflow-scroll h-[50%]">
+    <!-- Render messages here -->
+    <div v-if="isLoading">Loading messages...</div>
+    <div v-for="m in messages" :key="m.id">
+      <div
+        class="chat"
+        :class="m.senderId === userId ? 'chat-end' : 'chat-start'"
+      >
+        <div class="chat-image avatar">
+          <!-- <div class="size-5 rounded-full" v-if="userId !== m.senderId">
+            <img :src="selectedUser.userPhotoURL" />
+          </div> -->
+        </div>
+
+        <div class="chat-header text-xs font-medium">
+          {{ m.senderId === userId ? "You" : "" }}
+          <!-- <time class="text-[10px] opacity-50">
+            {{ formatTime(m.timestamp) }}</time
+          > -->
+        </div>
+
+        <!-- massage with no image, file layout -->
+        <div
+          v-if="m.message && m.imageUrl === null && m.fileUrl === null"
+          class="rounded-2xl whitespace-pre-line py-2 px-4 text-sm max-w-52"
+          :class="userId === m.senderId ? 'chat-bubble-primary' : 'chat-bubble'"
+        >
+          {{ m.message }}
+        </div>
+
+        <!-- image with message layout -->
+        <div v-if="m.message && m.imageUrl" class="w-52">
+          <div
+            class="rounded-t-2xl whitespace-pre-line py-2 px-4 text-sm"
+            :class="
+              userId === m.senderId
+                ? 'chat-bubble-primary'
+                : 'border border-gray-500/20'
+            "
+          >
+            {{ m.message }}
+          </div>
+          <div class="">
+            <div
+              v-if="isImageLoading"
+              class="w-52 h-32 bg-gray-500/20 border border-gray-500/20 rounded-2xl"
+            ></div>
+
+            <img
+              v-if="m.imageUrl"
+              :src="m.imageUrl"
+              loading="lazy"
+              alt=""
+              class="h-auto w-52 object-cover border bg-gray-500/20 border-gray-500/20 rounded-b-2xl"
+              @load="onLoad"
+              @error="onError"
+            />
+          </div>
+        </div>
+        <!-- image with no message layout -->
+        <div v-if="m.imageUrl && m.message === ''" class="">
+          <div
+            v-if="isImageLoading"
+            class="w-52 h-32 bg-gray-500/20 border border-gray-500/20 rounded-2xl"
+          ></div>
+
+          <img
+            :src="m.imageUrl"
+            loading="lazy"
+            alt=""
+            @load="onLoad"
+            @error="onError"
+            class="h-auto w-52 object-cover bg-gray-500/20 border border-gray-500/20 rounded-2xl"
+          />
+        </div>
+
+        <!-- file with no message layout -->
+        <div
+          v-if="m.fileUrl && m.message === ''"
+          class="text-sm rounded-2xl backdrop-blur-2xl max-w-52 bg-gray-500/20 font-medium border border-gray-500/20 px-4 py-3"
+        >
+          <a
+            :href="m.fileUrl"
+            download
+            class="flex justify-start items-center gap-2"
+          >
+            <Icon icon="simple-icons:googledocs" width="16" height="16" />{{
+              m.fileName
+            }}</a
+          >
+        </div>
+
+        <!-- file with message layout -->
+        <div v-if="m.message && m.fileUrl" class="max-w-52">
+          <div
+            class="rounded-t-2xl whitespace-pre-line py-2 px-4 text-sm"
+            :class="
+              userId === m.senderId
+                ? 'chat-bubble-primary'
+                : 'border border-gray-500/20'
+            "
+          >
+            {{ m.message }}
+          </div>
+          <div
+            class="text-sm rounded-b-2xl backdrop-blur-2xl bg-gray-500/20 font-medium border border-gray-500/20 px-4 py-3"
+          >
+            <a
+              :href="m.fileUrl"
+              download
+              class="flex justify-start items-center gap-2"
+            >
+              <Icon icon="simple-icons:googledocs" width="16" height="16" />{{
+                m.fileName
+              }}</a
+            >
+          </div>
+        </div>
+
+        <div class="chat-footer opacity-50 font-semibold text-xs">
+          {{ m.isSendMessageLoading ? "Sending..." : "" }}
+          <Icon
+            v-if="!m.isSendMessageLoading"
+            :class="userId !== m.senderId ? 'hidden' : ''"
+            icon="material-symbols-light:check-circle"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
-import { ChatFuntions } from "../scripts/ChatFunctions.js";
-const { selectedUserFromMessageBox, userId } = ChatFuntions();
-console.log("from", selectedUserFromMessageBox);
+import { ref, onMounted, onUnmounted, watch } from "vue";
+import { useRoute } from "vue-router";
+import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import { useAuth } from "../firebase";
+
+const { firestore } = useAuth();
+const isLoading = ref(false);
+const messages = ref([]);
+const route = useRoute();
+const auth = getAuth();
+const user = ref(auth.currentUser);
+const userId = user.value.uid;
+
+// Load messages function
+const loadMessages = (chatId) => {
+  isLoading.value = true;
+
+  // Query for messages
+  const messagesQuery = query(
+    collection(firestore, `chats/${chatId}/messages`),
+    orderBy("timestamp", "asc")
+  );
+
+  const messageUnsub = onSnapshot(messagesQuery, (snapshot) => {
+    messages.value = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    isLoading.value = false;
+    scrollToBottom(); // Ensure you have this function defined
+  });
+
+  onUnmounted(() => {
+    messageUnsub();
+  });
+};
+
+watch(
+  () => route.params.id,
+  (newChatId) => {
+    if (newChatId) {
+      loadMessages(newChatId);
+    }
+  }
+);
+// Fetch chatId from the route parameter and load messages
+onMounted(() => {
+  const chatId = route.params.id; // Assuming your route is set up to use 'id'
+  loadMessages(chatId);
+});
 </script>

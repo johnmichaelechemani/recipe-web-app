@@ -13,7 +13,7 @@ const router = createRouter({
       meta: {
         requiresAuth: true,
       },
-      redirect:'recipes',
+      redirect: "recipes",
       children: [
         {
           path: "/recipes",
@@ -40,9 +40,12 @@ const router = createRouter({
               },
               children: [
                 {
-                  path: "/messageBox",
+                  path: "/messages/inbox/messageBox/:id",
                   components: {
-                    messageBox: () => import("../views/messageBox.vue"), // Nested in the 'messageBox' view
+                    messageBox: () => import("../views/messageBox.vue"),
+                  },
+                  props: {
+                    messageBox: true,
                   },
                 },
               ],

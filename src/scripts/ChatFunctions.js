@@ -55,10 +55,10 @@ export function ChatFuntions() {
   let selectedUserFromMessageBox = ref({});
 
   const yourChat = (modalId, user) => {
-    const modal = document.getElementById(modalId);
-    modal.showModal();
-    selectedUser.value = user;
-    selectedUserFromMessageBox.value = user;
+    // const modal = document.getElementById(modalId);
+    // modal.showModal();
+    // selectedUser.value = user;
+    // selectedUserFromMessageBox.value = user;
     loadMessages();
     //console.log(selectedUserFromMessageBox);
   };
@@ -101,6 +101,7 @@ export function ChatFuntions() {
       await setDoc(
         doc(firestore, `chats/${chatId}`),
         {
+          chatId: chatId,
           participants: {
             [userId]: true,
             [selectedUser.value.userId]: true,
@@ -116,6 +117,7 @@ export function ChatFuntions() {
 
       // Step 3: Add the message to the messages collection
       await addDoc(collection(firestore, `chats/${chatId}/messages`), {
+        chatId: chatId,
         senderId: userId,
         recipientId: selectedUser.value.userId,
         message: newMessage.value,
