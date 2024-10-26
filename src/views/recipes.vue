@@ -10,7 +10,7 @@
   <div class="flex justify-start items-center gap-1 mt-5">
     <AddRecipe />
 
-    <router-link to="messages" class="hover:text-primary transition p-2">
+    <router-link to="messages" class="hover:text-primary transition p-2 flex justify-center items-center">
       <div class="indicator">
         <span
           v-if="newMessageArray !== 0"
