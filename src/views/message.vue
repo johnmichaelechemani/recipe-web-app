@@ -1,22 +1,20 @@
 <script setup>
 import { Icon } from "@iconify/vue";
-import { useRouter } from "vue-router";
 import Search from "../components/Search.vue";
-
-const router = useRouter();
 </script>
 <template>
   <div class="flex justify-center items-center" v-motion-fade>
-    <div class="w-full">
+    <div class="w-full mt-11">
       <div class="flex">
-        <div class="overflow-hidden">
+        <div class="">
           <div class="py-2 flex justify-start items-center gap-1">
-            <div
+            <router-link
+              to="home"
               class="p-2 rounded-full hover:bg-gray-500/20 transition"
-              @click="router.back()"
             >
               <Icon icon="line-md:arrow-left" width="20" height="20" />
-            </div>
+            </router-link>
+
             <h1 class="text-xl font-semibold">Chats</h1>
           </div>
           <div>
