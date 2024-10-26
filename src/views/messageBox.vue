@@ -1,9 +1,7 @@
 <template>
-  <div class="border-l col-span-9 relative border-gray-500/20 h-screen">
-    <div class="p-2 relative">
-      <div
-        class="absolute w-full backdrop-blur-2xl border-b border-red-500 inset-x-0 top-0"
-      >
+  <div class="ml-72 fixed overflow-y-auto inset-0 border-l border-gray-500/20">
+    <div class="pt-12">
+      <div class="backdrop-blur-2xl border-b border-red-500 inset-x-0 top-0">
         <div class="flex justify-start gap-2 p-2 items-center">
           <div class="size-10 rounded-full bg-gray-400/50"></div>
           <h1 class="text-lg font-semibold">Name</h1>
@@ -14,7 +12,7 @@
         <div class="overflow-scroll h-[50%]">
           <!-- Render messages here -->
           <div v-if="isLoading">Loading messages...</div>
-          <div v-for="m in messages" :key="m.id">
+          <div v-for="m in messages" :key="m.id" class="overflow-x-hidden">
             <div
               class="chat"
               :class="m.senderId === userId ? 'chat-end' : 'chat-start'"
@@ -183,7 +181,7 @@ const loadMessages = (chatId) => {
       ...doc.data(),
     }));
     isLoading.value = false;
-    scrollToBottom(); // Ensure you have this function defined
+    // scrollToBottom(); // Ensure you have this function defined
   });
 
   onUnmounted(() => {
