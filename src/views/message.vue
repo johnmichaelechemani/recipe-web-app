@@ -4,8 +4,8 @@ import Search from "../components/Search.vue";
 </script>
 <template>
   <div class="relative">
-    <div class="fixed min-w-72 overflow-y-auto inset-y-0 left-0">
-      <div class="py-3 flex justify-start items-center gap-1">
+    <div class="fixed min-w-72 inset-y-0 left-0 z-40">
+      <div class="pb-3 px-2 pt-14 flex justify-start items-center gap-1">
         <router-link
           to="/recipes"
           class="p-2 rounded-full hover:bg-gray-500/20 transition"
@@ -32,6 +32,7 @@ import Search from "../components/Search.vue";
               Inbox
             </button>
           </router-link>
+
           <router-link to="/messages/chefs">
             <button
               class="rounded-full tracking-wide"
@@ -46,7 +47,7 @@ import Search from "../components/Search.vue";
           </router-link>
         </div>
 
-        <div class="px-2">
+        <div class="px-2 h-96 overflow-y-auto">
           <router-view />
         </div>
       </div>

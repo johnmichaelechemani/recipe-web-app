@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-96">
+  <div class="">
     <div>
       <ChatHeads
         :filteredUsers="filteredUsers"
