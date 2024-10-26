@@ -8,13 +8,15 @@ const router = createRouter({
       path: "/home",
       name: "home",
       component: () => import("../views/home.vue"),
+
       props: true,
       meta: {
         requiresAuth: true,
       },
+      redirect:'recipes',
       children: [
         {
-          path: "/home",
+          path: "/recipes",
           name: "recipe",
           component: () => import("../views/recipes.vue"),
         },
@@ -22,23 +24,34 @@ const router = createRouter({
           path: "/messages",
           name: "messages",
           component: () => import("../views/message.vue"),
+          redirect: "/messages/inbox",
           children: [
             {
-              path: "/chefs",
-              name: "chefs",
-              component: () => import("../views/allChefs.vue"),
+              path: "/messages/chefs",
+              components: {
+                default: () => import("../views/allChefs.vue"), // Loads in the default view
+              },
             },
             {
-              path: "/messages",
-              name: "yourChats",
-              component: () => import("../views/yourChats.vue"),
+              path: "/messages/inbox",
+              components: {
+                default: () => import("../views/yourChats.vue"), // Loads in the default view
+                messageBox: () => import("../views/messageBox.vue"), // Loads in the 'messageBox' view
+              },
+              children: [
+                {
+                  path: "/messageBox",
+                  components: {
+                    messageBox: () => import("../views/messageBox.vue"), // Nested in the 'messageBox' view
+                  },
+                },
+              ],
             },
-          ]
+          ],
         },
-       
       ],
     },
-    
+
     {
       path: "/",
       name: "login",
@@ -71,7 +84,7 @@ router.beforeEach(async (to, from, next) => {
     if (await getCurrentUser()) {
       next();
     } else {
-      console.log("You dont have access!");
+      console.log("You don’t have access!");
       next("/");
     }
   } else {

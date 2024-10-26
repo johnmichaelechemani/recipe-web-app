@@ -52,13 +52,15 @@ export function ChatFuntions() {
   const getChatId = (userId1, userId2) => {
     return [userId1, userId2].sort().join("_");
   };
+  let selectedUserFromMessageBox = ref({});
 
   const yourChat = (modalId, user) => {
     const modal = document.getElementById(modalId);
     modal.showModal();
     selectedUser.value = user;
+    selectedUserFromMessageBox.value = user;
     loadMessages();
-    console.log(messages);
+    //console.log(selectedUserFromMessageBox);
   };
   const file = ref(null);
   const imageFile = ref(null);
@@ -331,5 +333,6 @@ export function ChatFuntions() {
     imageFile,
     handleImageUpdate,
     handleFileUpdate,
+    selectedUserFromMessageBox,
   };
 }
