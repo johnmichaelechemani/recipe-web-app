@@ -8,8 +8,10 @@
       >
       <button class="" onclick="chatModal.showModal()">
         <Icon
-          icon="ant-design:message-filled"
-          class="text-3xl hover:text-blue-500 transition"
+          icon="uiw:message"
+          width="25"
+          height="25"
+          class="hover:text-primary transition"
         />
       </button>
     </div>
@@ -19,7 +21,7 @@
     </div> -->
   </router-link>
 
-  <dialog id="chatModal" class="modal ">
+  <dialog id="chatModal" class="modal">
     <div class="modal-box no-scrollbar">
       <h3 class="font-bold text-xl">Chats</h3>
       <hr class="border border-gray-400/10 my-1" />
