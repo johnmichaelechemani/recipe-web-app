@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="my-3 flex justify-start gap-2 items-center"
-    @click="handleSearch()"
-  >
+  <div class="flex justify-start gap-2 items-center min-w-80" @click="handleSearch()">
     <div
       class="text-sm text-gray-400 flex justify-start gap-2 items-center w-full border border-gray-500/40 rounded-full px-2 py-1"
     >

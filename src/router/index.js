@@ -23,18 +23,19 @@ const router = createRouter({
           name: "messages",
           component: () => import("../views/message.vue"),
         },
+        {
+          path: "/chefs",
+          name: "chefs",
+          component: () => import("../views/allChefs.vue"),
+        },
+        {
+          path: "/yourChats",
+          name: "yourChats",
+          component: () => import("../views/yourChats.vue"),
+        },
       ],
     },
-    {
-      path: "/chefs",
-      name: "chefs",
-      component: () => import("../views/allChefs.vue"),
-    },
-    {
-      path: "/yourChats",
-      name: "yourChats",
-      component: () => import("../views/yourChats.vue"),
-    },
+    
     {
       path: "/",
       name: "login",
