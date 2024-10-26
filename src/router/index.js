@@ -31,6 +31,11 @@ const router = createRouter({
       component: () => import("../views/login.vue"),
     },
     {
+      path: "/messages",
+      name: "messages",
+      component: () => import("../views/message.vue"),
+    },
+    {
       path: "/crud",
       name: "crud",
       component: () => import("../views/crud.vue"),
