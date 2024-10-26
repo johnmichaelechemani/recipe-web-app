@@ -14,27 +14,33 @@ const router = createRouter({
       },
       children: [
         {
-          path: "/chefs",
-          name: "chefs",
-          component: () => import("../views/allChefs.vue"),
+          path: "/home",
+          name: "recipe",
+          component: () => import("../views/recipes.vue"),
         },
         {
-          path: "/yourChats",
-          name: "yourChats",
-          component: () => import("../views/yourChats.vue"),
+          path: "/messages",
+          name: "messages",
+          component: () => import("../views/message.vue"),
         },
       ],
+    },
+    {
+      path: "/chefs",
+      name: "chefs",
+      component: () => import("../views/allChefs.vue"),
+    },
+    {
+      path: "/yourChats",
+      name: "yourChats",
+      component: () => import("../views/yourChats.vue"),
     },
     {
       path: "/",
       name: "login",
       component: () => import("../views/login.vue"),
     },
-    {
-      path: "/messages",
-      name: "messages",
-      component: () => import("../views/message.vue"),
-    },
+
     {
       path: "/crud",
       name: "crud",

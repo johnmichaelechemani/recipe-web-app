@@ -6,6 +6,7 @@
           class="h-8 w-8 rounded-full"
           v-if="user.photoURL"
           :src="user.photoURL"
+          loading="lazy"
           alt="profile"
         />
         <div v-else class="bg-primary text-neutral shadow rounded-full p-1">
