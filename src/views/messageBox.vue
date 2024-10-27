@@ -147,92 +147,25 @@
         </div>
       </div>
     </div>
-    <div class=" fixed inset-x-0 bottom-0 pl-72 w-full z-50">
-      <form ref="messageBoxContainer" class="" >
-        <div
-          class=" flex justify-start items-center gap-2 bg-gray-400/50 backdrop-blur-3xl"
-        >
-          <div class="w-full border border-gray-500/20">
-            <textarea
-              type="text"
-              :disabled="isSendMessageLoading"
-              cols="1"
-              rows="1"
-              required
-              autofocus
-              ref="autoExpand"
-              :value="modelValue"
-              @input="onInput"
-              placeholder="Enter a message"
-              class="w-full px-3 pt-3 placeholder:text-sm placeholder:text-gray-500 resize-none  no-scrollbar bg-transparent outline-none"
-            />
-
-            <div class="flex justify-between items-center m-3 h-5">
-              <div class="flex justify-center items-center gap-2">
-                <button
-                  @click.prevent="triggerImageInput"
-                  class="transition p-1 rounded-full bg-gray-400/20 hover:text-success shadow"
-                >
-                  <Icon icon="tabler:photo" class="text-xl" />
-                </button>
-                <input
-                  type="file"
-                  ref="imageInput"
-                  accept="image/*"
-                  @change="handleImageChange"
-                  class="hidden"
-                />
-
-                <input
-                  type="file"
-                  ref="fileInput"
-                  accept=".pdf, .doc, .docx"
-                  @change="handleFileChange"
-                  class="hidden"
-                />
-
-                <button
-                  @click.prevent="triggerFileInput"
-                  class="transition p-1 rounded-full bg-gray-400/20 hover:text-secondary shadow"
-                >
-                  <Icon icon="tabler:file" class="text-xl" />
-                </button>
-              </div>
-
-              <div
-                class="rounded-full p-1.5 flex shadow justify-center transition items-center"
-                :class="
-                  modelValue || selectedFile || selectedImage !== null
-                    ? 'bg-blue-500 hover:bg-blue-500/90 '
-                    : 'bg-primary/10 hover:bg-primary/20'
-                "
-              >
-                <button
-                  v-if="
-                    (!isSendMessageLoading && modelValue) ||
-                    selectedFile ||
-                    selectedImage
-                  "
-                  :class="isSendMessageLoading ? 'cursor-not-allowed' : ''"
-                  :disabled="isSendMessageLoading"
-                  @click.prevent="sendMessage"
-                  v-motion-fade
-                >
-                  <Icon icon="bxs:send" class="text-xl text-gray-200" />
-                </button>
-                <button
-                  v-motion-fade
-                  v-else
-                  @click.prevent.stop="startRecording"
-                >
-                  <Icon icon="ic:round-mic" class="text-xl text-primary" />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </form>
-      </div>
+    <div class="fixed inset-x-0 bottom-0 pl-72 w-full z-50">
+      <SendMessage
+        :userId="userId"
+        :messages="messages"
+        :selectedUser="selectedUser"
+        :selectedFile="file"
+        :selectedImage="imageFile"
+        @update:selectedFile="handleFileUpdate"
+        @update:selectedImage="handleImageUpdate"
+        :userPhoto="userPhoto"
+        :userName="userName"
+        :isSendMessageLoading="isSendMessageLoading"
+        :isLoading="isLoading"
+        :formatTime="Time"
+        :sendMessage="sendMessage"
+        :filteredMessages="filteredMessages"
+        v-model="newMessage"
+      />
+    </div>
   </div>
 </template>
 
@@ -243,6 +176,8 @@ import { Icon } from "@iconify/vue";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { useAuth } from "../firebase";
+import SendMessage from "../components/sendMessage.vue";
+import { ChatFuntions } from "../scripts/ChatFunctions";
 
 const { firestore } = useAuth();
 const isLoading = ref(false);
@@ -251,6 +186,21 @@ const route = useRoute();
 const auth = getAuth();
 const user = ref(auth.currentUser);
 const userId = user.value.uid;
+const {
+  Time,
+  sendMessage,
+  newMessage,
+
+  isSendMessageLoading,
+  filteredMessages,
+  selectedUser,
+  userPhoto,
+  userName,
+  file,
+  imageFile,
+  handleFileUpdate,
+  handleImageUpdate,
+} = ChatFuntions();
 
 // Load messages function
 const loadMessages = (chatId) => {
