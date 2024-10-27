@@ -33,7 +33,7 @@ import Search from "../components/Search.vue";
             </button>
           </router-link>
 
-          <router-link to="/messages/chefs">
+          <router-link to="chefs">
             <button
               class="rounded-full tracking-wide"
               :class="
@@ -49,6 +49,7 @@ import Search from "../components/Search.vue";
 
         <div class="px-2 h-96 overflow-y-auto">
           <router-view />
+         
         </div>
       </div>
     </div>

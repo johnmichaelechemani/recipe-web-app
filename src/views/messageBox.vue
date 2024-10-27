@@ -240,4 +240,14 @@ onMounted(() => {
   const chatId = route.params.id; // Assuming your route is set up to use 'id'
   loadMessages(chatId);
 });
+const isImageLoading = ref(true); // Track loading state
+
+const onLoad = () => {
+  console.log("loading is done!");
+  isImageLoading.value = false; // Image has loaded, hide the loading indicator
+};
+
+const onError = () => {
+  isImageLoading.value = false; // Handle error case (stop showing loading)
+};
 </script>

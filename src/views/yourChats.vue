@@ -1,12 +1,12 @@
 <template>
   <div class="">
-    <div>
+    <!-- <div>
       <ChatHeads
         :filteredUsers="filteredUsers"
         :yourChat="yourChat"
         modalId="openInbox"
       />
-    </div>
+    </div> -->
     <div v-for="user in tempUsers" :key="user.id">
       {{ user.userName }}
       {{ search }}
@@ -26,7 +26,7 @@
       </div>
     </div>
     <div>
-      <div v-if="isLoading">
+      <!-- <div v-if="isLoading">
         <div class="flex flex-col gap-4 w-32 ml-2">
           <div class="flex gap-2 items-center">
             <div class="skeleton w-10 h-10 rounded-full shrink-0"></div>
@@ -36,7 +36,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
       <div v-if="filteredUsers.length === 0 && !isLoading">
         <div class="my-2">
           <span
@@ -47,7 +47,7 @@
       </div>
     </div>
 
-    <dialog id="openInbox" class="modal modal-bottom sm:modal-middle">
+    <!-- <dialog id="openInbox" class="modal modal-bottom sm:modal-middle">
       <ChatModal
         :userId="userId"
         :messages="messages"
@@ -65,7 +65,7 @@
         :filteredMessages="filteredMessages"
         v-model="newMessage"
       />
-    </dialog>
+    </dialog> -->
   </div>
 </template>
 

@@ -32,25 +32,26 @@ const router = createRouter({
           redirect: "/messages/inbox",
           children: [
             {
-              path: "/messages/chefs",
+              path: "inbox",
               components: {
-                default: () => import("../views/allChefs.vue"), // Loads in the default view
-              },
-            },
-            {
-              path: "/messages/inbox",
-              components: {
-                default: () => import("../views/yourChats.vue"), // Loads in the default view
-                messageBox: () => import("../views/messageBox.vue"), // Loads in the 'messageBox' view
+                default: () => import("../views/yourChats.vue"),
+                messageBox: () => import("../views/messageBox.vue"),
               },
               children: [
                 {
-                  path: "/messages/inbox/messageBox/:id",
+                  path: "messageBox/:id",
                   components: {
                     messageBox: () => import("../views/messageBox.vue"),
                   },
                   props: {
                     messageBox: true,
+                  },
+                },
+                {
+                  path: "/chefs",
+                  name: "chefs",
+                  components: {
+                    default: () => import("../views/allChefs.vue"),
                   },
                 },
               ],

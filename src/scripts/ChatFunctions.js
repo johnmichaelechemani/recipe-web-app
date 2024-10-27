@@ -57,10 +57,11 @@ export function ChatFuntions() {
   const yourChat = (modalId, user) => {
     // const modal = document.getElementById(modalId);
     // modal.showModal();
-    // selectedUser.value = user;
+    selectedUser.value = user;
+
     // selectedUserFromMessageBox.value = user;
     loadMessages();
-    //console.log(selectedUserFromMessageBox);
+    console.log(selectedUser);
   };
   const file = ref(null);
   const imageFile = ref(null);
