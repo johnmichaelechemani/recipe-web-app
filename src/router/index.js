@@ -48,7 +48,7 @@ const router = createRouter({
                   },
                 },
                 {
-                  path: "/chefs",
+                  path: "chefs",
                   name: "chefs",
                   components: {
                     default: () => import("../views/allChefs.vue"),

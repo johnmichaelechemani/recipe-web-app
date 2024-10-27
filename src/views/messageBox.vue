@@ -4,7 +4,7 @@
       <div class="backdrop-blur-2xl fixed w-full z-50 border-b border-red-500">
         <div class="flex justify-start gap-2 p-2 items-center">
           <div class="size-10 rounded-full bg-gray-400/50"></div>
-          <h1 class="text-lg font-semibold">Name</h1>
+          <h1 class="text-lg font-semibold">{{ selectedUser.userName }}</h1>
         </div>
       </div>
       <div class="overflow-y-auto ml-72 pt-28 fixed z-30 inset-0">
@@ -18,9 +18,9 @@
               :class="m.senderId === userId ? 'chat-end' : 'chat-start'"
             >
               <div class="chat-image avatar">
-                <!-- <div class="size-5 rounded-full" v-if="userId !== m.senderId">
-            <img :src="selectedUser.userPhotoURL" />
-          </div> -->
+                <div class="size-5 rounded-full" v-if="userId !== m.senderId">
+                  <img :src="selectedUser.userPhotoURL" />
+                </div>
               </div>
 
               <div class="chat-header text-xs font-medium">
@@ -231,7 +231,7 @@ watch(
   (newChatId) => {
     if (newChatId) {
       loadMessages(newChatId);
-      console.log(messages);
+      console.log("selected is", selectedUser.id);
     }
   }
 );

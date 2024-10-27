@@ -2,9 +2,9 @@
   <router-link
     :to="{ path: `/messages/inbox/messageBox/${getChatId(userId, user.id)}` }"
   >
+    <!-- :class="user.id === selectedUser.id ? 'bg-gray-500/20' : ''" -->
     <div
-      @click="yourChat(user)"
-      class="flex justify-start items-center gap-2 py-2 cursor-pointer hover:bg-gray-500/20 transition rounded-md"
+      class="flex justify-start items-center gap-2 py-2 max-w-72 cursor-pointer hover:bg-gray-500/20 transition rounded-md"
     >
       <div
         class="avatar"
@@ -31,7 +31,7 @@
         <div class="flex gap-2 justify-start items-center">
           <span
             v-if="latestMessages[getChatId(userId, user.id)]"
-            class="text-xs px-2 py-0.5 truncate max-w-52 bg-gray-500/20 rounded-full"
+            class="text-xs px-2 py-0.5 truncate max-w-32 bg-gray-500/20 rounded-full"
             :class="
               isSender[getChatId(userId, user.id)] === userId
                 ? ''
@@ -58,15 +58,15 @@
 <script setup>
 import { ref } from "vue";
 const props = defineProps({
-  yourChat: {
-    type: Function,
-    required: true,
-  },
   formatTime: {
     type: Function,
     required: true,
   },
   user: {
+    type: Object,
+    required: true,
+  },
+  selectedUser: {
     type: Object,
     required: true,
   },
@@ -102,4 +102,6 @@ const onLoad = () => {
 const onError = () => {
   isImageLoading.value = false; // Handle error case (stop showing loading)
 };
+
+console.error("from:", props.selectedUser);
 </script>

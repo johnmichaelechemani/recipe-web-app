@@ -54,14 +54,14 @@ export function ChatFuntions() {
   };
   let selectedUserFromMessageBox = ref({});
 
-  const yourChat = (modalId, user) => {
+  const yourChat = (user) => {
     // const modal = document.getElementById(modalId);
     // modal.showModal();
     selectedUser.value = user;
 
     // selectedUserFromMessageBox.value = user;
-    loadMessages();
-    console.log(selectedUser);
+    //loadMessages();
+    console.log("i selected this user", selectedUser.value);
   };
   const file = ref(null);
   const imageFile = ref(null);
@@ -244,31 +244,31 @@ export function ChatFuntions() {
     });
   };
 
-  const loadMessages = () => {
-    isLoading.value = true;
-    const chatId = getChatId(userId, selectedUser.value.userId);
+  // const loadMessages = () => {
+  //   isLoading.value = true;
+  //   const chatId = getChatId(userId, selectedUser.value.userId);
 
-    // Query for messages
-    const messagesQuery = query(
-      collection(firestore, `chats/${chatId}/messages`),
-      orderBy("timestamp", "asc")
-    );
+  //   // Query for messages
+  //   const messagesQuery = query(
+  //     collection(firestore, `chats/${chatId}/messages`),
+  //     orderBy("timestamp", "asc")
+  //   );
 
-    const messageUnsub = onSnapshot(messagesQuery, (snapshot) => {
-      messages.value = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      isLoading.value = false;
-      scrollToBottom();
-    });
+  //   const messageUnsub = onSnapshot(messagesQuery, (snapshot) => {
+  //     messages.value = snapshot.docs.map((doc) => ({
+  //       id: doc.id,
+  //       ...doc.data(),
+  //     }));
+  //     isLoading.value = false;
+  //     scrollToBottom();
+  //   });
 
-    onUnmounted(() => {
-      messageUnsub();
-    });
-  };
+  //   onUnmounted(() => {
+  //     messageUnsub();
+  //   });
+  // };
   onMounted(() => {
-    loadMessages();
+    //loadMessages();
   });
 
   const Time = (timestamp) => {
@@ -290,7 +290,7 @@ export function ChatFuntions() {
       const yesterday = new Date(now);
       yesterday.setDate(yesterday.getDate() - 1);
       if (date.toDateString() === yesterday.toDateString()) {
-        return `Yesterday ${time}`;
+        return `Yest ${time}`;
       }
 
       // For other days, show the day name

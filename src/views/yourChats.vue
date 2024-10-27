@@ -22,6 +22,7 @@
           :userId="userId"
           :isSender="isSender"
           :timestamp="timestamp"
+          :selectedUser="selectedUser"
         />
       </div>
     </div>
