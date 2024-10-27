@@ -3,12 +3,17 @@
     <div class="pt-12 pb-52">
       <div class="backdrop-blur-2xl fixed w-full z-50 border-b border-red-500">
         <div class="flex justify-start gap-2 p-2 items-center">
-          <div class="size-10 rounded-full bg-gray-400/50"></div>
+          <div class="size-10 rounded-full">
+            <img
+              :src="selectedUser.userPhotoURL"
+              class="rounded-full"
+              loading="lazy"
+            />
+          </div>
           <h1 class="text-lg font-semibold">{{ selectedUser.userName }}</h1>
         </div>
       </div>
       <div class="overflow-y-auto ml-72 pt-28 fixed z-30 inset-0">
-        Select a Message
         <div class=" ">
           <!-- Render messages here -->
           <div v-if="isLoading">Loading messages...</div>
@@ -24,10 +29,10 @@
               </div>
 
               <div class="chat-header text-xs font-medium">
-                {{ m.senderId === userId ? "You" : "" }}
+                {{ m.senderId === userId ? "You" : selectedUser.userName }}
                 <!-- <time class="text-[10px] opacity-50">
-            {{ formatTime(m.timestamp) }}</time
-          > -->
+                  {{ formatTime(m.timestamp) }}</time
+                > -->
               </div>
 
               <!-- massage with no image, file layout -->
@@ -173,7 +178,14 @@
 import { ref, onMounted, onUnmounted, watch } from "vue";
 import { useRoute } from "vue-router";
 import { Icon } from "@iconify/vue";
-import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
+import {
+  collection,
+  query,
+  orderBy,
+  onSnapshot,
+  doc,
+  getDoc,
+} from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { useAuth } from "../firebase";
 import SendMessage from "../components/sendMessage.vue";
@@ -190,10 +202,10 @@ const {
   Time,
   sendMessage,
   newMessage,
-
+  formatTime,
   isSendMessageLoading,
   filteredMessages,
-  selectedUser,
+
   userPhoto,
   userName,
   file,
@@ -202,6 +214,7 @@ const {
   handleImageUpdate,
 } = ChatFuntions();
 
+let selectedUser = ref([]);
 // Load messages function
 const loadMessages = (chatId) => {
   isLoading.value = true;
@@ -225,20 +238,37 @@ const loadMessages = (chatId) => {
     messageUnsub();
   });
 };
+const loadUserInfo = async (senderId) => {
+  try {
+    const userDocRef = doc(firestore, "users", senderId);
+    const userDoc = await getDoc(userDocRef);
+    if (userDoc.exists()) {
+      selectedUser.value = userDoc.data(); // Update selectedUser with user data
+    } else {
+      console.error("User not found");
+    }
+  } catch (error) {
+    console.error("Error loading user info:", error);
+  }
+};
 
 watch(
   () => route.params.id,
   (newChatId) => {
     if (newChatId) {
-      loadMessages(newChatId);
-      console.log("selected is", selectedUser.id);
+      const senderId = newChatId.split("_")[0]; // Extract the sender ID
+      loadMessages(newChatId); // Load messages for the chat
+      loadUserInfo(senderId); // Load user info for the sender
     }
   }
 );
-// Fetch chatId from the route parameter and load messages
 onMounted(() => {
-  const chatId = route.params.id; // Assuming your route is set up to use 'id'
-  loadMessages(chatId);
+  const chatId = route.params.id; // For example: BygHFoPQboNDuhFdm4QalrbTMA53_q6xkvlavxFOnQpJUj6mAOPGmhjz1
+  if (chatId) {
+    const senderId = chatId.split("_")[0]; // Extract the sender ID
+    loadMessages(chatId); // Load messages for the chat
+    loadUserInfo(senderId); // Load user info for the sender
+  }
 });
 const isImageLoading = ref(true); // Track loading state
 
