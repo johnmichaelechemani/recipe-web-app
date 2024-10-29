@@ -1,7 +1,12 @@
 <template>
   <div class="ml-72 fixed inset-0 border-l border-gray-500/20">
-    <div class="pt-12 pb-52">
-      <div class="backdrop-blur-2xl fixed w-full z-50 border-b border-red-500">
+    <div v-if="selectedUser.length === 0" class="">
+    <div class="flex justify-center items-center h-svh">
+      Select A User
+    </div>
+    </div>
+    <div v-else class="pt-12 pb-52">
+      <div class="backdrop-blur-3xl fixed w-full z-50 border-b border-red-500">
         <div class="flex justify-start gap-2 p-2 items-center">
           <div class="size-10 rounded-full">
             <img
@@ -13,7 +18,10 @@
           <h1 class="text-lg font-semibold">{{ selectedUser.userName }}</h1>
         </div>
       </div>
-      <div class="overflow-y-auto ml-72 pt-28 fixed z-30 inset-0">
+      <div
+        class="overflow-y-auto ml-72 mt-28 mb-24 fixed z-30 inset-0"
+        ref="messageContainer"
+      >
         <div class=" ">
           <!-- Render messages here -->
           <div v-if="isLoading">Loading messages...</div>
@@ -175,7 +183,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, watch } from "vue";
+import { ref, onMounted, onUnmounted, watch, nextTick } from "vue";
 import { useRoute } from "vue-router";
 import { Icon } from "@iconify/vue";
 import {
@@ -198,6 +206,7 @@ const route = useRoute();
 const auth = getAuth();
 const user = ref(auth.currentUser);
 const userId = user.value.uid;
+const messageContainer = ref(null);
 const {
   Time,
   sendMessage,
@@ -231,7 +240,7 @@ const loadMessages = (chatId) => {
       ...doc.data(),
     }));
     isLoading.value = false;
-    // scrollToBottom(); // Ensure you have this function defined
+    scrollToBottom(); // Ensure you have this function defined
   });
 
   onUnmounted(() => {
@@ -270,6 +279,25 @@ onMounted(() => {
     loadUserInfo(senderId); // Load user info for the sender
   }
 });
+watch(
+  () => messages,
+  () => {
+    nextTick(() => {
+      if (messageContainer.value) {
+        messageContainer.value.scrollTop = messageContainer.value.scrollHeight;
+      }
+    });
+  },
+  { deep: true }
+);
+
+const scrollToBottom = () => {
+  nextTick(() => {
+    if (messageContainer.value) {
+      messageContainer.value.scrollTop = messageContainer.value.scrollHeight;
+    }
+  });
+};
 const isImageLoading = ref(true); // Track loading state
 
 const onLoad = () => {

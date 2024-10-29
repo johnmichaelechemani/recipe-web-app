@@ -77,7 +77,7 @@
 
   <form ref="messageBoxContainer">
     <div
-      class="flex justify-start items-center gap-2 bg-gray-400/20 backdrop-blur-2xl"
+      class="flex justify-start items-center gap-2 bg-gray-400/20 backdrop-blur-3xl"
     >
       <div class="w-full border border-gray-500/20">
         <textarea
