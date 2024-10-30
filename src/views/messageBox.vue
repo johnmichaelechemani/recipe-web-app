@@ -19,7 +19,7 @@
         </div>
       </div>
       <div
-        class="overflow-y-auto ml-72 mt-28 mb-24 fixed z-30 inset-0"
+        class="overflow-y-auto ml-72 mt-[105px] mb-[89px] fixed z-30 inset-0"
         ref="messageContainer"
       >
         <div class=" ">
