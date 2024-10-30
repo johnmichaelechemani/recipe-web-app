@@ -27,7 +27,7 @@
           <div v-if="isLoading">Loading messages...</div>
           <div v-for="m in messages" :key="m.id">
             <div
-              class="chat"
+              class="chat px-1"
               :class="m.senderId === userId ? 'chat-end' : 'chat-start'"
             >
               <div class="chat-image avatar">
