@@ -157,7 +157,7 @@
           </div>
 
           <div
-            v-if="isShowDetails"
+            v-if="showDetailsId === m.id"
             class="chat-footer opacity-50 font-semibold text-xs"
           >
             {{ m.isSendMessageLoading ? "Sending..." : "" }}
@@ -575,11 +575,11 @@ const closeAttachements = () => {
   console.log(selectedFile.value, selectedImage.value);
 };
 
-const isShowDetails = ref(false);
+const showDetailsId = ref(null);
 const showInfo = (chatId) => {
   console.log(chatId);
   if (chatId) {
-    isShowDetails.value != isShowDetails.value
+    showDetailsId.value = chatId;
   }
 };
 </script>
