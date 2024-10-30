@@ -39,7 +39,8 @@
       </div>
       <div v-for="m in filteredMessages" :key="m.id">
         <div
-          class="chat"
+          @click="showInfo(m.id)"
+          class="chat cursor-pointer"
           :class="m.senderId === userId ? 'chat-end' : 'chat-start'"
         >
           <div class="chat-image avatar">
@@ -155,7 +156,10 @@
             </div>
           </div>
 
-          <div class="chat-footer opacity-50 font-semibold text-xs">
+          <div
+            v-if="isShowDetails"
+            class="chat-footer opacity-50 font-semibold text-xs"
+          >
             {{ m.isSendMessageLoading ? "Sending..." : "" }}
             <Icon
               v-if="!m.isSendMessageLoading"
@@ -569,6 +573,14 @@ const closeAttachements = () => {
     emit("update:selectedImage", null);
   }
   console.log(selectedFile.value, selectedImage.value);
+};
+
+const isShowDetails = ref(false);
+const showInfo = (chatId) => {
+  console.log(chatId);
+  if (chatId) {
+    isShowDetails.value != isShowDetails.value
+  }
 };
 </script>
 <style>
