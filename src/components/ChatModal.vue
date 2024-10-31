@@ -156,17 +156,19 @@
             </div>
           </div>
 
-          <div
-            v-if="showDetailsId === m.id"
-            class="chat-footer opacity-50 font-semibold text-xs"
-          >
-            {{ m.isSendMessageLoading ? "Sending..." : "" }}
-            <Icon
-              v-if="!m.isSendMessageLoading"
-              :class="userId !== m.senderId ? 'hidden' : ''"
-              icon="material-symbols-light:check-circle"
-            />
-          </div>
+          <transition>
+            <div
+              v-if="showDetailsId.isClick && showDetailsId.id === m.id"
+              class="chat-footer opacity-50 font-semibold text-xs"
+            >
+              {{ m.isSendMessageLoading ? "Sending..." : "" }}
+              <Icon
+                v-if="!m.isSendMessageLoading"
+                :class="userId !== m.senderId ? 'hidden' : ''"
+                icon="material-symbols-light:check-circle"
+              />
+            </div>
+          </transition>
         </div>
       </div>
       <div v-if="isLoading">
@@ -575,11 +577,22 @@ const closeAttachements = () => {
   console.log(selectedFile.value, selectedImage.value);
 };
 
-const showDetailsId = ref(null);
+const showDetailsId = ref({
+  id: null,
+  isClick: false,
+});
 const showInfo = (chatId) => {
   console.log(chatId);
-  if (chatId) {
-    showDetailsId.value = chatId;
+  if (showDetailsId.value.id === chatId) {
+    // If the same ID is clicked again, reset the values
+    showDetailsId.value.id = null;
+    showDetailsId.value.isClick = false;
+    console.log(showDetailsId.value.id);
+    console.log(showDetailsId.value.isClick);
+  } else {
+    // Set values if a different ID is clicked
+    showDetailsId.value.isClick = true;
+    showDetailsId.value.id = chatId;
   }
 };
 </script>
