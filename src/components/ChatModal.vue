@@ -179,8 +179,35 @@
     <div class="fixed bottom-0 z-50 inset-x-0">
       <transition>
         <div
+          v-if="isShowDeleteConfirmation"
+          class="flex justify-center items-center"
+        >
+          <span
+            class="backdrop-blur-2xl flex justify-center items-center gap-4 bg-gray-400/20 border px-8 text-sm font-medium py-2 transition border-gray-500/20 rounded-md"
+          >
+            <div class="grid place-items-center cursor-pointer transition">
+              <p class="text-xs">Are you sure to delete this message?</p>
+              <div class="flex justify-start items-center gap-4 mt-2">
+                <button
+                  @click="cancelDeleteConfirmation()"
+                  class="text-gray-600 px-2 py-1 rounded-md border border-gray-500/50"
+                >
+                  Cancel
+                </button>
+                <button
+                  class="px-2 py-1 rounded-md border text-red-500 border-red-500/50"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </span>
+        </div>
+      </transition>
+      <transition>
+        <div
           v-if="selectedChatId === showDetailsId.id && showDetailsId.isClick"
-          class="fixed bottom-0 backdrop-blur-md py-5 z-50 inset-x-0"
+          class="fixed bottom-0 backdrop-blur-2xl py-5 z-50 inset-x-0"
         >
           <div class="flex justify-center items-center">
             <span
@@ -622,6 +649,14 @@ const showInfo = (chatId) => {
     showDetailsId.value.isClick = true;
     showDetailsId.value.id = chatId;
   }
+};
+const isShowDeleteConfirmation = ref(false);
+const cancelDeleteConfirmation = () => {
+  isShowDeleteConfirmation.value = false;
+};
+const deleteChat = (chatId) => {
+  isShowDeleteConfirmation.value = true;
+  console.log(chatId);
 };
 </script>
 <style>
