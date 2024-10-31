@@ -178,6 +178,15 @@
 
     <div class="fixed bottom-0 z-50 inset-x-0">
       <transition>
+        <div v-if="isShowCopied" class="flex justify-center items-center">
+          <span
+            class="backdrop-blur-2xl flex justify-center items-center gap-4 bg-green-400/20 border px-4 text-sm font-medium py-1 transition border-green-500/20 text-green-500 rounded-full"
+          >
+            <p class="text-xs">Copied!</p>
+          </span>
+        </div>
+      </transition>
+      <transition>
         <div
           v-if="isShowDeleteConfirmation"
           class="flex justify-center items-center"
@@ -214,6 +223,7 @@
               class="backdrop-blur-2xl flex justify-center items-center gap-4 bg-gray-400/20 border px-8 text-sm font-medium py-2 transition border-gray-500/20 rounded-full"
             >
               <div
+                @click="copyChat()"
                 class="grid place-items-center hover:text-green-500 cursor-pointer transition"
               >
                 <Icon icon="solar:copy-linear" width="20" height="20" />
@@ -651,12 +661,23 @@ const showInfo = (chatId) => {
   }
 };
 const isShowDeleteConfirmation = ref(false);
+const isShowCopied = ref(false);
 const cancelDeleteConfirmation = () => {
   isShowDeleteConfirmation.value = false;
 };
 const deleteChat = (chatId) => {
   isShowDeleteConfirmation.value = true;
   console.log(chatId);
+};
+
+const copyChat = () => {
+  isShowCopied.value = true;
+  showDetailsId.value.id = null;
+  showDetailsId.value.isClick = false;
+  setTimeout(() => {
+    isShowCopied.value = false;
+  }, 2000);
+  console.log("copied");
 };
 </script>
 <style>
