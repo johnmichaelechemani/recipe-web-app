@@ -37,7 +37,7 @@
           }}</span>
         </span>
       </div>
-      <div v-for="m in filteredMessages" :key="m.id">
+      <div v-for="m in filteredMessages" :key="m.id" class="relative">
         <div
           @click="showInfo(m.id)"
           class="chat cursor-pointer"
@@ -177,6 +177,32 @@
     </div>
 
     <div class="fixed bottom-0 z-50 inset-x-0">
+      <transition>
+        <div
+          v-if="selectedChatId === showDetailsId.id && showDetailsId.isClick"
+          class="fixed bottom-0 backdrop-blur-md py-5 z-50 inset-x-0"
+        >
+          <div class="flex justify-center items-center">
+            <span
+              class="backdrop-blur-2xl flex justify-center items-center gap-4 bg-gray-400/20 border px-8 text-sm font-medium py-2 transition border-gray-500/20 rounded-full"
+            >
+              <div
+                class="grid place-items-center hover:text-green-500 cursor-pointer transition"
+              >
+                <Icon icon="solar:copy-linear" width="20" height="20" />
+                <p class="text-xs">Copy</p>
+              </div>
+              <div
+                @click="deleteChat(showDetailsId.id)"
+                class="grid place-items-center hover:text-red-500 cursor-pointer transition"
+              >
+                <Icon icon="fluent:delete-32-regular" width="20" height="20" />
+                <p class="text-xs">Delete</p>
+              </div>
+            </span>
+          </div>
+        </div>
+      </transition>
       <transition>
         <div
           v-if="isSendMessageLoading"
@@ -577,11 +603,13 @@ const closeAttachements = () => {
   console.log(selectedFile.value, selectedImage.value);
 };
 
+let selectedChatId = ref(null);
 const showDetailsId = ref({
   id: null,
   isClick: false,
 });
 const showInfo = (chatId) => {
+  selectedChatId.value = chatId;
   console.log(chatId);
   if (showDetailsId.value.id === chatId) {
     // If the same ID is clicked again, reset the values
