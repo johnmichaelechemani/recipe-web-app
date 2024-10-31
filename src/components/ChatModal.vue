@@ -39,7 +39,7 @@
       </div>
       <div v-for="m in filteredMessages" :key="m.id" class="relative">
         <div
-          @click="showInfo(m.id)"
+          @click="showInfo(m.id, m.message)"
           class="chat cursor-pointer"
           :class="m.senderId === userId ? 'chat-end' : 'chat-start'"
         >
@@ -482,6 +482,7 @@ const isRecording = ref(false);
 const recordingError = ref("");
 let recognition;
 const isImageLoading = ref(true); // Track loading state
+const textToCopy = ref("");
 
 const onLoad = () => {
   console.log("loading is done!");
@@ -645,7 +646,8 @@ const showDetailsId = ref({
   id: null,
   isClick: false,
 });
-const showInfo = (chatId) => {
+const showInfo = (chatId, text) => {
+  textToCopy.value = text;
   selectedChatId.value = chatId;
   console.log(chatId);
   if (showDetailsId.value.id === chatId) {
@@ -664,6 +666,8 @@ const isShowDeleteConfirmation = ref(false);
 const isShowCopied = ref(false);
 const cancelDeleteConfirmation = () => {
   isShowDeleteConfirmation.value = false;
+  showDetailsId.value.id = null;
+  showDetailsId.value.isClick = false;
 };
 const deleteChat = (chatId) => {
   isShowDeleteConfirmation.value = true;
@@ -671,12 +675,23 @@ const deleteChat = (chatId) => {
 };
 
 const copyChat = () => {
-  isShowCopied.value = true;
+  navigator.clipboard
+    .writeText(textToCopy) // Copy text to clipboard
+    .then(() => {
+      isShowCopied.value = true;
+      console.log(textToCopy.value);
+
+      setTimeout(() => {
+        isShowCopied.value = false;
+      }, 2000);
+    })
+    .catch((error) => {
+      console.error("Failed to copy text: ", error);
+    });
+
   showDetailsId.value.id = null;
   showDetailsId.value.isClick = false;
-  setTimeout(() => {
-    isShowCopied.value = false;
-  }, 2000);
+
   console.log("copied");
 };
 </script>
