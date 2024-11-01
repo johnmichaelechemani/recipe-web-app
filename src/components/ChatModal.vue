@@ -183,7 +183,7 @@
       </transition>
       <transition>
         <span
-          v-if="recordingError"
+          v-if="isRecordingError"
           class="backdrop-blur-2xl flex justify-start items-center gap-1 bg-red-400/10 border py-1 px-2 text-sm font-medium transition border-red-500/20 rounded-full"
         >
           <Icon
@@ -403,6 +403,7 @@ const elapsedTime = ref("0:0:0");
 let startTime = null;
 let timerInterval = null;
 const recordingProgress = ref(0);
+const isRecordingError = ref(false);
 
 const formatRecordTime = (totalMilliseconds) => {
   const seconds = Math.floor(totalMilliseconds / 1000);
@@ -451,6 +452,10 @@ const startRecording = async () => {
     }, 100);
   } catch (error) {
     recordingError.value = "Recording is not supported or failed.";
+    isRecordingError.value = true;
+    setTimeout(() => {
+      isRecordingError.value = false;
+    }, 2000);
     console.error(error);
   }
 };
