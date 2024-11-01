@@ -448,7 +448,7 @@ const startRecording = async () => {
         clearInterval(timerInterval); // Stop at 100%
       }
 
-      updateTimer(); // Call updateTimer to update elapsed time
+      updateTimer();
     }, 100);
   } catch (error) {
     recordingError.value = "Recording is not supported or failed.";
