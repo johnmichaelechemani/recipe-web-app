@@ -15,8 +15,17 @@
               height="20"
             />
           </button>
-          <div class="w-full border border-gray-500/20 rounded-2xl h-5"></div>
+          <div
+            class="w-full border flex justify-center item-center p-1 border-gray-500/20 rounded-2xl"
+          >
+            <progress
+              class="progress progress-primary w-full mx-1"
+              :value="recordingProgress"
+              :max="recordingProgress + 10"
+            ></progress>
+          </div>
         </div>
+
         <div class="max-w-20 text-[10px]">{{ elapsedTime }}</div>
       </div>
       <button
@@ -107,6 +116,10 @@ const props = defineProps({
   elapsedTime: {
     type: String,
     default: null,
+  },
+  recordingProgress: {
+    type: Number,
+    default: 0,
   },
 });
 </script>

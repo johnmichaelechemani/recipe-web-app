@@ -144,6 +144,7 @@
           :stopRecording="stopRecording"
           :startRecording="startRecording"
           :deleteRecording="deleteRecording"
+          :recordingProgress="recordingProgress"
         />
       </transition>
       <transition>
@@ -398,24 +399,33 @@ let audioPlayer = null;
 let mediaRecorder = null;
 
 //time
-const elapsedTime = ref("00:00");
+const elapsedTime = ref("0:0:0");
 let startTime = null;
 let timerInterval = null;
+const recordingProgress = ref(0);
 
-const formatRecordTime = (seconds) => {
+const formatRecordTime = (totalMilliseconds) => {
+  const seconds = Math.floor(totalMilliseconds / 1000);
   const mins = Math.floor(seconds / 60)
     .toString()
-    .padStart(2, "0");
-  const secs = (seconds % 60).toString().padStart(2, "0");
-  return `${mins}:${secs}`;
+    .padStart(1, "0");
+  const secs = (seconds % 60).toString().padStart(1, "0");
+  const millis = (totalMilliseconds % 1000)
+    .toString()
+    .padStart(3, "0")
+    .slice(0, 1); // Get the first two digits of milliseconds
+  return `${mins}:${secs}.${millis}`;
 };
+
 const updateTimer = () => {
-  const secondsElapsed = Math.floor((Date.now() - startTime) / 1000);
-  elapsedTime.value = formatRecordTime(secondsElapsed);
+  const millisecondsElapsed = Date.now() - startTime;
+  elapsedTime.value = formatRecordTime(millisecondsElapsed);
 };
 
 const startRecording = async () => {
   console.log("recording start...");
+  recordingProgress.value = 0;
+  clearInterval(timerInterval);
   isPause.value = true;
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -430,7 +440,15 @@ const startRecording = async () => {
     mediaRecorder.start();
     isRecording.value = true;
     startTime = Date.now();
-    timerInterval = setInterval(updateTimer, 1000);
+    timerInterval = setInterval(() => {
+      if (recordingProgress.value < 100) {
+        recordingProgress.value += 1; // Increment progress
+      } else {
+        clearInterval(timerInterval); // Stop at 100%
+      }
+
+      updateTimer(); // Call updateTimer to update elapsed time
+    }, 100);
   } catch (error) {
     recordingError.value = "Recording is not supported or failed.";
     console.error(error);
