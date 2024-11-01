@@ -26,7 +26,9 @@
           </div>
         </div>
 
-        <div class="max-w-20 text-[10px]">{{ elapsedTime }}</div>
+        <div class="max-w-16 tabular-nums font-mono text-[10px]">
+          {{ elapsedTime }}
+        </div>
       </div>
       <button
         class="px-2 bg-gray-400/20 border hover:text-green-500 transition border-gray-500/20 rounded-r-xl py-2"

@@ -414,7 +414,7 @@ const formatRecordTime = (totalMilliseconds) => {
   const millis = (totalMilliseconds % 1000)
     .toString()
     .padStart(3, "0")
-    .slice(0, 1); // Get the first two digits of milliseconds
+    .slice(0, 1);
   return `${mins}:${secs}.${millis}`;
 };
 
@@ -504,7 +504,6 @@ const deleteRecording = () => {
   isRecording.value = false;
   isShowRecordingModal.value = false;
 
-  // Stop and clear the audio player if it's currently playing
   if (audioPlayer) {
     audioPlayer.pause(); // Stop playback
     audioPlayer.currentTime = 0; // Reset playback position
@@ -524,11 +523,11 @@ const deleteRecording = () => {
 //-----------
 const onLoad = () => {
   console.log("loading is done!");
-  isImageLoading.value = false; // Image has loaded, hide the loading indicator
+  isImageLoading.value = false;
 };
 
 const onError = () => {
-  isImageLoading.value = false; // Handle error case (stop showing loading)
+  isImageLoading.value = false;
 };
 
 const autoSpand = () => {
@@ -650,13 +649,11 @@ const showInfo = (chatId, text) => {
   selectedChatId.value = chatId;
   console.log(chatId);
   if (showDetailsId.value.id === chatId) {
-    // If the same ID is clicked again, reset the values
     showDetailsId.value.id = null;
     showDetailsId.value.isClick = false;
     console.log(showDetailsId.value.id);
     console.log(showDetailsId.value.isClick);
   } else {
-    // Set values if a different ID is clicked
     showDetailsId.value.isClick = true;
     showDetailsId.value.id = chatId;
   }
@@ -675,7 +672,7 @@ const deleteChat = (chatId) => {
 
 const copyChat = () => {
   navigator.clipboard
-    .writeText(textToCopy) // Copy text to clipboard
+    .writeText(textToCopy)
     .then(() => {
       isShowCopied.value = true;
       console.log(textToCopy.value);
