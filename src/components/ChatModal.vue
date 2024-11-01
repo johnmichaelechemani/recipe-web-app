@@ -263,17 +263,28 @@
               class="backdrop-blur-2xl flex justify-start w-full items-center gap-2 bg-gray-400/20 border px-2 text-sm font-medium py-2 transition border-gray-500/20 rounded-l-xl"
             >
               <div class="flex justify-start w-full items-center">
-                <div>
-                  <Icon icon="line-md:play-filled" width="20" height="20" />
-                </div>
+                <button @click="isPause ? playRecord() : pauseRecording()">
+                  <Icon
+                    :icon="isPause ? 'iconoir:play-solid' : 'ic:round-pause'"
+                    width="20"
+                    height="20"
+                  />
+                </button>
                 <div class="w-full border h-5"></div>
               </div>
-              <div class="max-w-20 text-[10px]">0:05</div>
+              <div class="max-w-20 text-[10px]">{{ elapsedTime }}</div>
             </div>
             <button
               class="px-2 bg-gray-400/20 border hover:text-green-500 transition border-gray-500/20 rounded-r-xl py-2"
+              @click="isRecording ? stopRecording() : startRecording()"
             >
-              <Icon icon="fluent:mic-pulse-48-filled" width="20" height="20" />
+              <Icon
+                :icon="
+                  !isRecording ? 'fluent:mic-pulse-48-filled' : 'ic:round-stop'
+                "
+                width="20"
+                height="20"
+              />
             </button>
           </div>
           <div class="px-2 flex justify-between items-center gap-1">
@@ -291,7 +302,7 @@
               </button>
 
               <button
-                @click="deleteRecording()"
+                @click="startRecording()"
                 class="backdrop-blur-2xl flex justify-center items-center hover:bg-green-500/10 gap-1 py-1 px-2 text-sm font-medium transition rounded-full"
               >
                 <Icon
@@ -552,10 +563,118 @@ const imageURL = ref(null);
 const isImage = ref(false);
 const isRecording = ref(false);
 const recordingError = ref("");
-let recognition;
 const isImageLoading = ref(true); // Track loading state
 const textToCopy = ref("");
+const isPause = ref(true);
+const isShowRecordingModal = ref(false);
 
+let audioBlob = null;
+let audioUrl = null;
+let audioPlayer = null;
+let mediaRecorder = null;
+
+//time
+const elapsedTime = ref("00:00");
+let startTime = null;
+let timerInterval = null;
+
+const formatRecordTime = (seconds) => {
+  const mins = Math.floor(seconds / 60)
+    .toString()
+    .padStart(2, "0");
+  const secs = (seconds % 60).toString().padStart(2, "0");
+  return `${mins}:${secs}`;
+};
+const updateTimer = () => {
+  const secondsElapsed = Math.floor((Date.now() - startTime) / 1000);
+  elapsedTime.value = formatRecordTime(secondsElapsed);
+};
+
+const startRecording = async () => {
+  console.log("recording start...");
+  isPause.value = true;
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    mediaRecorder = new MediaRecorder(stream);
+
+    mediaRecorder.ondataavailable = (e) => {
+      audioBlob = e.data;
+      audioUrl = URL.createObjectURL(audioBlob);
+      audioPlayer = new Audio(audioUrl);
+    };
+
+    mediaRecorder.start();
+    isRecording.value = true;
+    startTime = Date.now();
+    timerInterval = setInterval(updateTimer, 1000);
+  } catch (error) {
+    recordingError.value = "Recording is not supported or failed.";
+    console.error(error);
+  }
+};
+
+const stopRecording = () => {
+  console.log("recording stoped...");
+  if (mediaRecorder && mediaRecorder.state !== "inactive") {
+    mediaRecorder.stop();
+    isRecording.value = false;
+    isPause.value = true;
+
+    if (timerInterval) {
+      clearInterval(timerInterval);
+      timerInterval = null; // Reset the interval
+    }
+  }
+};
+
+const playRecord = () => {
+  console.log("playing");
+  if (audioPlayer) {
+    audioPlayer.play();
+    isPause.value = false;
+  }
+};
+
+const pauseRecording = () => {
+  console.log("paused");
+
+  // Stop any ongoing recording
+  stopRecording();
+
+  isShowRecordingModal.value = true;
+  if (audioPlayer) {
+    audioPlayer.pause();
+    isPause.value = true;
+  }
+};
+
+const deleteRecording = () => {
+  console.log("Recording deleted...");
+
+  // Stop any ongoing recording
+  stopRecording();
+
+  isRecording.value = false;
+  isShowRecordingModal.value = false;
+
+  // Stop and clear the audio player if it's currently playing
+  if (audioPlayer) {
+    audioPlayer.pause(); // Stop playback
+    audioPlayer.currentTime = 0; // Reset playback position
+  }
+
+  // Clear audio resources
+  if (audioUrl) {
+    console.log("Clearing audio URL:", audioUrl);
+    URL.revokeObjectURL(audioUrl);
+    audioBlob = null;
+    audioUrl = null;
+    audioPlayer = null;
+    isPause.value = true;
+  }
+};
+
+//-----------
 const onLoad = () => {
   console.log("loading is done!");
   isImageLoading.value = false; // Image has loaded, hide the loading indicator
@@ -565,46 +684,6 @@ const onError = () => {
   isImageLoading.value = false; // Handle error case (stop showing loading)
 };
 
-const startRecording = () => {
-  if (!("webkitSpeechRecognition" in window)) {
-    recordingError.value =
-      "Speech recognition is not supported in this browser.";
-    console.error("Speech recognition is not supported in this browser.");
-    return;
-  }
-
-  recognition = new webkitSpeechRecognition();
-  recognition.continuous = true;
-  recognition.interimResults = false;
-  recognition.lang = "en-US";
-
-  recognition.onstart = () => {
-    isRecording.value = true;
-  };
-
-  recognition.onresult = (event) => {
-    const transcript = event.results[event.results.length - 1][0].transcript;
-    emit("update:modelValue", transcript);
-  };
-
-  recognition.onerror = (event) => {
-    console.error("Speech recognition error:", event);
-  };
-
-  recognition.onend = () => {
-    isRecording.value = false;
-  };
-
-  recognition.start();
-};
-const isShowRecordingModal = ref(false);
-const pauseRecording = () => {
-  isShowRecordingModal.value = true;
-  if (recognition) {
-    recognition.stop();
-    isRecording.value = false;
-  }
-};
 const autoSpand = () => {
   const el = autoExpand.value;
   if (el) {
@@ -766,10 +845,6 @@ const copyChat = () => {
   showDetailsId.value.isClick = false;
 
   console.log("copied");
-};
-
-const deleteRecording = () => {
-  console.log("delete recording");
 };
 </script>
 <style>
