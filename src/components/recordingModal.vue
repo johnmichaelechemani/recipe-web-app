@@ -15,7 +15,7 @@
               height="20"
             />
           </button>
-          <div class="w-full border h-5"></div>
+          <div class="w-full border border-gray-500/20 rounded-2xl h-5"></div>
         </div>
         <div class="max-w-20 text-[10px]">{{ elapsedTime }}</div>
       </div>
@@ -27,6 +27,7 @@
           :icon="!isRecording ? 'fluent:mic-pulse-48-filled' : 'ic:round-stop'"
           width="20"
           height="20"
+          :class="!isRecording ? '' : 'text-red-500'"
         />
       </button>
     </div>
