@@ -1,29 +1,32 @@
 <template>
-  <div class="modal-box relative p-2 no-scrollbar">
-    <div class="modal-action absolute z-10 -top-4 right-2">
-      <form method="dialog">
-        <button class="btn btn-xs px-0.5 rounded-full">
-          <Icon icon="carbon:close" class="text-xl text-red-500" />
+  <div
+    class="modal-box max-h-lvh sm:max-h-[calc(100vh-5em)] overflow-hidden relative p-2 no-scrollbar"
+  >
+    <div class="flex justify-between items-center gap-2">
+      <div class="flex justify-start items-center gap-2">
+        <div class="avatar">
+          <div class="w-10 rounded-full">
+            <img
+              :src="selectedUser.userPhotoURL"
+              loading="lazy"
+              class="bg-gray-500/20 border border-gray-500/20 rounded-full"
+            />
+          </div>
+        </div>
+        <div>
+          <h1 class="text-sm font-medium">{{ selectedUser.userName }}</h1>
+        </div>
+      </div>
+
+      <form method="dialog" class="flex justify-start items-center">
+        <button class="px-0.5">
+          <Icon icon="carbon:close" width="20" height="20" />
         </button>
       </form>
     </div>
-    <div class="flex justify-start items-center gap-2">
-      <div class="avatar">
-        <div class="w-10 rounded-full">
-          <img
-            :src="selectedUser.userPhotoURL"
-            loading="lazy"
-            class="bg-gray-500/20 border border-gray-500/20 rounded-full"
-          />
-        </div>
-      </div>
-      <div>
-        <h1 class="text-sm font-medium">{{ selectedUser.userName }}</h1>
-      </div>
-    </div>
     <hr class="my-1 border border-gray-400/20" />
     <div
-      class="h-[366px] mb-[86px] rounded-md overflow-y-scroll"
+      class="max-h-dvh h-dvh pb-[150px] sm:pb-0 sm:h-[366px] sm:mb-[86px] rounded-md overflow-auto"
       ref="messageContainer"
     >
       <div
@@ -227,9 +230,9 @@
 
       <form ref="messageBoxContainer">
         <div
-          class="my-1 mx-1 flex justify-start items-center rounded-2xl gap-2 bg-gray-400/20 backdrop-blur-2xl shadow"
+          class="flex justify-start items-center rounded-t-2xl gap-2 bg-gray-400/20 backdrop-blur-2xl shadow"
         >
-          <div class="w-full rounded-2xl border border-gray-500/20 shadow">
+          <div class="w-full rounded-t-2xl border border-gray-500/20 shadow">
             <textarea
               type="text"
               :disabled="isSendMessageLoading"
@@ -241,7 +244,7 @@
               :value="modelValue"
               @input="onInput"
               placeholder="Enter a message"
-              class="w-full px-3 pt-3 placeholder:text-sm placeholder:text-gray-500 resize-none rounded-2xl no-scrollbar bg-transparent outline-none"
+              class="w-full px-3 pt-3 placeholder:text-sm placeholder:text-gray-500 resize-none rounded-t-2xl no-scrollbar bg-transparent outline-none"
             />
 
             <div class="flex justify-between items-center m-3 h-5">
