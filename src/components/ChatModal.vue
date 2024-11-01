@@ -268,10 +268,10 @@
                 </div>
                 <div class="w-full border h-5"></div>
               </div>
-              <div class="max-w-20 text-xs h-5">0:05</div>
+              <div class="max-w-20 text-[10px]">0:05</div>
             </div>
             <button
-              class="px-2 bg-gray-400/20 border transition border-gray-500/20 rounded-r-xl py-2"
+              class="px-2 bg-gray-400/20 border hover:text-green-500 transition border-gray-500/20 rounded-r-xl py-2"
             >
               <Icon icon="fluent:mic-pulse-48-filled" width="20" height="20" />
             </button>
