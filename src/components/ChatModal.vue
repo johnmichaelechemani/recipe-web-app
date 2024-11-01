@@ -258,12 +258,23 @@
           v-if="isShowRecordingModal"
           class="fixed bottom-0 backdrop-blur-2xl py-5 z-50 inset-x-0"
         >
-          <div class="flex justify-center items-center">
-            <span
-              class="backdrop-blur-2xl flex justify-center items-center gap-4 bg-gray-400/20 border px-8 text-sm font-medium py-2 transition border-gray-500/20 rounded-full"
+          <div class="flex justify-center items-center mb-4 gap-1 mx-2">
+            <div
+              class="backdrop-blur-2xl flex justify-start w-full items-center gap-2 bg-gray-400/20 border px-2 text-sm font-medium py-2 transition border-gray-500/20 rounded-l-xl"
             >
-              <p>This is audio must be play or delete and continue recording</p>
-            </span>
+              <div class="flex justify-start w-full items-center">
+                <div>
+                  <Icon icon="line-md:play-filled" width="20" height="20" />
+                </div>
+                <div class="w-full border h-5"></div>
+              </div>
+              <div class="max-w-20 text-xs h-5">0:05</div>
+            </div>
+            <button
+              class="px-2 bg-gray-400/20 border transition border-gray-500/20 rounded-r-xl py-2"
+            >
+              <Icon icon="fluent:mic-pulse-48-filled" width="20" height="20" />
+            </button>
           </div>
           <div class="px-2 flex justify-between items-center gap-1">
             <div class="flex justify-start items-center gap-1">
