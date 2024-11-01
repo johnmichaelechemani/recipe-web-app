@@ -24,7 +24,7 @@
     </div>
     <hr class="my-1 border border-gray-400/20" />
     <div
-      class="h-dvh pb-[150px] sm:pb-0 sm:h-[366px] sm:mb-[86px] rounded-md overflow-auto"
+      class="h-dvh pb-[165px] sm:pb-0 sm:h-[366px] sm:mb-[86px] rounded-md overflow-auto"
       ref="messageContainer"
     >
       <div
@@ -124,7 +124,7 @@
       <transition>
         <div
           v-if="isSendMessageLoading"
-          class="flex justify-center items-center"
+          class="flex justify-center mb-1 items-center"
         >
           <span
             class="backdrop-blur-2xl flex justify-center items-center gap-2 bg-gray-400/20 border px-4 text-sm font-medium py-1 transition border-gray-500/20 rounded-full"
@@ -149,7 +149,10 @@
         />
       </transition>
       <transition>
-        <div v-if="isRecording" class="flex justify-center items-center gap-2">
+        <div
+          v-if="isRecording"
+          class="flex mb-1 justify-center items-center gap-2"
+        >
           <span
             class="backdrop-blur-2xl flex justify-center items-center gap-2 bg-green-400/10 border px-2 text-sm font-medium py-1 transition border-green-500/20 rounded-full"
           >
@@ -185,7 +188,7 @@
       <transition>
         <span
           v-if="isRecordingError"
-          class="backdrop-blur-2xl flex justify-start items-center gap-1 bg-red-400/10 border py-1 px-2 text-sm font-medium transition border-red-500/20 rounded-full"
+          class="backdrop-blur-2xl flex mb-1 justify-start items-center gap-1 bg-red-400/10 border py-1 px-2 text-sm font-medium transition border-red-500/20 rounded-full"
         >
           <Icon
             icon="material-symbols:error"
@@ -200,7 +203,7 @@
       <transition>
         <div
           v-if="props.selectedFile || props.selectedImage !== null"
-          class="ml-1 flex justify-start items-end gap-1 text-xs"
+          class="ml-1 flex justify-start mb-1 items-end gap-1 text-xs"
         >
           <div v-if="isImage">
             <img
