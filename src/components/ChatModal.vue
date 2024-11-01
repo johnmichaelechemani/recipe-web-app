@@ -38,138 +38,18 @@
         </span>
       </div>
       <div v-for="m in filteredMessages" :key="m.id" class="relative">
-        <div
-          @click="showInfo(m.id, m.message)"
-          class="chat cursor-pointer"
-          :class="m.senderId === userId ? 'chat-end' : 'chat-start'"
-        >
-          <div class="chat-image avatar">
-            <div class="size-5 rounded-full" v-if="userId !== m.senderId">
-              <img :src="selectedUser.userPhotoURL" />
-            </div>
-          </div>
-
-          <div class="chat-header text-xs font-medium">
-            {{ m.senderId === userId ? "You" : selectedUser.userName }}
-            <time class="text-[10px] opacity-50">
-              {{ formatTime(m.timestamp) }}</time
-            >
-          </div>
-
-          <!-- massage with no image, file layout -->
-          <div
-            v-if="m.message && m.imageUrl === null && m.fileUrl === null"
-            class="rounded-2xl whitespace-pre-line py-2 px-4 text-sm max-w-52"
-            :class="
-              userId === m.senderId ? 'chat-bubble-primary' : 'chat-bubble'
-            "
-          >
-            {{ m.message }}
-          </div>
-
-          <!-- image with message layout -->
-          <div v-if="m.message && m.imageUrl" class="w-52">
-            <div
-              class="rounded-t-2xl whitespace-pre-line py-2 px-4 text-sm"
-              :class="
-                userId === m.senderId
-                  ? 'chat-bubble-primary'
-                  : 'border border-gray-500/20'
-              "
-            >
-              {{ m.message }}
-            </div>
-            <div class="">
-              <div
-                v-if="isImageLoading"
-                class="w-52 h-32 bg-gray-500/20 border border-gray-500/20 rounded-2xl"
-              ></div>
-
-              <img
-                v-if="m.imageUrl"
-                :src="m.imageUrl"
-                loading="lazy"
-                alt=""
-                class="h-auto w-52 object-cover border bg-gray-500/20 border-gray-500/20 rounded-b-2xl"
-                @load="onLoad"
-                @error="onError"
-              />
-            </div>
-          </div>
-          <!-- image with no message layout -->
-          <div v-if="m.imageUrl && m.message === ''" class="">
-            <div
-              v-if="isImageLoading"
-              class="w-52 h-32 bg-gray-500/20 border border-gray-500/20 rounded-2xl"
-            ></div>
-
-            <img
-              :src="m.imageUrl"
-              loading="lazy"
-              alt=""
-              @load="onLoad"
-              @error="onError"
-              class="h-auto w-52 object-cover bg-gray-500/20 border border-gray-500/20 rounded-2xl"
-            />
-          </div>
-
-          <!-- file with no message layout -->
-          <div
-            v-if="m.fileUrl && m.message === ''"
-            class="text-sm rounded-2xl backdrop-blur-2xl max-w-52 bg-gray-500/20 font-medium border border-gray-500/20 px-4 py-3"
-          >
-            <a
-              :href="m.fileUrl"
-              download
-              class="flex justify-start items-center gap-2"
-            >
-              <Icon icon="simple-icons:googledocs" width="16" height="16" />{{
-                m.fileName
-              }}</a
-            >
-          </div>
-
-          <!-- file with message layout -->
-          <div v-if="m.message && m.fileUrl" class="max-w-52">
-            <div
-              class="rounded-t-2xl whitespace-pre-line py-2 px-4 text-sm"
-              :class="
-                userId === m.senderId
-                  ? 'chat-bubble-primary'
-                  : 'border border-gray-500/20'
-              "
-            >
-              {{ m.message }}
-            </div>
-            <div
-              class="text-sm rounded-b-2xl backdrop-blur-2xl bg-gray-500/20 font-medium border border-gray-500/20 px-4 py-3"
-            >
-              <a
-                :href="m.fileUrl"
-                download
-                class="flex justify-start items-center gap-2"
-              >
-                <Icon icon="simple-icons:googledocs" width="16" height="16" />{{
-                  m.fileName
-                }}</a
-              >
-            </div>
-          </div>
-
-          <transition>
-            <div
-              v-if="showDetailsId.isClick && showDetailsId.id === m.id"
-              class="chat-footer opacity-50 font-semibold text-xs"
-            >
-              {{ m.isSendMessageLoading ? "Sending..." : "" }}
-              <Icon
-                v-if="!m.isSendMessageLoading"
-                :class="userId !== m.senderId ? 'hidden' : ''"
-                icon="material-symbols-light:check-circle"
-              />
-            </div>
-          </transition>
-        </div>
+        <MessageLayout
+          :m="m"
+          :userId="userId"
+          :selectedUser="selectedUser"
+          :isImageLoading="isImageLoading"
+          :showDetailsId="showDetailsId"
+          :formatTime="formatTime"
+          :onLoad="onLoad"
+          :onError="onError"
+          :showInfo="showInfo"
+          :isSendMessageLoading="isSendMessageLoading"
+        />
       </div>
       <div v-if="isLoading">
         <MessageLoading />
@@ -264,7 +144,6 @@
           :stopRecording="stopRecording"
           :startRecording="startRecording"
           :deleteRecording="deleteRecording"
-
         />
       </transition>
       <transition>
@@ -438,6 +317,7 @@ import { ref, computed, watch, onMounted, Transition, nextTick } from "vue";
 
 import MessageLoading from "../components/messageLoading.vue";
 import RecordingModal from "./recordingModal.vue";
+import MessageLayout from "./messageLayout.vue";
 const props = defineProps({
   userId: {
     type: String,
