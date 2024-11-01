@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="modal-box max-h-lvh sm:max-h-[calc(100vh-5em)] overflow-hidden relative p-2 no-scrollbar"
-  >
+  <div class="modal-box overflow-hidden relative p-2 no-scrollbar">
     <div class="flex justify-between items-center gap-2">
       <div class="flex justify-start items-center gap-2">
         <div class="avatar">
@@ -26,7 +24,7 @@
     </div>
     <hr class="my-1 border border-gray-400/20" />
     <div
-      class="max-h-dvh h-dvh pb-[150px] sm:pb-0 sm:h-[366px] sm:mb-[86px] rounded-md overflow-auto"
+      class="h-dvh pb-[150px] sm:pb-0 sm:h-[366px] sm:mb-[86px] rounded-md overflow-auto"
       ref="messageContainer"
     >
       <div
