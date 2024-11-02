@@ -216,12 +216,15 @@
               >
                 <Icon icon="ri:close-line" class="text-red-500 text-xl" />
               </button>
-              <img
-                v-if="imageURL || selectedRecipe.imageURL"
-                :src="imageURL || selectedRecipe.imageURL"
-                alt="recipe"
-                class="w-min rounded-md my-1"
-              />
+              <div class="h-52 w-auto">
+                <img
+                  v-if="imageURL || selectedRecipe.imageURL"
+                  :src="imageURL || selectedRecipe.imageURL"
+                  alt="recipe"
+                  loading="lazy"
+                  class="object-cover my-1 object-center h-full w-full rounded-md"
+                />
+              </div>
             </div>
             <div v-else class="my-1">
               <span
