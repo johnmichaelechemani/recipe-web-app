@@ -121,7 +121,9 @@
             </div>
           </div>
         </div>
-        <div v-if="loading">
+        <div v-if="loading" class="flex justify-start items-center gap-2">
+          <Loading />
+          <Loading />
           <Loading />
         </div>
       </div>

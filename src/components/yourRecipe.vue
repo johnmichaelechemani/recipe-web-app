@@ -93,10 +93,11 @@
             </p>
           </div>
         </div>
-
-        <div v-if="loading">
-          <Loading />
-        </div>
+      </div>
+      <div v-if="loading" class="flex justify-start items-center gap-2">
+        <Loading />
+        <Loading />
+        <Loading />
       </div>
 
       <!-- modal for edit -->
