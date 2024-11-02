@@ -459,6 +459,10 @@ const startRecording = async () => {
     mediaRecorder.start();
     isRecording.value = true;
     startTime = Date.now();
+
+    if (audioPlayer) {
+      audioPlayer.pause();
+    }
     timerInterval = setInterval(() => {
       updateTimer();
       // Auto-stop recording if it reaches max duration

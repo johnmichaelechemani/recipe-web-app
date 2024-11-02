@@ -21,7 +21,7 @@
             <progress
               class="progress progress-primary w-full mx-1"
               :value="recordingProgress"
-              :max="100"
+              max="100"
             ></progress>
           </div>
         </div>
