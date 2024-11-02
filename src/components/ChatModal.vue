@@ -392,10 +392,11 @@ const imageURL = ref(null);
 const isImage = ref(false);
 const isRecording = ref(false);
 const recordingError = ref("");
-const isImageLoading = ref(true); // Track loading state
+const isImageLoading = ref(true);
 const textToCopy = ref("");
 const isPause = ref(true);
 const isShowRecordingModal = ref(false);
+const recordingDuration = ref(60000);
 
 let audioBlob = null;
 let audioUrl = null;
@@ -403,33 +404,42 @@ let audioPlayer = null;
 let mediaRecorder = null;
 
 //time
-const elapsedTime = ref("0:0:0");
+const elapsedTime = ref("0:00.0");
 let startTime = null;
 let timerInterval = null;
 const recordingProgress = ref(0);
 const isRecordingError = ref(false);
+let audioProgress = ref(0);
 
 const formatRecordTime = (totalMilliseconds) => {
   const seconds = Math.floor(totalMilliseconds / 1000);
   const mins = Math.floor(seconds / 60)
     .toString()
     .padStart(1, "0");
-  const secs = (seconds % 60).toString().padStart(1, "0");
+  const secs = (seconds % 60).toString().padStart(2, "0"); // Changed to pad with 2 zeros
   const millis = (totalMilliseconds % 1000)
     .toString()
     .padStart(3, "0")
     .slice(0, 1);
-  return `${mins}:${secs}.${millis}`;
+  return `${mins}:${secs}:${millis}`;
 };
 
 const updateTimer = () => {
-  const millisecondsElapsed = Date.now() - startTime;
-  elapsedTime.value = formatRecordTime(millisecondsElapsed);
+  if (isRecording.value) {
+    // During recording
+    const currentTime = Date.now();
+    const elapsedMs = currentTime - startTime;
+    elapsedTime.value = formatRecordTime(elapsedMs);
+    // Update progress based on recording time
+    recordingProgress.value = (elapsedMs / recordingDuration.value) * 100;
+  }
 };
 
 const startRecording = async () => {
   console.log("recording start...");
+  updateTimer();
   recordingProgress.value = 0;
+  audioProgress.value = 0;
   clearInterval(timerInterval);
   isPause.value = true;
   try {
@@ -440,19 +450,21 @@ const startRecording = async () => {
       audioBlob = e.data;
       audioUrl = URL.createObjectURL(audioBlob);
       audioPlayer = new Audio(audioUrl);
+
+      // Add event listeners for the audio player
+      audioPlayer.addEventListener("timeupdate", updateAudioProgress);
+      audioPlayer.addEventListener("ended", handleAudioEnd);
     };
 
     mediaRecorder.start();
     isRecording.value = true;
     startTime = Date.now();
     timerInterval = setInterval(() => {
-      if (recordingProgress.value < 100) {
-        recordingProgress.value += 1; // Increment progress
-      } else {
-        clearInterval(timerInterval); // Stop at 100%
-      }
-
       updateTimer();
+      // Auto-stop recording if it reaches max duration
+      if (recordingProgress.value >= 100) {
+        stopRecording();
+      }
     }, 100);
   } catch (error) {
     recordingError.value = "Recording is not supported or failed.";
@@ -464,8 +476,24 @@ const startRecording = async () => {
   }
 };
 
+const updateAudioProgress = () => {
+  if (audioPlayer && !isRecording.value) {
+    const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+    recordingProgress.value = progress;
+    elapsedTime.value = formatRecordTime(audioPlayer.currentTime * 1000);
+  }
+};
+
+const handleAudioEnd = () => {
+  isPause.value = true;
+  recordingProgress.value = 100;
+  if (audioPlayer) {
+    elapsedTime.value = formatRecordTime(audioPlayer.duration * 1000);
+  }
+};
+
 const stopRecording = () => {
-  console.log("recording stoped...");
+  console.log("recording stopped...");
   if (mediaRecorder && mediaRecorder.state !== "inactive") {
     mediaRecorder.stop();
     isRecording.value = false;
@@ -473,54 +501,76 @@ const stopRecording = () => {
 
     if (timerInterval) {
       clearInterval(timerInterval);
-      timerInterval = null; // Reset the interval
+      timerInterval = null;
     }
+    // Store the final recording duration
+    const finalDuration = Date.now() - startTime;
+    elapsedTime.value = formatRecordTime(finalDuration);
   }
 };
 
 const playRecord = () => {
   console.log("playing");
+
   if (audioPlayer) {
+    // Reset progress when starting playback
+    recordingProgress.value = 0;
+    audioPlayer.currentTime = 0;
     audioPlayer.play();
     isPause.value = false;
+
+    // Start updating progress for playback
+    if (!timerInterval) {
+      timerInterval = setInterval(() => {
+        updateAudioProgress();
+      }, 100);
+    }
   }
 };
 
 const pauseRecording = () => {
   console.log("paused");
 
-  // Stop any ongoing recording
-  stopRecording();
-
-  isShowRecordingModal.value = true;
-  if (audioPlayer) {
+  if (isRecording.value) {
+    stopRecording();
+  } else if (audioPlayer) {
     audioPlayer.pause();
     isPause.value = true;
-  }
-};
 
+    if (timerInterval) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+    }
+  }
+
+  isShowRecordingModal.value = true;
+};
 const deleteRecording = () => {
   console.log("Recording deleted...");
 
-  // Stop any ongoing recording
   stopRecording();
-
   isRecording.value = false;
   isShowRecordingModal.value = false;
 
   if (audioPlayer) {
-    audioPlayer.pause(); // Stop playback
-    audioPlayer.currentTime = 0; // Reset playback position
+    audioPlayer.pause();
+    audioPlayer.currentTime = 0;
+    audioPlayer.removeEventListener("timeupdate", updateAudioProgress);
+    audioPlayer.removeEventListener("ended", handleAudioEnd);
+  }
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
   }
 
-  // Clear audio resources
   if (audioUrl) {
-    console.log("Clearing audio URL:", audioUrl);
     URL.revokeObjectURL(audioUrl);
     audioBlob = null;
     audioUrl = null;
     audioPlayer = null;
     isPause.value = true;
+    recordingProgress.value = 0;
+    elapsedTime.value = "0:00.0";
   }
 };
 
