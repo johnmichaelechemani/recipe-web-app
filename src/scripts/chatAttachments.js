@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/vue";
-import { ref, defineEmits } from "vue";
+import { ref } from "vue";
 
 // global vars
 const fileName = ref("");
