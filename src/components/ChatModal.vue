@@ -151,32 +151,25 @@
   </div>
 </template>
 <script setup>
+import { ref, computed, watch, onMounted, nextTick } from "vue";
 import { Icon } from "@iconify/vue";
-import { ref, computed, watch, onMounted, Transition, nextTick } from "vue";
 
+// Component Imports
 import MessageLoading from "../components/messageLoading.vue";
 import RecordingModal from "./recordingModal.vue";
 import MessageLayout from "./messageLayout.vue";
 import MessageAttachments from "./messageAttachments.vue";
 
+// Utility Imports
 import {
   chatFileAttachments,
   recordingFunctions,
 } from "../scripts/chatAttachments";
+
+// Props Definition
 const props = defineProps({
+  // User Identification
   userId: {
-    type: String,
-    required: true,
-  },
-  messages: {
-    type: Array,
-    required: true,
-  },
-  selectedUser: {
-    type: Object,
-    required: true,
-  },
-  userPhoto: {
     type: String,
     required: true,
   },
@@ -184,24 +177,25 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  isSendMessageLoading: {
-    type: Boolean,
-    default: false,
-  },
-  isLoading: {
-    type: Boolean,
-    default: false,
-  },
-  formatTime: {
-    type: Function,
+  userPhoto: {
+    type: String,
     required: true,
   },
-  sendMessage: {
-    type: Function,
+
+  // Message Related Props
+  messages: {
+    type: Array,
     required: true,
   },
   filteredMessages: {
     type: Array,
+    default: () => [],
+  },
+
+  // State Management Props
+  selectedUser: {
+    type: Object,
+    required: true,
   },
   modelValue: {
     type: String,
@@ -215,12 +209,36 @@ const props = defineProps({
     type: Object,
     default: null,
   },
+
+  // Loading States
+  isSendMessageLoading: {
+    type: Boolean,
+    default: false,
+  },
+  isLoading: {
+    type: Boolean,
+    default: false,
+  },
+
+  // Utility Functions
+  formatTime: {
+    type: Function,
+    required: true,
+  },
+  sendMessage: {
+    type: Function,
+    required: true,
+  },
 });
+
+// Emit Events
 const emit = defineEmits([
   "update:selectedFile",
   "update:modelValue",
   "update:selectedImage",
 ]);
+
+// Destructure Utility Functions
 const { startRecording } = recordingFunctions();
 const {
   showDetailsId,
@@ -231,29 +249,32 @@ const {
   selectedImage,
 } = chatFileAttachments(emit);
 
+// Reference Variables
 const imageInput = ref(null);
 const fileInput = ref(null);
-
-const triggerImageInput = () => {
-  if (imageInput.value) {
-    imageInput.value.click();
-  }
-};
-
-const triggerFileInput = () => {
-  if (fileInput.value) {
-    fileInput.value.click();
-  }
-};
-const maxRows = 10;
-const lineHeight = 24;
 const messageContainer = ref(null);
 const autoExpand = ref(null);
 const messageBoxContainer = ref(null);
+
+// Image Loading State
 const isImageLoading = ref(true);
-//-----------
+
+// Textarea Auto-expand Configuration
+const maxRows = 10;
+const lineHeight = 24;
+
+// Image and File Input Handlers
+const triggerImageInput = () => {
+  imageInput.value?.click();
+};
+
+const triggerFileInput = () => {
+  fileInput.value?.click();
+};
+
+// Image Loading Callbacks
 const onLoad = () => {
-  console.log("loading is done!");
+  console.log("Image loading completed");
   isImageLoading.value = false;
 };
 
@@ -261,6 +282,7 @@ const onError = () => {
   isImageLoading.value = false;
 };
 
+// Textarea Auto-expand Logic
 const autoSpand = () => {
   const el = autoExpand.value;
   if (el) {
@@ -283,10 +305,13 @@ const autoSpand = () => {
   }
 };
 
+// Input Handler
 const onInput = (event) => {
   emit("update:modelValue", event.target.value);
   autoSpand();
 };
+
+// Watchers
 watch(
   () => props.modelValue,
   (newValue) => {
@@ -301,12 +326,6 @@ watch(
     }
   }
 );
-onMounted(() => {
-  autoSpand();
-  if (messageContainer.value) {
-    messageContainer.value.scrollTop = messageContainer.value.scrollHeight;
-  }
-});
 
 watch(
   () => props.filteredMessages,
@@ -317,13 +336,16 @@ watch(
       }
     });
   },
-  { deep: true },
-
-  props.modelValue,
-  () => {
-    autoSpand();
-  }
+  { deep: true }
 );
+
+// Lifecycle Hook
+onMounted(() => {
+  autoSpand();
+  if (messageContainer.value) {
+    messageContainer.value.scrollTop = messageContainer.value.scrollHeight;
+  }
+});
 </script>
 <style>
 .v-enter-active,
