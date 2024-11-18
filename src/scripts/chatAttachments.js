@@ -143,6 +143,10 @@ export function chatFileAttachments() {
     copyChat,
     Icon,
     showInfo,
+    handleFileChange,
+    handleImageChange,
+    triggerFileInput,
+    triggerImageInput,
   };
 }
 

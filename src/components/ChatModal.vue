@@ -213,7 +213,16 @@ const props = defineProps({
     default: null,
   },
 });
-const { showDetailsId, showInfo } = chatFileAttachments();
+const {
+  showDetailsId,
+  showInfo,
+
+  handleFileChange,
+  handleImageChange,
+  triggerFileInput,
+  triggerImageInput,
+} = chatFileAttachments();
+
 const emit = defineEmits(["update:modelValue"]);
 const maxRows = 10;
 const lineHeight = 24;
