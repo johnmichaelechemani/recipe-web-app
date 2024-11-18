@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/vue";
-import { ref, computed, watch, onMounted, Transition, nextTick } from "vue";
+import { ref, defineEmits } from "vue";
 
 // global vars
 const fileName = ref("");
@@ -34,7 +34,7 @@ const showDetailsId = ref({
 });
 //
 
-export function chatFileAttachments() {
+export function chatFileAttachments(emit) {
   const handleFileChange = (event) => {
     isImage.value = false;
     const file = event.target.files[0];
@@ -42,7 +42,7 @@ export function chatFileAttachments() {
       selectedFile.value = file;
       fileName.value = selectedFile.value.name;
       console.log(selectedFile.value);
-      return selectedFile.value;
+      emit("update:selectedFile", selectedFile.value);
     }
   };
   const handleImageChange = (event) => {
@@ -53,7 +53,7 @@ export function chatFileAttachments() {
       imageURL.value = URL.createObjectURL(file);
       fileName.value = selectedImage.value.name;
       console.log(selectedImage.value);
-      return selectedImage.value;
+      emit("update:selectedImage", selectedImage.value);
     }
   };
   const closeAttachements = () => {
@@ -62,9 +62,10 @@ export function chatFileAttachments() {
       imageURL.value = null;
       selectedImage.value = null;
       selectedFile.value = null;
+      emit("update:selectedFile", null);
+      emit("update:selectedImage", null);
     }
     console.log(selectedFile.value, selectedImage.value);
-    return (selectedFile.value = null), (selectedImage.value = null);
   };
   const showInfo = (chatId, text) => {
     textToCopy.value = text;
@@ -129,6 +130,7 @@ export function chatFileAttachments() {
     showInfo,
     handleFileChange,
     handleImageChange,
+    emit,
   };
 }
 
@@ -305,5 +307,7 @@ export function recordingFunctions() {
     elapsedTime,
     isRecording,
     Icon,
+    recordingError,
+    isRecordingError,
   };
 }

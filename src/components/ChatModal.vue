@@ -61,7 +61,7 @@
       <!-- message attachements and error and success alerts -->
       <MessageAttachments :isSendMessageLoading="isSendMessageLoading" />
       <!--  -->
-      <!-- <RecordingModal /> -->
+      <RecordingModal />
 
       <form ref="messageBoxContainer">
         <div
@@ -159,7 +159,10 @@ import RecordingModal from "./recordingModal.vue";
 import MessageLayout from "./messageLayout.vue";
 import MessageAttachments from "./messageAttachments.vue";
 
-import { chatFileAttachments } from "../scripts/chatAttachments";
+import {
+  chatFileAttachments,
+  recordingFunctions,
+} from "../scripts/chatAttachments";
 const props = defineProps({
   userId: {
     type: String,
@@ -213,8 +216,20 @@ const props = defineProps({
     default: null,
   },
 });
-const { showDetailsId, showInfo, handleFileChange, handleImageChange } =
-  chatFileAttachments();
+const emit = defineEmits([
+  "update:selectedFile",
+  "update:modelValue",
+  "update:selectedImage",
+]);
+const { startRecording } = recordingFunctions();
+const {
+  showDetailsId,
+  showInfo,
+  handleFileChange,
+  handleImageChange,
+  selectedFile,
+  selectedImage,
+} = chatFileAttachments(emit);
 
 const imageInput = ref(null);
 const fileInput = ref(null);
@@ -230,8 +245,6 @@ const triggerFileInput = () => {
     fileInput.value.click();
   }
 };
-
-const emit = defineEmits(["update:modelValue"]);
 const maxRows = 10;
 const lineHeight = 24;
 const messageContainer = ref(null);

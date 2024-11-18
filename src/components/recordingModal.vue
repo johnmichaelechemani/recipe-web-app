@@ -11,7 +11,7 @@
         height="20"
       />
 
-      {{ recordingErrorMessage }}
+      {{ recordingError }}
     </span>
   </transition>
   <transition>
@@ -24,7 +24,7 @@
       </span>
 
       <button
-        @click="onPauseRecording()"
+        @click="pauseRecording()"
         class="backdrop-blur-2xl flex justify-center items-center gap-1 bg-red-400/10 border py-1 px-2 text-sm font-medium transition border-red-500/20 rounded-full"
       >
         <Icon
@@ -36,7 +36,7 @@
         Pause
       </button>
       <button
-        @click="onDeleteRecording()"
+        @click="deleteRecording()"
         class="backdrop-blur-2xl flex justify-center items-center gap-1 py-1 px-2 text-sm font-medium transition rounded-full"
       >
         <Icon
@@ -129,48 +129,20 @@
   </div>
 </template>
 <script setup>
-import { Icon } from "@iconify/vue";
-const props = defineProps({
-  startRecording: {
-    type: Function,
-    required: true,
-  },
-  deleteRecording: {
-    type: Function,
-    required: true,
-  },
-  pauseRecording: {
-    type: Function,
-    required: true,
-  },
-  playRecord: {
-    type: Function,
-    required: true,
-  },
-  stopRecording: {
-    type: Function,
-    required: true,
-  },
-
-  isShowRecordingModal: {
-    type: Boolean,
-    default: false,
-  },
-  isPause: {
-    type: Boolean,
-    default: false,
-  },
-  isRecording: {
-    type: Boolean,
-    default: false,
-  },
-  elapsedTime: {
-    type: String,
-    default: null,
-  },
-  recordingProgress: {
-    type: Number,
-    default: 0,
-  },
-});
+import { recordingFunctions } from "../scripts/chatAttachments";
+const {
+  startRecording,
+  pauseRecording,
+  deleteRecording,
+  stopRecording,
+  isShowRecordingModal,
+  isPause,
+  playRecord,
+  recordingProgress,
+  elapsedTime,
+  isRecording,
+  Icon,
+  recordingError,
+  isRecordingError,
+} = recordingFunctions();
 </script>

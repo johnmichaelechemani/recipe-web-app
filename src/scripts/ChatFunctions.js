@@ -71,8 +71,11 @@ export function ChatFuntions() {
   };
 
   const sendMessage = async () => {
-    if (newMessage.value.trim() === "" && !file.value && !imageFile.value)
-      return;
+    if (newMessage.value.trim() === "" && !file.value && !imageFile.value) {
+      console.warn("Please enter a message or select a file");
+      return
+      
+    }
 
     try {
       const chatId = getChatId(userId, selectedUser.value.userId);
