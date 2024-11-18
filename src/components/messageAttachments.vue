@@ -1,9 +1,6 @@
 <template>
   <transition>
-    <div
-      v-if="props.isShowCopied"
-      class="flex mb-1 justify-center items-center"
-    >
+    <div v-if="isShowCopied" class="flex mb-1 justify-center items-center">
       <span
         class="backdrop-blur-2xl flex justify-center items-center gap-4 bg-green-400/20 border px-4 text-sm font-medium py-1 transition border-green-500/20 text-green-500 rounded-full"
       >
@@ -13,7 +10,7 @@
   </transition>
   <transition>
     <div
-      v-if="props.isShowDeleteConfirmation"
+      v-if="isShowDeleteConfirmation"
       class="flex justify-center items-center"
     >
       <span
@@ -23,7 +20,7 @@
           <p class="text-xs">Are you sure to delete this message?</p>
           <div class="flex justify-start items-center gap-4 mt-2">
             <button
-              @click="props.onCancelDeleteConfirmation()"
+              @click="cancelDeleteConfirmation()"
               class="text-gray-600 px-2 py-1 rounded-md border border-gray-500/50"
             >
               Cancel
@@ -40,9 +37,7 @@
   </transition>
   <transition>
     <div
-      v-if="
-        props.selectedChatId === props.showDetailsId && props.isDetailsClicked
-      "
+      v-if="selectedChatId === showDetailsId.id && showDetailsId.isClick"
       class="fixed bottom-0 backdrop-blur-2xl py-5 z-50 inset-x-0"
     >
       <div class="flex justify-center items-center">
@@ -50,13 +45,14 @@
           class="backdrop-blur-2xl flex justify-center items-center gap-4 bg-gray-400/20 border px-8 text-sm font-medium py-2 transition border-gray-500/20 rounded-full"
         >
           <div
-            @click="props.onCopyChat()"
+            @click="copyChat()"
             class="grid place-items-center hover:text-green-500 cursor-pointer transition"
           >
             <Icon icon="solar:copy-linear" width="20" height="20" />
             <p class="text-xs">Copy</p>
           </div>
           <div
+            @click="deleteChat()"
             class="grid place-items-center hover:text-red-500 cursor-pointer transition"
           >
             <Icon icon="fluent:delete-32-regular" width="20" height="20" />
@@ -68,7 +64,7 @@
   </transition>
   <transition>
     <div
-      v-if="props.isSendMessageLoading"
+      v-if="isSendMessageLoading"
       class="flex justify-center mb-1 items-center"
     >
       <span
@@ -79,66 +75,15 @@
       </span>
     </div>
   </transition>
+
   <transition>
     <div
-      v-if="props.isRecording"
-      class="flex mb-1 justify-center items-center gap-2"
-    >
-      <span
-        class="backdrop-blur-2xl flex justify-center items-center gap-2 bg-green-400/10 border px-2 text-sm font-medium py-1 transition border-green-500/20 rounded-full"
-      >
-        <span class="loading loading-ring text-green-500 loading-md"></span>
-        <span>Recording..</span>
-      </span>
-
-      <button
-        @click="props.onPauseRecording()"
-        class="backdrop-blur-2xl flex justify-center items-center gap-1 bg-red-400/10 border py-1 px-2 text-sm font-medium transition border-red-500/20 rounded-full"
-      >
-        <Icon
-          icon="ic:round-pause"
-          width="20"
-          height="20"
-          class="text-red-500"
-        />
-        Pause
-      </button>
-      <button
-        @click="props.onDeleteRecording()"
-        class="backdrop-blur-2xl flex justify-center items-center gap-1 py-1 px-2 text-sm font-medium transition rounded-full"
-      >
-        <Icon
-          icon="mingcute:delete-fill"
-          width="20"
-          height="20"
-          class="text-red-500"
-        />
-      </button>
-    </div>
-  </transition>
-  <transition>
-    <span
-      v-if="props.isRecordingError"
-      class="backdrop-blur-2xl flex mb-1 justify-start items-center gap-1 bg-red-400/10 border py-1 px-2 text-sm font-medium transition border-red-500/20 rounded-full"
-    >
-      <Icon
-        icon="material-symbols:error"
-        class="text-red-500"
-        width="20"
-        height="20"
-      />
-
-      {{ props.recordingErrorMessage }}
-    </span>
-  </transition>
-  <transition>
-    <div
-      v-if="props.selectedFile || props.selectedImage"
+      v-if="selectedFile || selectedImage"
       class="ml-1 flex justify-start mb-1 items-end gap-1 text-xs"
     >
-      <div v-if="props.isImage">
+      <div v-if="isImage">
         <img
-          :src="props.imageURL"
+          :src="imageURL"
           loading="lazy"
           alt=""
           class="size-14 rounded-xl backdrop-blur-2xl object-cover bg-gray-400/20 border border-gray-500/20"
@@ -149,10 +94,10 @@
           class="backdrop-blur-2xl flex bg-gray-400/20 justify-start items-center gap-2 px-2 py-1 border border-gray-500/20 rounded-xl"
         >
           <Icon icon="fluent:attach-16-regular" width="20" height="20" />
-          <span class="truncate max-w-52">{{ props.fileName }}</span>
+          <span class="truncate max-w-52">{{ fileName }}</span>
         </span>
         <button
-          @click="props.onCloseAttachments()"
+          @click="closeAttachements()"
           class="backdrop-blur-2xl bg-gray-400/20 border p-0.5 hover:text-red-500 transition border-gray-500/20 rounded-full"
         >
           <Icon icon="iconamoon:close-light" width="20" height="20" />
@@ -163,96 +108,28 @@
 </template>
 
 <script setup>
-import { Icon } from "@iconify/vue";
+import { chatFileAttachments } from "../scripts/chatAttachments";
 const props = defineProps({
-  // Boolean flags
-  isShowCopied: {
-    type: Boolean,
-    default: false,
-  },
-  isShowDeleteConfirmation: {
-    type: Boolean,
-    default: false,
-  },
   isSendMessageLoading: {
     type: Boolean,
-    default: false,
-  },
-  isRecording: {
-    type: Boolean,
-    default: false,
-  },
-  isRecordingError: {
-    type: Boolean,
-    default: false,
-  },
-  isDetailsClicked: {
-    type: Boolean,
-    default: false,
-  },
-  isImage: {
-    type: Boolean,
-    default: false,
-  },
-
-  // Identifiers
-  selectedChatId: {
-    type: String,
-    required: true,
-  },
-  showDetailsId: {
-    type: String,
     default: null,
-  },
-
-  // Functions
-  onCancelDeleteConfirmation: {
-    type: Function,
-    required: true,
-  },
-  onCopyChat: {
-    type: Function,
-    required: true,
-  },
-  onDeleteChat: {
-    type: Function,
-    required: true,
-  },
-  onPauseRecording: {
-    type: Function,
-    required: true,
-  },
-  onDeleteRecording: {
-    type: Function,
-    required: true,
-  },
-  onCloseAttachments: {
-    type: Function,
-    required: true,
-  },
-
-  // Messages and errors
-  recordingErrorMessage: {
-    type: String,
-    required: true,
-  },
-
-  // File and image data
-  selectedFile: {
-    type: Object,
-    default: null,
-  },
-  selectedImage: {
-    type: Object,
-    default: null,
-  },
-  imageURL: {
-    type: String,
-    default: "",
-  },
-  fileName: {
-    type: String,
-    default: "",
   },
 });
+
+const {
+  selectedChatId,
+  showDetailsId,
+  isShowDeleteConfirmation,
+  isShowCopied,
+  isImage,
+  deleteChat,
+  selectedFile,
+  selectedImage,
+  imageURL,
+  fileName,
+  closeAttachements,
+  cancelDeleteConfirmation,
+  copyChat,
+  Icon,
+} = chatFileAttachments();
 </script>

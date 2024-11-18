@@ -1,4 +1,53 @@
 <template>
+  <transition>
+    <span
+      v-if="isRecordingError"
+      class="backdrop-blur-2xl flex mb-1 justify-start items-center gap-1 bg-red-400/10 border py-1 px-2 text-sm font-medium transition border-red-500/20 rounded-full"
+    >
+      <Icon
+        icon="material-symbols:error"
+        class="text-red-500"
+        width="20"
+        height="20"
+      />
+
+      {{ recordingErrorMessage }}
+    </span>
+  </transition>
+  <transition>
+    <div v-if="isRecording" class="flex mb-1 justify-center items-center gap-2">
+      <span
+        class="backdrop-blur-2xl flex justify-center items-center gap-2 bg-green-400/10 border px-2 text-sm font-medium py-1 transition border-green-500/20 rounded-full"
+      >
+        <span class="loading loading-ring text-green-500 loading-md"></span>
+        <span>Recording..</span>
+      </span>
+
+      <button
+        @click="onPauseRecording()"
+        class="backdrop-blur-2xl flex justify-center items-center gap-1 bg-red-400/10 border py-1 px-2 text-sm font-medium transition border-red-500/20 rounded-full"
+      >
+        <Icon
+          icon="ic:round-pause"
+          width="20"
+          height="20"
+          class="text-red-500"
+        />
+        Pause
+      </button>
+      <button
+        @click="onDeleteRecording()"
+        class="backdrop-blur-2xl flex justify-center items-center gap-1 py-1 px-2 text-sm font-medium transition rounded-full"
+      >
+        <Icon
+          icon="mingcute:delete-fill"
+          width="20"
+          height="20"
+          class="text-red-500"
+        />
+      </button>
+    </div>
+  </transition>
   <div
     v-if="isShowRecordingModal"
     class="fixed bottom-0 backdrop-blur-2xl py-5 z-50 inset-x-0"
