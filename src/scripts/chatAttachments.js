@@ -2,9 +2,6 @@ import { Icon } from "@iconify/vue";
 import { ref, computed, watch, onMounted, Transition, nextTick } from "vue";
 
 // global vars
-
-const imageInput = ref(null);
-const fileInput = ref(null);
 const fileName = ref("");
 const selectedFile = ref(null);
 const selectedImage = ref(null);
@@ -38,37 +35,25 @@ const showDetailsId = ref({
 //
 
 export function chatFileAttachments() {
-  const triggerImageInput = () => {
-    if (imageInput.value) {
-      imageInput.value.click();
-      isImage.value = true;
-    }
-  };
-
-  const triggerFileInput = () => {
-    isImage.value = false;
-    if (fileInput.value) {
-      fileInput.value.click();
-    }
-  };
   const handleFileChange = (event) => {
+    isImage.value = false;
     const file = event.target.files[0];
     if (file) {
       selectedFile.value = file;
-      emit("update:selectedFile", selectedFile.value);
       fileName.value = selectedFile.value.name;
       console.log(selectedFile.value);
+      return selectedFile.value;
     }
   };
   const handleImageChange = (event) => {
+    isImage.value = true;
     const file = event.target.files[0];
     if (file) {
       selectedImage.value = file;
-      emit("update:selectedImage", selectedImage.value);
-
       imageURL.value = URL.createObjectURL(file);
       fileName.value = selectedImage.value.name;
       console.log(selectedImage.value);
+      return selectedImage.value;
     }
   };
   const closeAttachements = () => {
@@ -77,10 +62,9 @@ export function chatFileAttachments() {
       imageURL.value = null;
       selectedImage.value = null;
       selectedFile.value = null;
-      emit("update:selectedFile", null);
-      emit("update:selectedImage", null);
     }
     console.log(selectedFile.value, selectedImage.value);
+    return (selectedFile.value = null), (selectedImage.value = null);
   };
   const showInfo = (chatId, text) => {
     textToCopy.value = text;
@@ -145,8 +129,6 @@ export function chatFileAttachments() {
     showInfo,
     handleFileChange,
     handleImageChange,
-    triggerFileInput,
-    triggerImageInput,
   };
 }
 

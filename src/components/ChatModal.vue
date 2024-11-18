@@ -213,15 +213,23 @@ const props = defineProps({
     default: null,
   },
 });
-const {
-  showDetailsId,
-  showInfo,
+const { showDetailsId, showInfo, handleFileChange, handleImageChange } =
+  chatFileAttachments();
 
-  handleFileChange,
-  handleImageChange,
-  triggerFileInput,
-  triggerImageInput,
-} = chatFileAttachments();
+const imageInput = ref(null);
+const fileInput = ref(null);
+
+const triggerImageInput = () => {
+  if (imageInput.value) {
+    imageInput.value.click();
+  }
+};
+
+const triggerFileInput = () => {
+  if (fileInput.value) {
+    fileInput.value.click();
+  }
+};
 
 const emit = defineEmits(["update:modelValue"]);
 const maxRows = 10;
