@@ -1,7 +1,7 @@
 <template>
   <div
     @click="showInfo(m.id, m.message)"
-    class="chat cursor-pointer"
+    class="chat cursor-pointer py-[1px]"
     :class="m.senderId === userId ? 'chat-end' : 'chat-start'"
   >
     <div class="chat-image avatar">
@@ -10,10 +10,17 @@
       </div>
     </div>
 
-    <div class="chat-header text-xs font-medium">
-      {{ m.senderId === userId ? "You" : selectedUser.userName }}
-      <time class="text-[10px] opacity-50"> {{ formatTime(m.timestamp) }}</time>
-    </div>
+    <transition>
+      <div
+        v-if="showDetailsId.isClick && showDetailsId.id === m.id"
+        class="chat-header text-xs font-medium"
+      >
+        {{ m.senderId === userId ? "You" : selectedUser.userName }}
+        <time class="text-[10px] opacity-50">
+          {{ formatTime(m.timestamp) }}</time
+        >
+      </div>
+    </transition>
 
     <!-- massage with no image, file layout -->
     <div
