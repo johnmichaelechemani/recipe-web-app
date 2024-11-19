@@ -64,14 +64,24 @@
         </div>
         <ul
           tabindex="0"
-          class="dropdown-content z-[1] menu border border-gray-400/10 p-2 shadow bg-base-100 rounded-md min-w-52"
+          class="dropdown-content z-[1] menu border border-gray-400/10 p-2 shadow-lg bg-base-100 rounded-md min-w-72"
         >
-          <div class="py-2">
-            <h1>{{ user.displayName }}</h1>
+          <div
+            class="py-2 flex justify-start items-center gap-2.5 px-2 border border-gray-500/10 shadow rounded-md"
+          >
+            <div class="size-9">
+              <img class="rounded-full" :src="user.photoURL" alt="profile" />
+            </div>
+            <h1 class="font-semibold text-sm">{{ user.displayName }}</h1>
           </div>
-          <div class="btn flex justify-start" @click="logout()">
-            <Icon icon="solar:logout-bold-duotone" class="text-xl" />
-            <p class="text-xs">Logout</p>
+          <div
+            class="flex justify-start items-center gap-2.5 my-2 hover:bg-gray-500/20 rounded-md cursor-pointer p-2"
+            @click="logout()"
+          >
+            <div class="p-2 rounded-full bg-gray-500/20">
+              <Icon icon="solar:logout-bold-duotone" class="text-xl" />
+            </div>
+            <p class="text-sm font-semibold">Logout</p>
           </div>
         </ul>
       </div>
