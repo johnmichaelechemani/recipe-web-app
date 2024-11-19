@@ -10,17 +10,13 @@
       </div>
     </div>
 
-    <transition>
-      <div
-        v-if="showDetailsId.isClick && showDetailsId.id === m.id"
-        class="chat-header text-xs font-medium"
-      >
-        {{ m.senderId === userId ? "You" : selectedUser.userName }}
-        <time class="text-[10px] opacity-50">
-          {{ formatTime(m.timestamp) }}</time
-        >
-      </div>
-    </transition>
+    <div
+      v-if="showDetailsId.isClick && showDetailsId.id === m.id"
+      class="chat-header text-xs font-medium"
+    >
+      {{ m.senderId === userId ? "You" : selectedUser.userName }}
+      <time class="text-[10px] opacity-50"> {{ formatTime(m.timestamp) }}</time>
+    </div>
 
     <!-- massage with no image, file layout -->
     <div
@@ -124,20 +120,15 @@
       </div>
     </div>
 
-    <div>
+    <div
+      v-if="showDetailsId.isClick && showDetailsId.id === m.id"
+      class="chat-footer opacity-50 font-semibold text-xs"
+    >
+      {{ m.isSending ? "Sending..." : "Delivered" }}
+    </div>
+    <div class="chat-footer opacity-50 font-semibold text-xs">
       {{ m.isSending ? "Sending..." : "" }}
     </div>
-    <!-- <div
-        v-if="showDetailsId.isClick && showDetailsId.id === m.id"
-        class="chat-footer opacity-50 font-semibold text-xs"
-      >
-        {{ isSendMessageLoading ? "Sending..." : "" }}
-        <Icon
-          v-if="!isSendMessageLoading"
-          :class="userId !== m.senderId ? 'hidden' : ''"
-          icon="material-symbols-light:check-circle"
-        />
-      </div> -->
   </div>
 </template>
 <script setup>
