@@ -49,7 +49,6 @@
           :onLoad="onLoad"
           :onError="onError"
           :showInfo="showInfo"
-          :isSendMessageLoading="isSendMessageLoading"
         />
       </div>
       <div v-if="isLoading">

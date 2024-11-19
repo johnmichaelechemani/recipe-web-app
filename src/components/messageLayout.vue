@@ -171,9 +171,5 @@ const props = defineProps({
     type: Function,
     required: true,
   },
-  isSendMessageLoading: {
-    type: Boolean,
-    default: false,
-  },
 });
 </script>

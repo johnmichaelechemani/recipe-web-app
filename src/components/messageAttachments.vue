@@ -62,19 +62,6 @@
       </div>
     </div>
   </transition>
-  <transition>
-    <div
-      v-if="isSendMessageLoading"
-      class="flex justify-center mb-1 items-center"
-    >
-      <span
-        class="backdrop-blur-2xl flex justify-center items-center gap-2 bg-gray-400/20 border px-4 text-sm font-medium py-1 transition border-gray-500/20 rounded-full"
-      >
-        <span class="loading loading-dots loading-xs"></span>
-        <span>Sending..</span>
-      </span>
-    </div>
-  </transition>
 
   <transition>
     <div
@@ -109,12 +96,6 @@
 
 <script setup>
 import { chatFileAttachments } from "../scripts/chatAttachments";
-const props = defineProps({
-  isSendMessageLoading: {
-    type: Boolean,
-    default: null,
-  },
-});
 
 const {
   selectedChatId,
