@@ -134,6 +134,7 @@
                   <Icon icon="bxs:send" class="text-xl text-gray-200" />
                 </button>
                 <button
+                  :disabled="isSendMessageLoading"
                   v-motion-fade
                   v-else
                   @click.prevent.stop="startRecording"
