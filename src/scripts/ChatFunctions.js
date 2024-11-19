@@ -75,7 +75,7 @@ export function ChatFuntions() {
       console.warn("Please enter a message or select a file");
       return;
     }
-
+    isSendMessageLoading.value = true;
     const chatId = getChatId(userId, selectedUser.value.userId);
 
     // Add temporary message to the messages array with `isSending` set to true
@@ -155,7 +155,7 @@ export function ChatFuntions() {
           ? {
               ...msg,
               id: newMessageDoc.id,
-              isSending: false, // Sending completed
+              isSending: false,
               imageUrl: fileImageUrl,
               fileUrl: fileUrl,
             }
@@ -169,13 +169,13 @@ export function ChatFuntions() {
       );
 
       // Reset input fields
+      isSendMessageLoading.value = false;
       newMessage.value = "";
       file.value = null;
       imageFile.value = null;
     } catch (error) {
+      isSendMessageLoading.value = false;
       console.error("Error sending message:", error);
-
-      // Update the temporary message to reflect the error
       messages.value = messages.value.map((msg) =>
         msg.id === tempMessage.id
           ? { ...msg, isSending: false, error: "Failed to send message." }

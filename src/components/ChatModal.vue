@@ -58,7 +58,7 @@
 
     <div class="fixed bottom-0 z-50 inset-x-0">
       <!-- message attachements and error and success alerts -->
-      <MessageAttachments :isSendMessageLoading="isSendMessageLoading" />
+      <MessageAttachments />
       <!--  -->
       <RecordingModal />
 
@@ -127,7 +127,6 @@
                     selectedFile ||
                     selectedImage
                   "
-                  :class="isSendMessageLoading ? 'cursor-not-allowed' : ''"
                   :disabled="isSendMessageLoading"
                   @click.prevent="sendMessage"
                   v-motion-fade
