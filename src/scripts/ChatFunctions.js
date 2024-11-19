@@ -73,17 +73,33 @@ export function ChatFuntions() {
   const sendMessage = async () => {
     if (newMessage.value.trim() === "" && !file.value && !imageFile.value) {
       console.warn("Please enter a message or select a file");
-      return
-      
+      return;
     }
 
-    try {
-      const chatId = getChatId(userId, selectedUser.value.userId);
-      isSendMessageLoading.value = true;
-      console.log(isSendMessageLoading.value);
+    const chatId = getChatId(userId, selectedUser.value.userId);
 
-      let fileUrl = null;
-      let fileImageUrl = null;
+    // Add temporary message to the messages array with `isSending` set to true
+    const tempMessage = {
+      id: `temp_${Date.now()}`, // Temporary ID
+      senderId: userId,
+      recipientId: selectedUser.value.userId,
+      message: newMessage.value,
+      imageUrl: imageFile.value ? URL.createObjectURL(imageFile.value) : null,
+      imageName: imageFile.value ? imageFile.value.name : null,
+      fileUrl: file.value ? URL.createObjectURL(file.value) : null,
+      fileName: file.value ? file.value.name : null,
+      isSending: true, // Message-specific sending state
+      timestamp: new Date(), // Local timestamp
+    };
+
+    messages.value.push(tempMessage);
+    scrollToBottom();
+
+    let fileUrl = null;
+    let fileImageUrl = null;
+
+    try {
+      // Upload file if provided
       if (file.value) {
         const filePath = `chats/${chatId}/${Date.now()}_${file.value.name}`;
         const fileRef = storageRef(storage, filePath);
@@ -91,6 +107,7 @@ export function ChatFuntions() {
         fileUrl = await getDownloadURL(uploadResult.ref);
       }
 
+      // Upload image if provided
       if (imageFile.value) {
         const imagePath = `chats/${chatId}/${Date.now()}_${
           imageFile.value.name
@@ -99,6 +116,8 @@ export function ChatFuntions() {
         const uploadImageResult = await uploadBytes(imageRef, imageFile.value);
         fileImageUrl = await getDownloadURL(uploadImageResult.ref);
       }
+
+      // Update the chat document
       await setDoc(
         doc(firestore, `chats/${chatId}`),
         {
@@ -115,27 +134,53 @@ export function ChatFuntions() {
         { merge: true }
       );
 
-      // Step 3: Add the message to the messages collection
-      await addDoc(collection(firestore, `chats/${chatId}/messages`), {
-        senderId: userId,
-        recipientId: selectedUser.value.userId,
-        message: newMessage.value,
-        imageUrl: fileImageUrl,
-        imageName: imageFile.value ? imageFile.value.name : null,
-        fileUrl: fileUrl,
-        fileName: file.value ? file.value.name : null,
-        isSendMessageLoading: false,
-        timestamp: serverTimestamp(),
-      });
+      // Add the message to the Firestore messages collection
+      const newMessageDoc = await addDoc(
+        collection(firestore, `chats/${chatId}/messages`),
+        {
+          senderId: userId,
+          recipientId: selectedUser.value.userId,
+          message: newMessage.value,
+          imageUrl: fileImageUrl,
+          imageName: imageFile.value ? imageFile.value.name : null,
+          fileUrl: fileUrl,
+          fileName: file.value ? file.value.name : null,
+          timestamp: serverTimestamp(),
+        }
+      );
 
-      // Reset message and file
+      // Update the temporary message in the `messages` array with real data
+      messages.value = messages.value.map((msg) =>
+        msg.id === tempMessage.id
+          ? {
+              ...msg,
+              id: newMessageDoc.id,
+              isSending: false, // Sending completed
+              imageUrl: fileImageUrl,
+              fileUrl: fileUrl,
+            }
+          : msg
+      );
+
+      // Update cache
+      localStorage.setItem(
+        `messages_${chatId}`,
+        JSON.stringify(messages.value)
+      );
+
+      // Reset input fields
       newMessage.value = "";
       file.value = null;
       imageFile.value = null;
     } catch (error) {
-      console.error("Error sending message: ", error);
-    } finally {
-      isSendMessageLoading.value = false;
+      console.error("Error sending message:", error);
+
+      // Update the temporary message to reflect the error
+      messages.value = messages.value.map((msg) =>
+        msg.id === tempMessage.id
+          ? { ...msg, isSending: false, error: "Failed to send message." }
+          : msg
+      );
     }
   };
 
@@ -220,10 +265,6 @@ export function ChatFuntions() {
     unsubscribers.value.forEach((unsub) => unsub());
   });
 
-  watch(newMessageArray, (newVal) => {
-    console.log(newMessageArray.value);
-  });
-
   const filteredMessages = computed(() =>
     messages.value.filter(
       (m) =>
@@ -232,7 +273,51 @@ export function ChatFuntions() {
         (m.senderId === selectedUser.value.userId && m.recipientId === userId)
     )
   );
-  //console.log(messages);
+
+  const loadMessages = () => {
+    const chatId = getChatId(userId, selectedUser.value.userId);
+
+    // Check for cached messages
+    const cachedMessages = localStorage.getItem(`messages_${chatId}`);
+    if (cachedMessages) {
+      messages.value = JSON.parse(cachedMessages);
+      scrollToBottom();
+    }
+
+    isLoading.value = true;
+
+    // Query for messages
+    const messagesQuery = query(
+      collection(firestore, `chats/${chatId}/messages`),
+      orderBy("timestamp", "asc")
+    );
+
+    // Real-time updates
+    const messageUnsub = onSnapshot(messagesQuery, (snapshot) => {
+      const liveMessages = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      // Update messages
+      messages.value = liveMessages;
+      isLoading.value = false;
+
+      // Save to cache
+      localStorage.setItem(`messages_${chatId}`, JSON.stringify(liveMessages));
+
+      scrollToBottom();
+    });
+
+    // Cleanup listener on component unmount
+    onUnmounted(() => {
+      messageUnsub();
+    });
+  };
+
+  onMounted(() => {
+    loadMessages();
+  });
 
   const scrollToBottom = () => {
     nextTick(() => {
@@ -241,33 +326,6 @@ export function ChatFuntions() {
       }
     });
   };
-
-  const loadMessages = () => {
-    isLoading.value = true;
-    const chatId = getChatId(userId, selectedUser.value.userId);
-
-    // Query for messages
-    const messagesQuery = query(
-      collection(firestore, `chats/${chatId}/messages`),
-      orderBy("timestamp", "asc")
-    );
-
-    const messageUnsub = onSnapshot(messagesQuery, (snapshot) => {
-      messages.value = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      isLoading.value = false;
-      scrollToBottom();
-    });
-
-    onUnmounted(() => {
-      messageUnsub();
-    });
-  };
-  onMounted(() => {
-    loadMessages();
-  });
 
   const Time = (timestamp) => {
     if (timestamp) {

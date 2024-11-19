@@ -124,19 +124,20 @@
       </div>
     </div>
 
-    <transition>
-      <div
+    <div>
+      {{ m.isSending ? "Sending..." : "" }}
+    </div>
+    <!-- <div
         v-if="showDetailsId.isClick && showDetailsId.id === m.id"
         class="chat-footer opacity-50 font-semibold text-xs"
       >
-        {{ m.isSendMessageLoading ? "Sending..." : "" }}
+        {{ isSendMessageLoading ? "Sending..." : "" }}
         <Icon
-          v-if="!m.isSendMessageLoading"
+          v-if="!isSendMessageLoading"
           :class="userId !== m.senderId ? 'hidden' : ''"
           icon="material-symbols-light:check-circle"
         />
-      </div>
-    </transition>
+      </div> -->
   </div>
 </template>
 <script setup>
@@ -178,6 +179,10 @@ const props = defineProps({
   onError: {
     type: Function,
     required: true,
+  },
+  isSendMessageLoading: {
+    type: Boolean,
+    default: false,
   },
 });
 </script>
