@@ -26,7 +26,11 @@
     <div
       v-if="m.message && m.imageUrl === null && m.fileUrl === null"
       class="rounded-2xl whitespace-pre-line py-2 px-4 text-sm max-w-52"
-      :class="userId === m.senderId ? 'chat-bubble-primary' : 'chat-bubble'"
+      :class="
+        userId === m.senderId
+          ? 'chat-bubble-primary'
+          : 'bg-gray-400/20 rounded-2xl'
+      "
     >
       {{ m.message }}
     </div>
