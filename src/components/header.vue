@@ -2,7 +2,12 @@
   <div class="flex justify-between items-center border-b border-gray-400/20">
     <div class="flex justify-start items-center gap-1 p-2">
       <div>
-        <img class="h-8 w-8 rounded-full" :src="Food" alt="logo" />
+        <img
+          class="h-8 w-8 rounded-full"
+          loading="lazy"
+          :src="Food"
+          alt="logo"
+        />
       </div>
 
       <h1 class="font-medium text-xs sm:text-sm capitalize hidden sm:block">
@@ -53,7 +58,12 @@
         <div tabindex="0" role="button" class="relative">
           <div class="avatar">
             <div class="size-9">
-              <img class="rounded-full" :src="user.photoURL" alt="profile" />
+              <img
+                class="rounded-full"
+                loading="lazy"
+                :src="user.photoURL"
+                alt="profile"
+              />
             </div>
           </div>
           <div
@@ -70,7 +80,12 @@
             class="py-2 flex justify-start items-center gap-2.5 px-2 border border-gray-500/10 shadow rounded-md"
           >
             <div class="size-9">
-              <img class="rounded-full" :src="user.photoURL" alt="profile" />
+              <img
+                class="rounded-full"
+                loading="lazy"
+                :src="user.photoURL"
+                alt="profile"
+              />
             </div>
             <h1 class="font-semibold text-sm">{{ user.displayName }}</h1>
           </div>
