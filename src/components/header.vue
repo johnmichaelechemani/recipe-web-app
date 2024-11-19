@@ -2,39 +2,15 @@
   <div class="flex justify-between items-center border-b border-gray-400/20">
     <div class="flex justify-start items-center gap-1 p-2">
       <div>
-        <img
-          class="h-8 w-8 rounded-full"
-          v-if="user.photoURL"
-          :src="user.photoURL"
-          alt="profile"
-        />
-        <div v-else class="bg-primary text-neutral shadow rounded-full p-1">
-          <Icon icon="mdi:user" class="text-2xl" />
-        </div>
+        <img class="h-8 w-8 rounded-full" :src="Food" alt="logo" />
       </div>
 
       <h1 class="font-medium text-xs sm:text-sm capitalize hidden sm:block">
-        {{ user.displayName }}
+        Jm's recipe
       </h1>
-      <div class="h-3 border-r-2 border-gray-400/50 ml-2"></div>
-
-      <div class="dropdown">
-        <div tabindex="0" role="button" class="p-2">
-          <Icon icon="solar:settings-bold" />
-        </div>
-        <ul
-          tabindex="0"
-          class="dropdown-content z-[1] menu border border-gray-400/10 p-2 shadow bg-base-100 rounded-md w-32"
-        >
-          <div class="btn flex justify-start" @click="logout()">
-            <Icon icon="solar:logout-bold-duotone" class="text-xl" />
-            <p class="text-xs">Logout</p>
-          </div>
-        </ul>
-      </div>
     </div>
 
-    <div>
+    <div class="flex justify-center items-center gap-2">
       <label class="flex cursor-pointer gap-1 sm:gap-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -71,20 +47,41 @@
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
         </svg>
       </label>
+      <!--  -->
+
+      <div class="dropdown dropdown-end">
+        <div tabindex="0" role="button" class="relative">
+          <div class="avatar">
+            <div class="size-9">
+              <img class="rounded-full" :src="user.photoURL" alt="profile" />
+            </div>
+          </div>
+          <div
+            class="absolute bottom-1 border border-gray-500/10 right-0 p-[1px] backdrop-blur-2xl rounded-full"
+          >
+            <Icon icon="solar:settings-bold" width="10" />
+          </div>
+        </div>
+        <ul
+          tabindex="0"
+          class="dropdown-content z-[1] menu border border-gray-400/10 p-2 shadow bg-base-100 rounded-md min-w-52"
+        >
+          <div class="py-2">
+            <h1>{{ user.displayName }}</h1>
+          </div>
+          <div class="btn flex justify-start" @click="logout()">
+            <Icon icon="solar:logout-bold-duotone" class="text-xl" />
+            <p class="text-xs">Logout</p>
+          </div>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
-<script>
+<script setup>
 import { Icon } from "@iconify/vue";
 import { useAuth } from "../firebase";
-export default {
-  components: {
-    Icon,
-  },
-  setup() {
-    const { user, logout } = useAuth();
+import Food from "../assets/food.svg";
 
-    return { user, logout };
-  },
-};
+const { user, logout } = useAuth();
 </script>
