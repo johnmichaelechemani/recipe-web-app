@@ -124,7 +124,7 @@
       class="chat-footer opacity-50 font-semibold text-xs"
     >
       {{ m.isSending ? "Sending..." : "Delivered" }}
-      <time class="text-[10px] opacity-50"> {{ formatTime(m.timestamp) }}</time>
+      <time class="text-[10px] opacity-80"> {{ formatTime(m.timestamp) }}</time>
     </div>
     <div class="chat-footer opacity-50 font-semibold text-xs">
       {{ m.isSending ? "Sending..." : "" }}
