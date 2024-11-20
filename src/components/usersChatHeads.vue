@@ -28,7 +28,7 @@
       <div class="flex gap-2 justify-start items-center">
         <span
           v-if="latestMessages[getChatId(userId, user.id)]"
-          class="text-xs px-2 py-0.5 truncate max-w-52 bg-gray-500/20 rounded-full"
+          class="text-xs px-2 py-0.5 truncate max-w-40 bg-gray-500/20 rounded-full"
           :class="
             isSender[getChatId(userId, user.id)] === userId
               ? ''
