@@ -10,9 +10,7 @@
         />
       </div>
 
-      <h1 class="font-medium text-xs sm:text-sm capitalize hidden sm:block">
-        Jm's recipe
-      </h1>
+      <h1 class="font-medium text-xs sm:text-sm capitalize">Jm's recipe</h1>
     </div>
 
     <div class="flex justify-center items-center gap-2">
