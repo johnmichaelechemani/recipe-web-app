@@ -22,7 +22,9 @@
           @click="showRecipeModal(item)"
           class="card sm:w-52 w-26 bg-base-100 relative rounded-2xl border border-gray-500/10 transition hover:border-primary/50 hover:shadow"
         >
-          <div class="dropdown dropdown-end absolute z-50 top-0 right-0 shadow">
+          <div
+            class="dropdown dropdown-end absolute z-50 top-0 rounded-tr-2xl rounded-bl-2xl right-0 shadow"
+          >
             <button
               class="flex justify-center items-center"
               @click.stop="editShowRecipe(item.id, item)"
