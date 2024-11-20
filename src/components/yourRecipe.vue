@@ -1,9 +1,7 @@
 <template>
   <div class="border rounded-2xl border-gray-400/20 shadow p-2 my-3">
     <div class="my-2">
-      <span class="font-semibold text-sm py-1 px-4 bg-gray-500/10 rounded-full"
-        >Your Recipes</span
-      >
+      <span class="font-semibold text-sm py-1 px-4">Your Recipes</span>
     </div>
     <div v-if="recipe.length === 0 && !loading">
       <div class="my-2">
@@ -22,7 +20,7 @@
           v-for="item in recipe"
           :key="item.id"
           @click="showRecipeModal(item)"
-          class="card sm:w-52 w-26 bg-base-100 relative rounded-md"
+          class="card sm:w-52 w-26 bg-base-100 relative rounded-2xl border border-gray-500/10 transition hover:border-primary/50 hover:shadow"
         >
           <div
             class="dropdown dropdown-end absolute z-50 top-0 right-0 text-gray-800 shadow"
@@ -34,7 +32,7 @@
               <div
                 tabindex="0"
                 role="button"
-                class="btn btn-primary rounded-none btn-xs"
+                class="bg-primary rounded-tr-2xl rounded-bl-2xl btn-xs"
               >
                 <Icon
                   icon="material-symbols-light:settings-outline"
@@ -45,7 +43,7 @@
 
             <ul
               tabindex="0"
-              class="dropdown-content z-[20] menu border border-gray-400/10 p-2 shadow bg-base-100 rounded-md w-32"
+              class="dropdown-content z-[20] menu border border-gray-400/10 p-2 shadow bg-base-100 rounded-2xl w-32"
             >
               <div
                 class="btn flex justify-start text-green-500 mb-1"
@@ -64,16 +62,16 @@
             </ul>
           </div>
 
-          <figure class="bg-blue-500/10 rounded-md">
+          <figure class="bg-blue-500/10 rounded-2xl">
             <div
               v-if="item.imageURL"
-              class="w-full bg-primary/10 h-24 sm:h-30 md:h-40"
+              class="w-full bg-primary/10 rounded-2xl h-24 sm:h-30 md:h-40"
             >
               <img
                 :src="item.imageURL"
                 alt="recipe"
                 loading="lazy"
-                class="object-cover object-center h-full w-full rounded-md"
+                class="object-cover object-center h-full w-full rounded-t-2xl"
               />
             </div>
             <div
@@ -83,7 +81,7 @@
               <Icon icon="emojione-v1:pot-of-food" class="text-4xl" />
             </div>
           </figure>
-          <div class="py-3">
+          <div class="py-2 px-1">
             <h2 class="card-title truncate">{{ item.title }}</h2>
             <p class="text-xs truncate">
               {{ item.descriptions }}

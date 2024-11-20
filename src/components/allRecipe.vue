@@ -1,8 +1,7 @@
 <template>
   <div class="border rounded-2xl border-gray-400/20 shadow p-2 my-3">
     <div class="my-2 flex justify-between items-start">
-      <span
-        class="font-semibold text-blue-500 text-sm py-1 px-4 bg-blue-500/10 rounded-full"
+      <span class="font-semibold text-blue-500 text-sm py-1 px-4"
         >All Recipes</span
       >
       <div class="">
@@ -49,44 +48,21 @@
     <div class="flex justify-center sm:justify-start items-center">
       <div
         v-if="filteredRecipes"
-        class="grid grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3 overflow-hidden py-5 px-2 sm:p-2"
+        class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3 overflow-hidden py-5 px-2 sm:p-2"
       >
         <div
           v-for="item in filteredRecipes"
           :key="item.id"
           @click="showRecipeAllModal(item)"
-          class="card sm:w-52 w-26 bg-base-100 relative rounded-md"
+          class="card sm:w-52 w-26 bg-base-100 border border-gray-500/10 transition hover:border-primary/50 hover:shadow relative rounded-2xl"
         >
-          <div
-            class="rounded-full absolute -top-1 -left-1 shadow-xl border border-secondary"
-          >
-            <div class="flex justify-center items-center">
-              <div class="avatar">
-                <div
-                  :class="
-                    usersStatus[item.userId] === 'online'
-                      ? 'ring-green-500'
-                      : 'ring-gray-500/50'
-                  "
-                  class="w-5 rounded-full ring ring-offset-base-100 ring-offset-2"
-                >
-                  <img
-                    v-if="item.userPhotoURL"
-                    :src="item.userPhotoURL"
-                    alt="profile"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <figure class="bg-blue-500/10 rounded-md">
+          <figure class="bg-blue-500/10 rounded-b-sm">
             <div v-if="item.imageURL" class="w-full h-24 sm:h-32 md:h-40">
               <img
                 loading="lazy"
                 :src="item.imageURL"
                 alt="recipe"
-                class="rounded-md object-cover object-center h-full w-full"
+                class="rounded-t-2xl object-cover object-center h-full w-full"
               />
             </div>
             <div
@@ -96,7 +72,7 @@
               <Icon icon="emojione-v1:pot-of-food" class="text-4xl" />
             </div>
           </figure>
-          <div class="py-2">
+          <div class="py-2 px-1">
             <div class="card-title text-sm sm:text-lg truncate">
               <h1 class="truncate">{{ item.title }}</h1>
             </div>
@@ -105,7 +81,7 @@
               {{ item.descriptions }}
             </p>
             <div
-              class="sm:text-xs py-0.5 text-[10px] font-medium px-2 rounded-full text-blue-500 truncate bg-blue-500/10"
+              class="sm:text-xs py-0.5 text-[10px] font-medium rounded-full text-primary truncate"
             >
               {{ item.userName }}
             </div>
