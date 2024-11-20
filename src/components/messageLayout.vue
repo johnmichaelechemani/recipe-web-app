@@ -14,8 +14,7 @@
       v-if="showDetailsId.isClick && showDetailsId.id === m.id"
       class="chat-header text-xs font-medium"
     >
-      {{ m.senderId === userId ? "You" : selectedUser.userName }}
-      <time class="text-[10px] opacity-50"> {{ formatTime(m.timestamp) }}</time>
+      {{ m.senderId === userId ? "" : selectedUser.userName }}
     </div>
 
     <!-- massage with no image, file layout -->
@@ -125,6 +124,7 @@
       class="chat-footer opacity-50 font-semibold text-xs"
     >
       {{ m.isSending ? "Sending..." : "Delivered" }}
+      <time class="text-[10px] opacity-50"> {{ formatTime(m.timestamp) }}</time>
     </div>
     <div class="chat-footer opacity-50 font-semibold text-xs">
       {{ m.isSending ? "Sending..." : "" }}
