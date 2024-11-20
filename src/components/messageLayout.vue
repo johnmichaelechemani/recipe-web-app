@@ -120,7 +120,7 @@
     </div>
 
     <div
-      v-if="showDetailsId.isClick && showDetailsId.id === m.id"
+      v-if="showDetailsId.isClick && showDetailsId.id === m.id && !m.isSending"
       class="chat-footer opacity-50 font-semibold text-xs"
     >
       {{ m.isSending ? "Sending..." : "Delivered" }}
