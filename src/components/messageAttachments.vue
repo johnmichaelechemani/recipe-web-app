@@ -14,19 +14,19 @@
       class="flex justify-center items-center"
     >
       <span
-        class="backdrop-blur-2xl flex justify-center items-center gap-4 bg-gray-400/20 border px-8 text-sm font-medium py-2 transition border-gray-500/20 rounded-md"
+        class="backdrop-blur-2xl mb-1 flex justify-center items-center gap-4 bg-gray-400/20 border px-8 text-sm font-medium py-2 transition border-gray-500/20 rounded-md"
       >
         <div class="grid place-items-center cursor-pointer transition">
           <p class="text-xs">Are you sure to delete this message?</p>
           <div class="flex justify-start items-center gap-4 mt-2">
             <button
               @click="cancelDeleteConfirmation()"
-              class="text-gray-600 px-2 py-1 rounded-md border border-gray-500/50"
+              class="px-2 py-1 rounded-md border border-gray-400/50"
             >
               Cancel
             </button>
             <button
-              class="px-2 py-1 rounded-md border text-red-500 border-red-500/50"
+              class="px-2 py-1 rounded-md text-gray-300 border border-red-500/20 bg-red-500"
             >
               Delete
             </button>
