@@ -65,7 +65,7 @@
 
   <transition>
     <div
-      v-if="selectedFile || selectedImage"
+      v-if="selectedFile || selectedImage || isSendMessageLoading"
       class="ml-1 flex justify-start mb-1 items-end gap-1 text-xs"
     >
       <div v-if="isImage">
@@ -95,8 +95,14 @@
 </template>
 
 <script setup>
+import { watch } from "vue";
 import { chatFileAttachments } from "../scripts/chatAttachments";
-
+const props = defineProps({
+  isSendMessageLoading: {
+    type: Boolean,
+    default: null,
+  },
+});
 const {
   selectedChatId,
   showDetailsId,
@@ -113,4 +119,13 @@ const {
   copyChat,
   Icon,
 } = chatFileAttachments();
+watch(
+  () => props.isSendMessageLoading,
+  (newValue) => {
+    if (!newValue) {
+      selectedImage.value = null;
+      selectedFile.value = null;
+    }
+  }
+);
 </script>

@@ -60,10 +60,8 @@ export function chatFileAttachments(emit) {
     if (selectedFile.value || selectedImage.value) {
       fileName.value = "";
       imageURL.value = null;
-      selectedImage.value = null;
+      selectedImage.value = null; 
       selectedFile.value = null;
-      emit("update:selectedFile", null);
-      emit("update:selectedImage", null);
     }
     console.log(selectedFile.value, selectedImage.value);
   };
