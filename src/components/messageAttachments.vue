@@ -38,7 +38,7 @@
   <transition>
     <div
       v-if="selectedChatId === showDetailsId.id && showDetailsId.isClick"
-      class="fixed bottom-0 backdrop-blur-2xl py-5 z-50 inset-x-0"
+      class="fixed bottom-0 backdrop-blur-2xl py-4 rounded-t-2xl z-50 inset-x-0"
     >
       <div class="flex justify-center items-center">
         <span
