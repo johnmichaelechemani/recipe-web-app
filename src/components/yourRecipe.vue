@@ -62,7 +62,7 @@
             </ul>
           </div>
 
-          <figure class="bg-blue-500/10 rounded-2xl">
+          <figure class="bg-blue-500/10 rounded-t-2xl">
             <div
               v-if="item.imageURL"
               class="w-full bg-primary/10 rounded-2xl h-24 sm:h-30 md:h-40"
@@ -76,7 +76,7 @@
             </div>
             <div
               v-else
-              class="pt-2 h-24 sm:h-32 md:h-40 flex justify-center items-center"
+              class="pt-2 h-24 sm:h-32 md:h-40 rounded-t-2xl flex justify-center items-center"
             >
               <Icon icon="emojione-v1:pot-of-food" class="text-4xl" />
             </div>
