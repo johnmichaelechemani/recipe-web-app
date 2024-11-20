@@ -22,9 +22,7 @@
           @click="showRecipeModal(item)"
           class="card sm:w-52 w-26 bg-base-100 relative rounded-2xl border border-gray-500/10 transition hover:border-primary/50 hover:shadow"
         >
-          <div
-            class="dropdown dropdown-end absolute z-50 top-0 right-0 text-gray-800 shadow"
-          >
+          <div class="dropdown dropdown-end absolute z-50 top-0 right-0 shadow">
             <button
               class="flex justify-center items-center"
               @click.stop="editShowRecipe(item.id, item)"
@@ -36,28 +34,41 @@
               >
                 <Icon
                   icon="material-symbols-light:settings-outline"
-                  class="text-xl"
+                  class="text-xl text-gray-800"
                 />
               </div>
             </button>
 
             <ul
               tabindex="0"
-              class="dropdown-content z-[20] menu border border-gray-400/10 p-2 shadow bg-base-100 rounded-2xl w-32"
+              class="dropdown-content z-[20] menu border border-gray-400/10 p-2 shadow bg-base-100 min-w-40 rounded-2xl w-32"
             >
-              <div
-                class="btn flex justify-start text-green-500 mb-1"
-                @click.stop="editRecipe(id)"
-              >
-                <Icon icon="material-symbols:edit" />
-                <p class="text-xs">Edit</p>
-              </div>
-              <div
-                class="btn flex justify-start text-red-500"
-                @click.stop="deleteShowRecipe(id)"
-              >
-                <Icon icon="ant-design:delete-twotone" />
-                <p class="text-xs">Delete</p>
+              <h1 class="font-semibold text-sm">Action</h1>
+              <div class="border border-gray-500/10 rounded-xl mt-2">
+                <div
+                  class="flex justify-start items-center gap-2.5 hover:bg-gray-500/20 rounded-md cursor-pointer p-1.5"
+                  @click.stop="editRecipe(id)"
+                >
+                  <div class="p-2 rounded-full bg-gray-500/20">
+                    <Icon
+                      icon="material-symbols:edit"
+                      class="text-xl text-green-500"
+                    />
+                  </div>
+                  <p class="text-sm font-semibold">Edit</p>
+                </div>
+                <div
+                  class="flex justify-start items-center gap-2.5 hover:bg-gray-500/20 rounded-md cursor-pointer p-1.5"
+                  @click.stop="deleteShowRecipe(id)"
+                >
+                  <div class="p-2 rounded-full bg-gray-500/20">
+                    <Icon
+                      icon="ic:baseline-delete"
+                      class="text-xl text-red-500"
+                    />
+                  </div>
+                  <p class="text-sm font-semibold">Delete</p>
+                </div>
               </div>
             </ul>
           </div>
