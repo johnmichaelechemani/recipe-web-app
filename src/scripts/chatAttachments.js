@@ -81,6 +81,7 @@ export function chatFileAttachments(emit) {
   };
   const isShowDeleteConfirmation = ref(false);
   const isShowCopied = ref(false);
+  const isShowDeleted = ref(false);
   const cancelDeleteConfirmation = () => {
     isShowDeleteConfirmation.value = false;
     showDetailsId.value.id = null;
@@ -88,10 +89,16 @@ export function chatFileAttachments(emit) {
   };
   const deleteChat = () => {
     isShowDeleteConfirmation.value = true;
+    showDetailsId.value.isClick = false;
     console.log(selectedChatId.value);
   };
   const deleteConfirmation = () => {
     console.log("delete confirmation id", selectedChatId.value);
+    isShowDeleted.value = true;
+    setTimeout(() => {
+      isShowDeleted.value = false;
+    }, 2000);
+    showDetailsId.value.isClick = false;
     isShowDeleteConfirmation.value = false;
   };
   const copyChat = () => {
@@ -119,6 +126,7 @@ export function chatFileAttachments(emit) {
     showDetailsId,
     isShowDeleteConfirmation,
     isShowCopied,
+    isShowDeleted,
     isImage,
     deleteChat,
     selectedFile,

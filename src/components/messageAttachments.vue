@@ -9,6 +9,15 @@
     </div>
   </transition>
   <transition>
+    <div v-if="isShowDeleted" class="flex mb-1 justify-center items-center">
+      <span
+        class="backdrop-blur-2xl flex justify-center items-center gap-4 bg-red-400/20 border px-4 text-sm font-medium py-1 transition border-red-500/20 text-red-500 rounded-full"
+      >
+        <p class="text-xs">Operation failed! (in dev mode)</p>
+      </span>
+    </div>
+  </transition>
+  <transition>
     <div
       v-if="isShowDeleteConfirmation"
       class="flex justify-center items-center"
@@ -109,6 +118,7 @@ const {
   showDetailsId,
   isShowDeleteConfirmation,
   isShowCopied,
+  isShowDeleted,
   isImage,
   deleteChat,
   selectedFile,
