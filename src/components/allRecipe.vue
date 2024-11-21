@@ -25,7 +25,12 @@
                 @click="sortLetters()"
               >
                 <div class="p-2 rounded-full bg-gray-500/20">
-                  <Icon icon="basil:sort-solid" width="20" height="20" />
+                  <Icon
+                    icon="basil:sort-solid"
+                    width="20"
+                    height="20"
+                    class="text-primary"
+                  />
                 </div>
                 <p class="text-sm font-semibold">A-Z</p>
               </div>
@@ -38,6 +43,7 @@
                     icon="material-symbols-light:star-rate"
                     width="20"
                     height="20"
+                    class="text-primary"
                   />
                 </div>
                 <p class="text-sm font-semibold">Ratings</p>
@@ -299,13 +305,9 @@ export default {
         id: doc.id,
         ...doc.data(),
       }));
-
-      // Store the users data in local storage
       localStorage.setItem("users", JSON.stringify(users));
 
       userContainer.value = users;
-
-      // Update usersStatus with the latest status
       users.forEach((user) => {
         usersStatus[user.id] = user.status;
       });
@@ -321,11 +323,6 @@ export default {
         (a, b) => b.averageRating - a.averageRating
       );
     };
-
-    // const storedUsers = JSON.parse(localStorage.getItem("users"));
-    //console.log(storedUsers);
-
-    // Unsubscribe from Firestore updates when the component is unmounted
     onUnmounted(() => {
       unsubscribe();
     });

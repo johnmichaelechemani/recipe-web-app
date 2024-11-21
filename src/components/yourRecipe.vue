@@ -54,7 +54,9 @@
                   <div class="p-2 rounded-full bg-gray-500/20">
                     <Icon
                       icon="material-symbols:edit"
-                      class="text-xl text-green-500"
+                      class="text-primary"
+                      width="20"
+                      height="20"
                     />
                   </div>
                   <p class="text-sm font-semibold">Edit</p>
@@ -66,7 +68,9 @@
                   <div class="p-2 rounded-full bg-gray-500/20">
                     <Icon
                       icon="ic:baseline-delete"
-                      class="text-xl text-red-500"
+                      class="text-primary"
+                      width="20"
+                      height="20"
                     />
                   </div>
                   <p class="text-sm font-semibold">Delete</p>
