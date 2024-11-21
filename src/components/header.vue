@@ -3,7 +3,7 @@
     <div class="flex justify-start items-center gap-1 p-2">
       <div>
         <img
-          class="h-8 w-8 rounded-full"
+          class="size-9 rounded-full"
           loading="lazy"
           :src="Food"
           alt="logo"
@@ -20,7 +20,7 @@
 
         <!-- sun icon -->
         <svg
-          class="swap-off size-6 fill-current"
+          class="swap-off size-5 fill-current"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
         >
@@ -31,7 +31,7 @@
 
         <!-- moon icon -->
         <svg
-          class="swap-on size-6 fill-current"
+          class="swap-on size-5 fill-current"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
         >
@@ -45,8 +45,8 @@
 
       <div class="dropdown dropdown-end">
         <div tabindex="0" role="button" class="relative">
-          <div class="avatar">
-            <div class="size-9">
+          <div class="">
+            <div class="size-8">
               <img
                 class="rounded-full"
                 loading="lazy"
@@ -56,7 +56,7 @@
             </div>
           </div>
           <div
-            class="absolute bottom-1 border border-gray-500/10 right-0 p-[1px] backdrop-blur-2xl rounded-full"
+            class="absolute bottom-0 border border-gray-500/10 right-0 p-[1px] backdrop-blur-2xl rounded-full"
           >
             <Icon icon="solar:settings-bold" width="10" />
           </div>
