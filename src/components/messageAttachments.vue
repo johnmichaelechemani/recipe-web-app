@@ -20,12 +20,13 @@
           <p class="text-xs">Are you sure to delete this message?</p>
           <div class="flex justify-start items-center gap-4 mt-2">
             <button
-              @click="cancelDeleteConfirmation()"
+              @click.stop="cancelDeleteConfirmation()"
               class="px-2 py-1 rounded-md border border-gray-400/50"
             >
               Cancel
             </button>
             <button
+              @click.stop="deleteConfirmation()"
               class="px-2 py-1 rounded-md text-gray-300 border border-red-500/20 bg-red-500"
             >
               Delete
@@ -116,6 +117,7 @@ const {
   fileName,
   closeAttachements,
   cancelDeleteConfirmation,
+  deleteConfirmation,
   copyChat,
   Icon,
 } = chatFileAttachments();

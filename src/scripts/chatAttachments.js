@@ -60,7 +60,7 @@ export function chatFileAttachments(emit) {
     if (selectedFile.value || selectedImage.value) {
       fileName.value = "";
       imageURL.value = null;
-      selectedImage.value = null; 
+      selectedImage.value = null;
       selectedFile.value = null;
     }
     console.log(selectedFile.value, selectedImage.value);
@@ -86,9 +86,13 @@ export function chatFileAttachments(emit) {
     showDetailsId.value.id = null;
     showDetailsId.value.isClick = false;
   };
-  const deleteChat = (chatId) => {
+  const deleteChat = () => {
     isShowDeleteConfirmation.value = true;
-    console.log(chatId);
+    console.log(selectedChatId.value);
+  };
+  const deleteConfirmation = () => {
+    console.log("delete confirmation id", selectedChatId.value);
+    isShowDeleteConfirmation.value = false;
   };
   const copyChat = () => {
     navigator.clipboard
@@ -123,6 +127,7 @@ export function chatFileAttachments(emit) {
     fileName,
     closeAttachements,
     cancelDeleteConfirmation,
+    deleteConfirmation,
     copyChat,
     Icon,
     showInfo,
