@@ -84,7 +84,7 @@
       <a
         :href="m.fileUrl"
         download
-        class="flex justify-start items-center gap-2"
+        class="flex justify-start overflow-hidden items-center gap-2"
       >
         <Icon icon="simple-icons:googledocs" width="16" height="16" />{{
           m.fileName
@@ -105,7 +105,7 @@
         {{ m.message }}
       </div>
       <div
-        class="text-sm rounded-b-2xl backdrop-blur-2xl bg-gray-500/20 font-medium border border-gray-500/20 px-4 py-3"
+        class="text-sm rounded-b-2xl truncate backdrop-blur-2xl bg-gray-500/20 font-medium border border-gray-500/20 px-4 py-3"
       >
         <a
           :href="m.fileUrl"
@@ -126,7 +126,10 @@
       {{ m.isSending ? "Sending..." : "Delivered" }}
       <time class="text-[10px] opacity-80"> {{ formatTime(m.timestamp) }}</time>
     </div>
-    <div class="chat-footer opacity-50 font-semibold text-xs">
+    <div
+      v-if="m.isSending"
+      class="chat-footer opacity-50 font-semibold text-xs"
+    >
       {{ m.isSending ? "Sending..." : "" }}
     </div>
   </div>

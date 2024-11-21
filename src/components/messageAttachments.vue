@@ -75,7 +75,7 @@
 
   <transition>
     <div
-      v-if="(selectedFile || selectedImage) && isSendMessageLoading"
+      v-if="selectedFile || selectedImage || isSendMessageLoading"
       class="ml-1 flex justify-start mb-1 items-end gap-1 text-xs"
     >
       <div v-if="isImage">
