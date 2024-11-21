@@ -24,7 +24,7 @@
     </div>
     <hr class="my-1 border border-gray-400/20" />
     <div
-      class="h-dvh pb-[165px] sm:pb-0 sm:h-[366px] sm:mb-[86px] rounded-md overflow-auto"
+      class="h-[366px] mb-[86px] rounded-md overflow-auto"
       ref="messageContainer"
     >
       <div
