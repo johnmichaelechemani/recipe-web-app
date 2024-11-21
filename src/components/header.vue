@@ -56,7 +56,7 @@
             </div>
           </div>
           <div
-            class="absolute bottom-0 border border-gray-500/10 right-0 p-[1px] backdrop-blur-2xl rounded-full"
+            class="absolute bottom-0 border border-base-100 right-0 bg-base-100 rounded-full"
           >
             <Icon icon="solar:settings-bold" width="10" />
           </div>
