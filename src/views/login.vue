@@ -4,17 +4,58 @@
       class="grid grid-cols-1 mx-5 max-w-6xl place-items-center gap-8 sm:grid-cols-2 w-full text-neutral"
     >
       <div>
-        <h1 class="sm:text-7xl my-3 text-5xl font-extrabold">
+        <h1 class="sm:text-7xl px-2.5 my-3 text-5xl font-extrabold">
           Post recipe & message your <span class="text-primary">chefs</span>
+          <span class="text-xs font-medium px-1"
+            >well once you login you're a chef.🤣</span
+          >
         </h1>
         <div>
-          <span class="text-sm"
+          <span class="text-sm px-2.5"
             >By: <span class="font-semibold">John Michael Echemani</span></span
           >
         </div>
+        <div class="flex justify-start flex-wrap items-center">
+          <div class="flex justify-start items-center gap-2">
+            <a
+              target="_blank"
+              href="https://web.facebook.com/jmechemani"
+              class="flex justify-start hover:bg-gray-500/10 p-2 rounded-full items-center gap-2"
+            >
+              <div class="p-2 rounded-full bg-gray-500/20">
+                <Icon icon="ri:facebook-fill" width="20" height="20" />
+              </div>
+              <p class="text-sm font-medium">Facebook</p></a
+            >
+          </div>
+          <div class="flex justify-start items-center gap-2">
+            <a
+              href="https://www.linkedin.com/in/john-michael-echemani-909391264/"
+              target="_blank"
+              class="flex justify-start hover:bg-gray-500/10 p-2 rounded-full items-center gap-2"
+            >
+              <div class="p-2 rounded-full bg-gray-500/20">
+                <Icon icon="ri:linkedin-fill" width="20" height="20" />
+              </div>
+              <p class="text-sm font-medium">LinkedIn</p></a
+            >
+          </div>
+          <div class="flex justify-start items-center gap-2">
+            <a
+              href="https://johnmichael.vercel.app/"
+              target="_blank"
+              class="flex justify-start hover:bg-gray-500/10 p-2 rounded-full items-center gap-2"
+            >
+              <div class="p-2 rounded-full bg-gray-500/20">
+                <Icon icon="bx:link" width="20" height="20" />
+              </div>
+              <p class="text-sm font-medium">Portfolio</p></a
+            >
+          </div>
+        </div>
       </div>
       <div class="px-5 py-5 border border-gray-500/20 rounded-2xl shadow-lg">
-        <h1 class="text-3xl font-semibold py-2">Log in 🥺</h1>
+        <h1 class="text-xl font-semibold py-2">Penetrate human. 😇</h1>
         <button
           @click="signInWithGoogle()"
           class="btn items-center justify-between w-full gap-2 my-5 rounded-full"
