@@ -1,6 +1,6 @@
 <template>
   <router-link to="yourChats" class="relative flex justify-center">
-    <div class="indicator">
+    <div class="indicator z-0">
       <span
         v-if="newMessageArray !== 0"
         class="indicator-item badge badge-primary text-xs font-semibold"
