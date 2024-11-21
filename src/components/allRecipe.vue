@@ -18,18 +18,30 @@
             tabindex="0"
             class="dropdown-content border border-gray-500/20 menu bg-base-100 rounded-box z-[1] w-40 p-2 shadow"
           >
-            <div
-              @click="sortLetters()"
-              class="text-sm font-semibold px-4 py-1 hover:bg-gray-500/20 rounded-full"
-            >
-              A-Z
-            </div>
-            <hr class="border border-gray-500/10 my-2" />
-            <div
-              @click="sortRatings()"
-              class="text-sm font-semibold px-4 py-1 hover:bg-gray-500/20 rounded-full"
-            >
-              Ratings
+            <h1 class="font-semibold text-sm">Filter</h1>
+            <div class="border border-gray-500/10 rounded-xl mt-2">
+              <div
+                class="flex justify-start items-center gap-2.5 hover:bg-gray-500/20 rounded-md cursor-pointer p-1.5"
+                @click="sortLetters()"
+              >
+                <div class="p-2 rounded-full bg-gray-500/20">
+                  <Icon icon="basil:sort-solid" width="20" height="20" />
+                </div>
+                <p class="text-sm font-semibold">A-Z</p>
+              </div>
+              <div
+                class="flex justify-start items-center gap-2.5 hover:bg-gray-500/20 rounded-md cursor-pointer p-1.5"
+                @click="sortRatings()"
+              >
+                <div class="p-2 rounded-full bg-gray-500/20">
+                  <Icon
+                    icon="material-symbols-light:star-rate"
+                    width="20"
+                    height="20"
+                  />
+                </div>
+                <p class="text-sm font-semibold">Ratings</p>
+              </div>
             </div>
           </ul>
         </div>
