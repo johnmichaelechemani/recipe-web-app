@@ -2,6 +2,7 @@
   <div class="border rounded-2xl border-gray-400/20 shadow p-2 my-3">
     <div class="my-2 flex justify-between items-start">
       <span class="font-semibold text-sm py-1 px-4">All Recipes</span>
+
       <div class="">
         <div class="dropdown dropdown-bottom dropdown-end">
           <div class="tooltip tooltip-primary" data-tip="Filter">
@@ -114,6 +115,7 @@
           </div>
         </div>
         <div v-if="loading" class="flex justify-start items-center gap-2">
+          <Loading />
           <Loading />
           <Loading />
           <Loading />
