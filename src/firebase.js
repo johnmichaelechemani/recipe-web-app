@@ -50,6 +50,11 @@ export function useAuth() {
       .catch(() => {
         isError.value = true;
         errorMessage.value = "Error in penetrating the application!";
+
+        setTimeout(() => {
+          errorMessage.value = "";
+          isError.value = false;
+        }, 3000);
       });
   };
 

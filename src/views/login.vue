@@ -87,6 +87,5 @@
 <script setup>
 import { Icon } from "@iconify/vue";
 import { useAuth } from "../firebase.js";
-
 const { signInWithGoogle, errorMessage, isError } = useAuth();
 </script>
