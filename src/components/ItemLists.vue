@@ -29,7 +29,6 @@ import { Icon } from "@iconify/vue";
 const props = defineProps({
   selectedItem: {
     type: Object,
-    required: true,
   },
   itemDesables: {
     type: Array,
