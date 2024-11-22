@@ -18,7 +18,7 @@ import {
 } from "firebase/auth";
 
 import { useRouter } from "vue-router";
-import { ref, watch, onUnmounted, computed, reactive } from "vue";
+import { ref, onUnmounted, computed } from "vue";
 
 export function useAuth() {
   const auth = getAuth();
@@ -153,7 +153,7 @@ export function getAllRecipe(props) {
   let muteRateBnt = ref(false);
   const showRecipeAllModal = (item) => {
     selectedAllRecipe.value = item;
-    console.log(selectedAllRecipe.value);
+    // console.log(selectedAllRecipe.value);
     muteRateBnt.value = hasUserRated(user.value?.uid);
     const modal = document.getElementById("my_modal_4");
     modal.showModal();
@@ -169,7 +169,7 @@ export function getAllRecipe(props) {
   };
 
   const clickInstructions = (index) => {
-    console.log("instructions clicked", index);
+    // console.log("instructions clicked", index);
 
     if (!instructionsDisables.value.includes(index)) {
       instructionsDisables.value.push(index);
@@ -180,10 +180,10 @@ export function getAllRecipe(props) {
       }
     }
 
-    console.log(instructionsDisables.value);
+    // console.log(instructionsDisables.value);
   };
   const clickIngredients = (index) => {
-    console.log("ingre clicked", index);
+    //  console.log("ingre clicked", index);
 
     if (!ingredientsDisables.value.includes(index)) {
       ingredientsDisables.value.push(index);
@@ -194,7 +194,7 @@ export function getAllRecipe(props) {
       }
     }
 
-    console.log(ingredientsDisables.value);
+    //  console.log(ingredientsDisables.value);
   };
 
   let recipeId = ref("");
@@ -227,12 +227,7 @@ export function getAllRecipe(props) {
           averageRating: updatedAverageRating,
           usersIdThatRate: usersIdThatRate,
         });
-
-        // console.log(
-        //   `Updated recipe ${recipeId} with new ratings and average rating.`
-        // );
       } else {
-        // console.log("No such recipe document!");
       }
     } catch (error) {
       console.error("Error updating ratings: ", error);
