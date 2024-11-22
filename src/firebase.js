@@ -30,7 +30,8 @@ export function useAuth() {
 
   const firestore = getFirestore();
   const router = useRouter();
-
+  const errorMessage = ref("Error in penetrating the application!");
+  const isError = ref(false);
   const authgoogle = new GoogleAuthProvider();
   const signInWithGoogle = () => {
     signInWithPopup(auth, authgoogle)
@@ -46,8 +47,9 @@ export function useAuth() {
 
         router.push("/home");
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        isError.value = true;
+        errorMessage.value = "Error in penetrating the application!";
       });
   };
 
@@ -77,6 +79,8 @@ export function useAuth() {
   return {
     user,
     signInWithGoogle,
+    errorMessage,
+    isError,
     firestore,
     auth,
     logout,

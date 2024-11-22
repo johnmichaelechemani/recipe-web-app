@@ -7,7 +7,7 @@
         <h1 class="sm:text-7xl px-2.5 my-3 text-5xl font-extrabold">
           Post recipe & message your <span class="text-primary">chefs</span>
           <span class="text-xs font-medium px-1"
-            >well once you login you're a chef.🤣</span
+            >well, once you login you're a chef.🤣</span
           >
         </h1>
         <div>
@@ -54,13 +54,26 @@
           </div>
         </div>
       </div>
-      <div class="px-5 py-5 border border-gray-500/20 rounded-2xl shadow-lg">
+      <div
+        :class="
+          isError ? 'border-red-500/10 bg-red-500/5' : 'border-gray-500/10'
+        "
+        class="px-5 py-5 border rounded-2xl shadow-lg"
+      >
         <h1 class="text-xl font-semibold py-2">Penetrate human. 😇</h1>
+        <div
+          v-if="isError"
+          class="flex justify-center items-center bg-red-500/10 p-2 border rounded-full border-red-500/10 text-red-500"
+        >
+          <span class="text-sm font-medium">{{ errorMessage }}</span>
+        </div>
         <button
           @click="signInWithGoogle()"
-          class="btn items-center justify-between w-full gap-2 my-5 rounded-full"
+          class="btn items-center justify-between bg-gray-500/10 pl-2 pr-4 text-neutral w-full gap-2 my-5 rounded-full"
         >
-          <Icon icon="devicon:google" class="text-xl" />
+          <div class="p-2 rounded-full bg-gray-500/10">
+            <Icon icon="devicon:google" class="text-xl" />
+          </div>
           Google
         </button>
         <p class="text-sm py-2 font-medium">
@@ -71,21 +84,9 @@
     </div>
   </div>
 </template>
-<script>
+<script setup>
 import { Icon } from "@iconify/vue";
 import { useAuth } from "../firebase.js";
 
-export default {
-  components: {
-    Icon,
-  },
-
-  setup() {
-    const { signInWithGoogle } = useAuth();
-
-    return {
-      signInWithGoogle,
-    };
-  },
-};
+const { signInWithGoogle, errorMessage, isError } = useAuth();
 </script>
