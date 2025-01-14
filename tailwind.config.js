@@ -11,7 +11,7 @@ export default {
         light: {
           primary: "#f59e0b",
           secondary: "#2563eb",
-          accent: "#facc15",
+          accent: "#f7f7f7",
           neutral: "#374151",
           "base-100": "#e5e7eb",
           info: "#00caff",
@@ -19,11 +19,10 @@ export default {
           warning: "#f97316",
           error: "#ef4444",
         },
-        // You can add more themes here
       },
-
       "light",
       "sunset",
     ],
+    darkTheme: "dark",
   },
 };

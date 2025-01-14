@@ -109,7 +109,10 @@
           </div>
         </div>
       </div>
-      <div v-if="loading" class="flex justify-start items-center gap-2">
+      <div
+        v-if="loading"
+        class="flex flex-wrap justify-center items-center gap-2"
+      >
         <Loading />
         <Loading />
         <Loading />
