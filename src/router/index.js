@@ -30,12 +30,6 @@ const router = createRouter({
       name: "login",
       component: () => import("../views/login.vue"),
     },
-   
-    {
-      path: "/crud",
-      name: "crud",
-      component: () => import("../views/crud.vue"),
-    },
   ],
 });
 

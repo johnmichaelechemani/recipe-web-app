@@ -8,11 +8,9 @@ export function getUsers() {
 
   const user = ref(auth.currentUser);
   const storedUsers = ref([]);
-
+  const { uid, userId } = user.value;
   const fetchAndStoreUsers = async () => {
     if (!user.value) return;
-
-    const { uid: userId } = user.value;
 
     try {
       const usersCollection = collection(firestore, "users");
@@ -24,13 +22,6 @@ export function getUsers() {
       }));
 
       localStorage.setItem("users", JSON.stringify(users));
-      const stored = JSON.parse(localStorage.getItem("users"));
-
-      const filteredUsers = stored.filter(
-        (storedUser) => storedUser.id !== userId
-      );
-
-      storedUsers.value = filteredUsers;
 
       console.log("Stored Users:", storedUsers.value);
     } catch (error) {
@@ -41,6 +32,12 @@ export function getUsers() {
   onMounted(() => {
     fetchAndStoreUsers();
   });
+
+  const stored = JSON.parse(localStorage.getItem("users"));
+
+  const filteredUsers = stored.filter((storedUser) => storedUser.id !== userId);
+
+  storedUsers.value = filteredUsers;
 
   return {
     storedUsers,
