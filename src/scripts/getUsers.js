@@ -23,11 +23,12 @@ export function getUsers() {
         ...doc.data(),
       }));
 
-      const filteredUsers = users.filter(
+      localStorage.setItem("users", JSON.stringify(users));
+      const stored = JSON.parse(localStorage.getItem("users"));
+
+      const filteredUsers = stored.filter(
         (storedUser) => storedUser.id !== userId
       );
-
-      localStorage.setItem("users", JSON.stringify(users));
 
       storedUsers.value = filteredUsers;
 
@@ -43,6 +44,5 @@ export function getUsers() {
 
   return {
     storedUsers,
-    fetchAndStoreUsers,
   };
 }
