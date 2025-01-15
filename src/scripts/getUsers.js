@@ -34,9 +34,7 @@ export function getUsers() {
   });
 
   const stored = JSON.parse(localStorage.getItem("users"));
-
   const filteredUsers = stored.filter((storedUser) => storedUser.id !== userId);
-
   storedUsers.value = filteredUsers;
 
   return {
