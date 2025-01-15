@@ -16,6 +16,10 @@ CRUD Operations
 Ratings
 Realtime Data
 
+# PROJECT LINK
+
+https://recipe-2bcd4.web.app/
+
 # PROJECT IMAGES
 
 # Log In
