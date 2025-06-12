@@ -179,7 +179,7 @@ export function ChatFunctions() {
 
   const latestMessages = ref({});
   const isSender = ref({});
-  const unsubscribers = ref([]);
+  const unSubscribers = ref([]);
   const timestamp = ref({});
   const newMessageArray = ref(0);
 
@@ -195,8 +195,8 @@ export function ChatFunctions() {
 
   const setupChatListeners = () => {
     // Clear any existing listeners
-    unsubscribers.value.forEach((unsub) => unsub());
-    unsubscribers.value = [];
+    unSubscribers.value.forEach((unsub) => unsub());
+    unSubscribers.value = [];
 
     // Set to track unique user IDs with new messages
     const uniqueNewUserIds = new Set();
@@ -246,7 +246,7 @@ export function ChatFunctions() {
         }
       );
 
-      unsubscribers.value.push(unsubscribe);
+      unSubscribers.value.push(unsubscribe);
     });
   };
 
@@ -255,7 +255,7 @@ export function ChatFunctions() {
   });
 
   onUnmounted(() => {
-    unsubscribers.value.forEach((unsub) => unsub());
+    unSubscribers.value.forEach((unsub) => unsub());
   });
 
   const filteredMessages = computed(() =>
