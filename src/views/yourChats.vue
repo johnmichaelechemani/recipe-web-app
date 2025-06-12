@@ -73,7 +73,7 @@
 import { defineComponent } from "vue";
 import UsersChatHeads from "../components/usersChatHeads.vue";
 import ChatModal from "../components/ChatModal.vue";
-import { ChatFuntions } from "../scripts/ChatFunctions.js";
+import { ChatFunctions } from "../scripts/ChatFunctions.js";
 import ChatHeads from "../components/ChatHeads.vue";
 
 const component = defineComponent({
@@ -105,5 +105,5 @@ const {
   imageFile,
   handleFileUpdate,
   handleImageUpdate,
-} = ChatFuntions();
+} = ChatFunctions();
 </script>

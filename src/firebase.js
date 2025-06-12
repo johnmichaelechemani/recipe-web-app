@@ -32,9 +32,9 @@ export function useAuth() {
   const router = useRouter();
   const errorMessage = ref("Error in penetrating the application!");
   const isError = ref(false);
-  const authgoogle = new GoogleAuthProvider();
+  const authGoogle = new GoogleAuthProvider();
   const signInWithGoogle = () => {
-    signInWithPopup(auth, authgoogle)
+    signInWithPopup(auth, authGoogle)
       .then((res) => {
         const usersCollection = collection(firestore, "users");
         const userDocRef = doc(usersCollection, res.user.uid);
@@ -192,7 +192,6 @@ export function getAllRecipe(props) {
     // console.log(instructionsDisables.value);
   };
   const clickIngredients = (index) => {
-    //  console.log("ingre clicked", index);
 
     if (!ingredientsDisables.value.includes(index)) {
       ingredientsDisables.value.push(index);

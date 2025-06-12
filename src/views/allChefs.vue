@@ -82,5 +82,5 @@ const {
   imageFile,
   handleFileUpdate,
   handleImageUpdate,
-} = ChatFuntions();
+} = ChatFunctions();
 </script>
