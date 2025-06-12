@@ -97,9 +97,9 @@
                 <button
                   :class="[
                     'btn',
-                    !canAddIntructions ? 'btn-disabled' : 'btn-primary',
+                    !canAddInstructions ? 'btn-disabled' : 'btn-primary',
                   ]"
-                  :disabled="!canAddIntructions"
+                  :disabled="!canAddInstructions"
                   @click.prevent="addInstructions"
                 >
                   <Icon icon="ci:add-plus" class="text-2xl" />
@@ -124,7 +124,7 @@
 
                     <button
                       class="btn btn-sm px-1.5 text-xl"
-                      @click.prevent="removeIstructions(index)"
+                      @click.prevent="removeInstructions(index)"
                     >
                       <Icon icon="ri:close-line" class="text-red-500" />
                     </button>
@@ -223,7 +223,7 @@ export default {
     const canAddIngredient = ref(false);
     const instructions = ref("");
     const allInstructions = ref([]);
-    const canAddIntructions = ref(false);
+    const canAddInstructions = ref(false);
     const loading = ref(false);
     const imageFile = ref(null);
     const imageURL = ref(null);
@@ -239,7 +239,7 @@ export default {
       canAddIngredient.value = newVal.trim() !== "";
     });
     watch(instructions, (newVal) => {
-      canAddIntructions.value = newVal.trim() !== "";
+      canAddInstructions.value = newVal.trim() !== "";
     });
 
     const addIngredients = () => {
@@ -253,7 +253,7 @@ export default {
       console.log(allInstructions.value);
     };
 
-    const removeIstructions = (index) => {
+    const removeInstructions = (index) => {
       allInstructions.value.splice(index, 1);
     };
 
@@ -337,12 +337,12 @@ export default {
       ingredients,
       instructions,
       allInstructions,
-      canAddIntructions,
+      canAddInstructions,
       addIngredients,
       addInstructions,
       allIngredients,
       removeIngredients,
-      removeIstructions,
+      removeInstructions,
       canAddIngredient,
       loading,
       handleImageUpload,
