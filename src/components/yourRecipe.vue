@@ -280,7 +280,7 @@
             <button @click.stop="saveEditRecipe" class="btn btn-success w-32">
               Update
               <span
-                v-if="isSaveloading"
+                v-if="isSaveLoading"
                 class="loading loading-dots loading-xs"
               ></span>
             </button>
@@ -300,7 +300,7 @@
             <button @click.stop="deleteRecipe" class="btn btn-error w-32">
               Delete
               <span
-                v-if="isSaveloading"
+                v-if="isSaveLoading"
                 class="loading loading-dots loading-xs"
               ></span>
             </button>
@@ -335,7 +335,7 @@
                 <p class="text-xs text-primary">Ingredients:</p>
                 <ItemLists
                   :selectedItem="selectedRecipe.allIngredients"
-                  :itemDesables="ingredientsDisables"
+                  :itemDisables="ingredientsDisables"
                   :handleClick="clickIngredients"
                 />
               </div>
@@ -345,7 +345,7 @@
                 <p class="text-xs text-primary">Instructions:</p>
                 <ItemLists
                   :selectedItem="selectedRecipe.allInstructions"
-                  :itemDesables="instructionsDisables"
+                  :itemDisables="instructionsDisables"
                   :handleClick="clickInstructions"
                 />
               </div>
@@ -391,7 +391,7 @@ export default {
   },
   setup(props, index) {
     const loading = ref(true);
-    const isSaveloading = ref(false);
+    const isSaveLoading = ref(false);
 
     const auth = getAuth();
     const user = ref(auth.currentUser);
@@ -466,7 +466,7 @@ export default {
     };
     const deleteRecipe = async () => {
       try {
-        isSaveloading.value = true;
+        isSaveLoading.value = true;
         // Ensure the recipe ID is available
         if (!editId.value) {
           console.error("No recipe selected for deletion.");
@@ -500,9 +500,9 @@ export default {
         console.error("Error deleting recipe and associated image:", error);
         const modal = document.getElementById("my_modal_delete");
         modal.close();
-        isSaveloading.value = false;
+        isSaveLoading.value = false;
       } finally {
-        isSaveloading.value = false;
+        isSaveLoading.value = false;
       }
     };
 
@@ -515,7 +515,7 @@ export default {
 
     const saveEditRecipe = async () => {
       try {
-        isSaveloading.value = true;
+        isSaveLoading.value = true;
 
         let newImageURL = null;
         if (imageFile.value) {
@@ -541,7 +541,7 @@ export default {
         const modal = document.getElementById("my_modal_edit");
         modal.close();
       } finally {
-        isSaveloading.value = false;
+        isSaveLoading.value = false;
       }
     };
 
@@ -604,7 +604,7 @@ export default {
     // console.log(recipe);
     return {
       loading,
-      isSaveloading,
+      isSaveLoading,
       recipe,
       formatHour,
       editShowRecipe,

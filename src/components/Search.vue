@@ -90,7 +90,7 @@
 <script setup>
 import { ref, defineComponent, computed } from "vue";
 import { Icon } from "@iconify/vue";
-import { ChatFuntions } from "../scripts/ChatFunctions.js";
+import { ChatFunctions } from "../scripts/ChatFunctions.js";
 import UsersChatHeads from "../components/usersChatHeads.vue";
 import ChatModal from "./ChatModal.vue";
 
@@ -142,5 +142,5 @@ const {
   imageFile,
   handleFileUpdate,
   handleImageUpdate,
-} = ChatFuntions();
+} = ChatFunctions();
 </script>
