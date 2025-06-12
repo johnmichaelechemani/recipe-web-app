@@ -169,7 +169,7 @@
         <div class="border border-gray-400/10 rounded-2xl shadow">
           <div class="max-h-72 overflow-y-auto no-scrollbar mx-2 my-1">
             <div class="py-4">
-              <p class="text-xs text-primary">Discriptions:</p>
+              <p class="text-xs text-primary">Descriptions:</p>
               <p class="capitalize font-medium text-sm">
                 {{ selectedAllRecipe.descriptions }}
               </p>
@@ -180,7 +180,7 @@
               <p class="text-xs text-primary">Ingredients:</p>
               <ItemLists
                 :selectedItem="selectedAllRecipe.allIngredients"
-                :itemDesables="ingredientsDisables"
+                :itemDisables="ingredientsDisables"
                 :handleClick="clickIngredients"
               />
             </div>
@@ -190,7 +190,7 @@
 
               <ItemLists
                 :selectedItem="selectedAllRecipe.allInstructions"
-                :itemDesables="instructionsDisables"
+                :itemDisables="instructionsDisables"
                 :handleClick="clickInstructions"
               />
             </div>

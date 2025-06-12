@@ -4,7 +4,7 @@
       <div class="flex justify-start items-center gap-1 my-1">
         <div>
           <Icon
-            v-if="itemDesables.some((item) => item === index)"
+            v-if="itemDisables.some((item) => item === index)"
             icon="lets-icons:check-fill"
             class="text-green-500 text-sm"
           />
@@ -15,7 +15,7 @@
           class="text-xs px-2 py-1 bg-gray-400/10 flex justify-start items-center gap-2 font-medium cursor-pointer rounded-md"
           @click="handleClick(index)"
           :class="
-            itemDesables.some((item) => item === index) ? 'line-through' : ''
+            itemDisables.some((item) => item === index) ? 'line-through' : ''
           "
         >
           {{ item }}
@@ -30,7 +30,7 @@ const props = defineProps({
   selectedItem: {
     type: Object,
   },
-  itemDesables: {
+  itemDisables: {
     type: Array,
   },
   handleClick: {
