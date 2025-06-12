@@ -8,7 +8,7 @@ export function getUsers() {
 
   const user = ref(auth.currentUser);
   const storedUsers = ref([]);
-  const { uid, userId } = user.value;
+  const { userId } = user.value;
   const fetchAndStoreUsers = async () => {
     if (!user.value) return;
 

@@ -152,11 +152,11 @@ export function recordingFunctions() {
       .toString()
       .padStart(1, "0");
     const secs = (seconds % 60).toString().padStart(2, "0"); // Changed to pad with 2 zeros
-    const millis = (totalMilliseconds % 1000)
+    const milliSeconds = (totalMilliseconds % 1000)
       .toString()
       .padStart(3, "0")
       .slice(0, 1);
-    return `${mins}:${secs}:${millis}`;
+    return `${mins}:${secs}:${milliSeconds}`;
   };
   const updateTimer = () => {
     if (isRecording.value) {
