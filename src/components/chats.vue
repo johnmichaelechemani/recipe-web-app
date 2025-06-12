@@ -65,6 +65,6 @@
 <script setup>
 import { Icon } from "@iconify/vue";
 import Search from "./Search.vue";
-import { ChatFuntions } from "../scripts/ChatFunctions.js";
-const { newMessageArray } = ChatFuntions();
+import { ChatFunctions } from "../scripts/ChatFunctions.js";
+const { newMessageArray } = ChatFunctions();
 </script>

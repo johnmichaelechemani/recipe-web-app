@@ -4,9 +4,6 @@ import {
   computed,
   nextTick,
   onMounted,
-  watch,
-  watchEffect,
-  reactive,
 } from "vue";
 import { getUsers } from "../scripts/getUsers.js";
 import { getAuth } from "firebase/auth";
@@ -15,15 +12,12 @@ import { useRouter } from "vue-router";
 import {
   collection,
   addDoc,
-  where,
   query,
   orderBy,
   onSnapshot,
-  getDoc,
   setDoc,
   doc,
   serverTimestamp,
-  count,
 } from "firebase/firestore";
 import {
   getStorage,
@@ -32,7 +26,7 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 
-export function ChatFuntions() {
+export function ChatFunctions() {
   const auth = getAuth();
   const user = ref(auth.currentUser);
   const { firestore } = useAuth();
@@ -40,7 +34,6 @@ export function ChatFuntions() {
   const userId = user.value.uid;
   const userPhoto = user.value.photoURL;
   const userName = user.value.displayName;
-  const route = useRouter();
   const { storedUsers } = getUsers();
   const newMessage = ref("");
   const messages = ref([]);

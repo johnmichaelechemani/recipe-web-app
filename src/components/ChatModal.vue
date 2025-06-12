@@ -57,7 +57,7 @@
     </div>
 
     <div class="fixed bottom-0 z-50 inset-x-0">
-      <!-- message attachements and error and success alerts -->
+      <!-- message attachments and error and success alerts -->
       <MessageAttachments :isSendMessageLoading="isSendMessageLoading" />
       <!--  -->
       <RecordingModal />
