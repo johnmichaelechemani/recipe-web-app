@@ -56,7 +56,7 @@ export function chatFileAttachments(emit) {
       emit("update:selectedImage", selectedImage.value);
     }
   };
-  const closeAttachements = () => {
+  const closeAttachments = () => {
     if (selectedFile.value || selectedImage.value) {
       fileName.value = "";
       imageURL.value = null;
@@ -133,7 +133,7 @@ export function chatFileAttachments(emit) {
     selectedImage,
     imageURL,
     fileName,
-    closeAttachements,
+    closeAttachments,
     cancelDeleteConfirmation,
     deleteConfirmation,
     copyChat,

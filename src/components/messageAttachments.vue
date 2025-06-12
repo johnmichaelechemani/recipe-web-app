@@ -94,7 +94,7 @@
           <span class="truncate max-w-52">{{ fileName }}</span>
         </span>
         <button
-          @click="closeAttachements()"
+          @click="closeAttachments()"
           class="backdrop-blur-2xl bg-gray-400/20 border p-0.5 hover:text-red-500 transition border-gray-500/20 rounded-full"
         >
           <Icon icon="iconamoon:close-light" width="20" height="20" />
@@ -125,7 +125,7 @@ const {
   selectedImage,
   imageURL,
   fileName,
-  closeAttachements,
+  closeAttachments,
   cancelDeleteConfirmation,
   deleteConfirmation,
   copyChat,
